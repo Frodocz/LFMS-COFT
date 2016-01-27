@@ -32,6 +32,9 @@ a:focus {
   text-decoration: none;
   color: #2a95be;
 }
+/*img:hover {
+  opacity: 0.9;
+}*/
 hr {
   border-top: 1px solid #e5e5e5;
   border-bottom: 1px solid #fff;
@@ -226,6 +229,21 @@ ul.nostyle i {
   background-repeat: no-repeat;
   background-position: 50% 0;
   background-size: cover;
+}
+#main-slider .item>img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    max-width: 100%;
+    height: 100%;
+}
+
+.carousel-inner > .item > img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    height: 500px;
 }
 /* Carousel Header Styles */
 .carousel-caption {
@@ -441,4 +459,23 @@ ul.nostyle i {
 }
 #adminbackupdatabase {
   padding: 130px 0;
+}
+#userhome {
+  padding: 100px 0;
+}
+#userbookfacility {
+  padding: 100px 0;
+}
+#userbookfacility .facilityInfo{
+  /*background-color: #f0f0f0;*/
+  padding-top: 25px;
+  padding-bottom: 30px;  
+}
+#userbookfacility .bookingtime{
+  /*background-color: #f0f0f0;*/
+  margin-top: 30px;
+  padding-bottom: 30px;  
+}
+#usereditprofile {
+  padding: 100px 0;
 }

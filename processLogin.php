@@ -28,17 +28,16 @@ if (isset($_POST['username']) && isset($_POST['loginPassword']))
     $username = $row['username'];
     $_SESSION['valid_user'] = $username;  
     if($row['approved'] == 1) {
-        $_SESSION['user_identity'] = "normal";
+        header("Location: userHomepage.php"); 
     } else {
-        $_SESSION['user_identity'] = "normal_nonapproved";
+        header("Location: postUserSignup.php"); 
     }
-    header("Location: userHomepage.php"); 
     exit(); 
   } else if ($result_admin->num_rows >0 ){
     $row = $result_admin ->fetch_assoc();
     $username = $row['username'];
     $_SESSION['valid_user'] = $username;  
-    $_SESSION['user_identity'] = "admin";
+    //$_SESSION['user_identity'] = "admin";
     header("Location: adminHomepage.php"); 
     exit(); 
 

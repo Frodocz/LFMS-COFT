@@ -59,7 +59,7 @@
     }
 
     $query = "SELECT * FROM normal_user WHERE approved LIKE 0 ORDER BY registerdate ASC";
-    $query2 = "SELECT * From normal_user WHERE approved LIKE 1 ORDER BY username ASC";
+    $query2 = "SELECT * FROM normal_user WHERE approved LIKE 1 ORDER BY username ASC";
     $result = $db_conn->query($query);
     $result2 = $db_conn->query($query2);
     $num_results = $result->num_rows;
@@ -92,8 +92,8 @@
                       echo '<td class="col-md-4">'.$row['username'].'</td>';
                       echo '<td class="col-md-2">'.$row['name'].'</td>';
                       echo '<td class="col-md-4">'.$row['facility_access'].'</td>';
-                      echo '<td class="col-md-2"><a href="processAdminApproveUser.php?user_id='.$row['username'].'"><i class="fa fa-pencil-square-o"></i> Approve</a>';
-                      echo '<br><br><a href="processAdminRejectUser.php?facility_id='.$row['username'].'"><i class="fa fa-minus-square-o"></i> Reject</a></td>';
+                      echo '<td class="col-md-2"><a href="processAdminApproveUser.php?userid='.$row['userid'].'"><i class="fa fa-user-plus"></i> Approve</a>';
+                      echo '<br><br><a href="processAdminRejectUser.php?userid='.$row['userid'].'"><i class="fa fa-user-times"></i> Reject</a></td>';
                       echo '</tr>';
                     }
                   ?>
@@ -123,8 +123,8 @@
                       echo '<tr>';
                       echo '<td class="col-md-4">'.$row2['username'].'</td>';
                       echo '<td class="col-md-4">'.$row2['name'].'</td>';
-                      echo '<td class="col-md-4"><a href="processAdminEditUser.php?user_id='.$row2['username'].'"><i class="fa fa-pencil-square-o"></i> Disapprove</a>';
-                      echo '<br><br><a href="processAdminRejectUser.php?facility_id='.$row2['username'].'"><i class="fa fa-minus-square-o"></i> Remove</a></td>';
+                      echo '<td class="col-md-4"><a href="processAdminDisapproveUser.php?userid='.$row2['userid'].'"><i class="fa fa-user-times"></i> Disapprove</a>';
+                      echo '<br><br><a href="processAdminRejectUser.php?userid='.$row2['userid'].'"><i class="fa fa-user-secret"></i> Remove</a></td>';
                       echo '</tr>';
                     }
                   ?>

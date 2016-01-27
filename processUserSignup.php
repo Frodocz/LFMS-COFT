@@ -54,7 +54,7 @@ $query_admin = "SELECT * FROM admin_user WHERE username='$username'";
 $result_admin = $db_conn->query($query_admin);
 
 if(($result_normal->num_rows >0) || ($result_admin->num_rows >0)){
-    echo '<script type="text/javascript">alert("The user name has already been taken.  Please pick another one.");</script>';
+    echo '<script type="text/javascript">alert("The user name has already been taken. Please pick another one.");</script>';
     unset($username);
     session_destroy();
     include 'userSignup.php';
@@ -62,15 +62,16 @@ if(($result_normal->num_rows >0) || ($result_admin->num_rows >0)){
 }
 
 $password = md5($password);
-$sql = "INSERT INTO normal_user
-		VALUES ('$username', '$password', '$identity', '$name', '$phone', '$addressline1', '$addressline2', '$postal', '$faculty', '".date("Y\-m\-d")."', '$facility_access', $approved)";
+$sql = "INSERT INTO normal_user VALUES (NULL, '$username', '$password', '$identity', '$name', '$phone', '$addressline1', '$addressline2', '$postal', '$faculty', '".date("Y\-m\-d")."', '$facility_access', $approved)";
 $result = $db_conn->query($sql);
 if (!$result) {
 	echo '<script type="text/javascript">alert("Your query failed.");</script>';
   $db_conn->close();
+  header("Location: userSignup.php");
   exit();
 } else {
-  $_SESSION['valid_user'] = $username;   
+  $_SESSION['valid_user'] = $username;
+  $_SESSION['user_identity'] = "normal_nonapproved";   
   header("Location: postUserSignup.php"); 
   $db_conn->close();
   exit();}	
