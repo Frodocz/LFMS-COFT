@@ -154,50 +154,50 @@
 
       <div class="facility-items">
 	      <div class="facility-item">
-	        <div class="facility-item-inner">
+	        <div class="facility-item-inner col-lg-4">
 	            <img class="img-responsive" src="images/facility/FDT.jpg" alt="Fibre Draw Tower">
 	          <div class="facility-info">
 	            <h3>F​IBRE DRAW TOWER</h3>
-	            <a class="image-link preview" href="images/facility/FDT.jpg"><i class="fa fa-eye"></i><img></a>
+	            <a class="image-link" href="images/facility/FDT.jpg"><i class="fa fa-eye"></i><img></a>
 	          </div>
 	        </div>
 	      </div><!--/.facility-item-->	      
         <div class="facility-item">
-	        <div class="facility-item-inner">
+	        <div class="facility-item-inner col-lg-4">
 	          <img class="img-responsive" src="images/facility/GWL.jpg" alt="Glass Working Lathe">
 	          <div class="facility-info">
 	            <h3>GLASS WORKING LATH​E</h3>
-	            <a class="image-link preview" href="images/facility/GWL.jpg"><i class="fa fa-eye"></i><img></a>
+	            <a class="image-link" href="images/facility/GWL.jpg"><i class="fa fa-eye"></i><img></a>
 	          </div>
 	        </div>
 	      </div><!--/.facility-item-->	      
         <div class="facility-item">
-	        <div class="facility-item-inner">
+	        <div class="facility-item-inner col-lg-4">
 	          <img class="img-responsive" src="images/facility/FIP.jpg" alt="IFA-100 - Fibre Index Profiler">
 	          <div class="facility-info">
 	            <h3>IFA-100 - FIBRE INDEX PROFILER</h3>
-	            <a class="image-link preview" href="images/facility/FIP.jpg"><i class="fa fa-eye"></i><img></a>
+	            <a class="image-link" href="images/facility/FIP.jpg"><img></a>
 	          </div>
 	        </div>
-	      </div><!--/.facility-item-->	      
+	      </div><!--/.facility-item-->
         <div class="facility-item">
-	        <div class="facility-item-inner">
+	        <div class="facility-item-inner col-lg-4">
 	          <img class="img-responsive" src="images/facility/GPS.jpg" alt="LZM-100 - Glass Processing Station">
 	          <div class="facility-info">
 	            <h3>LZM-100 - GLASS PROCESSING STATION</h3>
-	            <a class="image-link preview" href="images/facility/GPS.jpg"><i class="fa fa-eye"></i><img></a>
+	            <a class="image-link" href="images/facility/GPS.jpg"><i class="fa fa-eye"></i><img></a>
 	          </div>
 	        </div>
 	      </div><!--/.facility-item-->	      
         <div class="facility-item">
-	        <div class="facility-item-inner">
+	        <div class="facility-item-inner col-lg-4">
 	          <img class="img-responsive" src="images/facility/MCVD.jpg" alt="Modified Chemical Vapour Deposition (MCVD) Lathe">
 	          <div class="facility-info">
 	            <h3>MCVD LATHE</h3>
-	            <a class="image-link preview" href="images/facility/MCVD.jpg"><i class="fa fa-eye"></i><img></a>
+	            <a class="image-link" href="images/facility/MCVD.jpg"><i class="fa fa-eye"></i><img></a>
 	          </div>
 	        </div>
-	      </div><!--/.facility-item-->	    
+	      </div><!--/.facility-item-->    
       </div>
     </div><!--/.container-->
   </section><!--/#facility-->  
@@ -205,7 +205,8 @@
     <div class="container">
       <div class="section-header">
         <h2 class="section-title text-center wow fadeInDown">Meet The Team</h2>
-      </div>	    <div class="row">
+      </div>	    
+      <div class="row">
 	      <div class="col-sm-6 col-md-3">
 	        <div class="team-member wow fadeInUp" data-wow-duration="400ms" data-wow-delay="0ms">
 	          <div class="team-img">
@@ -222,22 +223,24 @@
 							 Email: epshum@ntu.edu.sg </p>
 	        </div>
 	      </div>
-	      <div class="col-sm-6 col-md-3">
-	        <div class="team-member wow fadeInUp" data-wow-duration="400ms" data-wow-delay="100ms">
-	          <div class="team-img">
-	            <img class="img-responsive" src="images/team/michelle.jpg" alt="Dr. Shao Xuguang">
-	          </div>
-	          <div class="team-info">
-	            <h3>Dr. SHAO Xuguang</h3>
-	            <span>Lecturer</span>
-	          </div>
-	          <p>School of Electrical &amp; Electronic Engineering<br>
-							 College of Engineering<br>
-               Tel: 6513 7648<br>
-               Office: S1-B1a-10<br>
-               Email: XGShao@ntu.edu.sg</p>
-	        </div>
-	      </div>
+
+        <div class="col-sm-6 col-md-3">
+          <div class="team-member wow fadeInUp" data-wow-duration="400ms" data-wow-delay="100ms">
+            <div class="team-img">
+              <img class="img-responsive" src="images/team/TJIN.jpg" alt="Dr. TJIN Swee Chuan">
+            </div>
+            <div class="team-info">
+              <h3>Dr. TJIN Swee Chuan</h3>
+              <span>Professor</span>
+            </div>
+            <p>Associate Chair (Research), School of Electrical &amp; Electronic Engineering<br>
+               College of Engineering<br>
+               Tel: 6790 4845/6592 7936<br>
+               Office: S1-B1a-03/ADM 03-12a<br>
+               Email: esctjin@ntu.edu.sg​</p>
+          </div>
+        </div>
+
 	      <div class="col-sm-6 col-md-3">
 	        <div class="team-member wow fadeInUp" data-wow-duration="400ms" data-wow-delay="100ms">
 	          <div class="team-img">
@@ -254,22 +257,24 @@
                Email: seon.yoo@ntu.edu.sg</p>
 	        </div>
 	      </div>
-	      <div class="col-sm-6 col-md-3">
-	        <div class="team-member wow fadeInUp" data-wow-duration="400ms" data-wow-delay="100ms">
-	          <div class="team-img">
-	            <img class="img-responsive" src="images/team/TJIN.jpg" alt="Dr. TJIN Swee Chuan">
-	          </div>
-	          <div class="team-info">
-	            <h3>Dr. TJIN Swee Chuan</h3>
-	            <span>Professor</span>
-	          </div>
-	          <p>Associate Chair (Research), School of Electrical &amp; Electronic Engineering<br>
-							 College of Engineering<br>
-               Tel: 6790 4845/6592 7936<br>
-               Office: S1-B1a-03/ADM 03-12a<br>
-               Email: esctjin@ntu.edu.sg​</p>
-	        </div>
-	      </div>
+        
+        <div class="col-sm-6 col-md-3">
+          <div class="team-member wow fadeInUp" data-wow-duration="400ms" data-wow-delay="100ms">
+            <div class="team-img">
+              <img class="img-responsive" src="images/team/michelle.jpg" alt="Dr. Shao Xuguang">
+            </div>
+            <div class="team-info">
+              <h3>Dr. SHAO Xuguang</h3>
+              <span>Lecturer</span>
+            </div>
+            <p>School of Electrical &amp; Electronic Engineering<br>
+               College of Engineering<br>
+               Tel: 6513 7648<br>
+               Office: S1-B1a-10<br>
+               Email: XGShao@ntu.edu.sg</p>
+          </div>
+        </div>
+
 	    </div>
 	  </div>
 	</section>

@@ -73,10 +73,10 @@
             <div class="col-xs-12">
               <form action="processUserEditProfile.php" method="post">
             <!-- Form Part 1 -->
-            <div class="col-xs-6">
+            <div class="col-sm-6">
               <div class="row">
                 <div class="col-sm-12">
-                  <h4>Account &amp; Password Setting</h3>
+                  <h4>Account General Information</h3>
                 </div>
               </div>
               <div class="row control-group">
@@ -84,42 +84,48 @@
                   <label>Email Address</label>
                   <?php
                     $userInfo = mysqli_fetch_array($result);
-                    echo '<input type="email" class="form-control" placeholder="Enter Your Email Address" id="username" name="username" value="'.$userInfo['username'].'">'; 
+                    echo '<input type="email" class="form-control" id="username" name="username" readonly value="'.$userInfo['username'].'">'; 
                   ?>
                 </div>
               </div>
               <div class="row control-group">
                 <div class="form-group col-xs-12 floating-label-form-group controls">
-                  <label>Please Enter Your Password</label>
-                  <?php echo '<input type="password" class="form-control" placeholder="Choose A Password" id="signupPassword" name="signupPassword">';
+                  <label>Date of Registration</label>
+                  <?php
+                    echo '<input type="text" class="form-control" id="registerdate" name="registerdate" readonly value="'.$userInfo['registerdate'].'">'; 
+                  ?>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-sm-12">
+                  <br>
+                  <h4>Reset Your Password</h3>
+                </div>
+              </div>
+
+              <div class="row control-group">
+                <div class="form-group col-xs-12 floating-label-form-group controls">
+                  <label>Please Enter Your Current Password</label>
+                  <?php echo '<input type="password" class="form-control" placeholder="Enter Your Password" id="currentPassword" name="currentPassword">';
                   ?>
                 </div>
               </div> 
               <div class="row control-group">
                 <div class="form-group col-xs-12 floating-label-form-group controls">
                   <label>Please Choose A New Password</label>
-                  <?php echo '<input type="password" class="form-control" placeholder="Choose A New Password" id="confirmPassword" name="confirmPassword">';
+                  <?php echo '<input type="password" class="form-control" placeholder="Choose A New Password" id="newPassword" name="newPassword">';
                   ?>
                 </div>
               </div> 
-              <div class="row">
-                <div class="col-xs-12">
-                  <h4>Faculty Setting</h3>
-                </div>                    
-              </div>
-              <div class="row control-group">
-                <div class="form-group col-xs-12 floating-label-form-group controls">
-                  <?php echo '<input type="text" class="form-control" placeholder="Enter Your Faculty (eg. EEE / Apple Inc.)" id="faculty" name="faculty" value="'.$userInfo['faculty'].'">';
-                  ?>
-                </div>
-              </div>                                  
+                                 
             </div>
             <!-- Form Part 2 -->
-            <div class="col-xs-6">
+            <div class="col-sm-6">
 
               <div class="row">
                 <div class="col-xs-12">
-                  <h4>Contact Info Updating</h3>
+                  <h4>Contact Information Updating</h3>
                 </div>
               </div>
               <div class="row control-group">
@@ -129,6 +135,15 @@
                   ?>
                 </div>
               </div>
+
+              <div class="row control-group">
+                <div class="form-group col-xs-12 floating-label-form-group controls">
+                <label>Faculty</label>
+                  <?php echo '<input type="text" class="form-control" placeholder="Enter Your Faculty (eg. EEE / Apple Inc.)" id="faculty" name="faculty" value="'.$userInfo['faculty'].'">';
+                  ?>
+                </div>
+              </div> 
+
               <div class="row control-group">
                 <div class="form-group col-xs-12 floating-label-form-group controls">
                   <label>Phone Number</label>
@@ -160,13 +175,13 @@
             </div>
             <div class="row">
               <div class="form-group col-lg-12 text-center">
-                <button type="submit" class="btn btn-success" id="signinbtn">Update Now</button>
+                <br><button type="submit" class="btn btn-success col-lg-4 col-lg-offset-4" id="signinbtn">Update Now</button>
               </div>
             </div>
-        </form>
-          </div><!-- End of right part -->
-        </div><!-- End of main row -->
-      </div><!-- End of container -->
+          </form>
+        </div><!-- End of right part -->
+      </div><!-- End of main row -->
+    </div><!-- End of container -->
   </section>
 
   <!-- Footer -->
