@@ -27,6 +27,7 @@
     Define the filename for the sql file
     If you plan to upload the  file to Amazon's S3 service , use only lower-case letters 
     */
+    ini_set("date.timezone", "Asia/Singapore");
     $fileName = 'mysqlbackup' . date('d-m-Y') . '@'.date('h.i.s').'.sql' ; 
     // Set execution time limit
     if(function_exists('max_execution_time')) {

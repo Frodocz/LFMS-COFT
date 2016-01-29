@@ -100,13 +100,13 @@
               <div class="row">
                 <div class="col-sm-12">
                   <br>
-                  <h4>Reset Your Password</h3>
+                  <h4>Change Your Password</h3>
                 </div>
               </div>
 
               <div class="row control-group">
                 <div class="form-group col-xs-12 floating-label-form-group controls">
-                  <label>Please Enter Your Current Password</label>
+                  <label>Enter Current Password For Verification</label>
                   <?php echo '<input type="password" class="form-control" placeholder="Enter Your Password" id="currentPassword" name="currentPassword">';
                   ?>
                 </div>
