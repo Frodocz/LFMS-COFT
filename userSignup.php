@@ -109,19 +109,19 @@
                   <input type="text" class="form-control" placeholder="Enter Your Faculty (eg. EEE / Apple Inc.)" id="faculty" name="faculty" required data-validation-required-message="Please enter your faculty.">
                   <p class="help-block text-danger"></p>
                 </div>
-              </div>
-              <div class="row control-group">
-                <div class="form-group col-xs-12 floating-label-form-group controls">
-                  <p class="text-left">Select facilities to register for:</p>
-                  <select name="facility_access[]" id="facility_access" size="12" multiple class="form-control">
-                    <?php for ($i = 0; $i < $num_results; $i++) {
-                      $row = $result->fetch_assoc();
-                    ?>
-                    <option value="<?php echo $row['facility_name']?>">
-                      <?php echo $row['facility_name']?>
-                    </option>
-                    <?php }?>
-                  </select>
+              </div>                
+              <div class="panel panel-default">
+                <div class="row control-group">
+                  <div class="panel-body">
+                    <div class="form-group col-xs-12 floating-label-form-group controls">
+                      <label>Select facilities to register for:</label><br>
+                      <?php for ($i = 0; $i < $num_results; $i++) {
+                        $row = $result->fetch_assoc();
+                      ?>
+                      <input type="checkbox" name="facility_access[]" id="facility_access" value="<?php echo $row['facility_name']?>">
+                      <?php echo '&nbsp;'.$row['facility_name'].'<br>'; }?>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

@@ -59,7 +59,7 @@
   <section id="signup">
     <div class="container">
       <div class="section-header">
-        <h2 class="section-title text-center fadeInDown">Thank you for your registeration</h2>
+        <h2 class="section-title text-center fadeInDown">Thank you for using our system</h2>
       </div>
 
 
