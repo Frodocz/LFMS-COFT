@@ -1,6 +1,6 @@
 <?php
 	
-	@ $db_conn = new mysqli('localhost','root','19921226','fyp');
+    @ $db_conn = new mysqli('localhost','root','19921226','fyp');
 
   if (mysqli_connect_errno()) {
     echo '<script type="text/javascript">alert("Error: Could not connect to database. Please try again later.");</script>';

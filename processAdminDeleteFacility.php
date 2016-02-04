@@ -9,6 +9,11 @@
     } else {
 	    $query = "DELETE FROM facility_list
 								WHERE facility_id=$facility_id";
+      //Remove the image from database
+      $qry_imgpath = "SELECT * FROM facility_list WHERE facility_id='$facility_id'";
+      $result_imgpath = $db_conn->query($qry_imgpath);
+      $row = mysqli_fetch_array($result_imgpath);
+      unlink($row['facility_imagepath']);
 	    $result = $db_conn->query($query);
 	  }
     if ($result) {
