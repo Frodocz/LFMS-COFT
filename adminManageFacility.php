@@ -89,7 +89,7 @@
                   echo '<td class="col-md-6"><h4 class="text-center">'.$row['facility_name'].'</h4><hr><p>'.$row['facility_description'].'</p></td>';
                   echo '<td class="col-md-2">For internal user: S$'.$row['facility_internal_price'].'/Hour<hr>For external user: S$'.$row['facility_external_price'].'/Hour</td>';
                   echo '<td class="col-md-1"><a href="adminEditFacility.php?facility_id='.$row['facility_id'].'"><i class="fa fa-pencil-square-o"></i> Edit</a>';
-                  echo '<br><br><a href="processAdminDeleteFacility.php?facility_id='.$row['facility_id'].'" onclick="return confirm("Are you sure you want to delete?")"'.'><i class="fa fa-minus-square-o"></i> Delete</a></td>';
+                  echo '<br><br><a class="confirmationDelete" href="processAdminDeleteFacility.php?facility_id='.$row['facility_id'].'"><i class="fa fa-minus-square-o"></i> Delete</a></td>';
                   echo '</tr>';
                 }
               ?>

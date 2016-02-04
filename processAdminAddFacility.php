@@ -48,7 +48,7 @@
       echo '<script>window.location="adminAddFacility.php";</script>';
     }
   } else {
-    echo '<script>alert("Please select an image of this facility.");</script>';
+    echo '<script>alert("Either you forget to select an image of this facility or you choose an invalid type of image. Please try again.");</script>';
     echo '<script>window.location="adminAddFacility.php";</script>';
   }
 

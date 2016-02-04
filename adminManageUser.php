@@ -89,7 +89,13 @@
                       $row = mysqli_fetch_array($result); 
                       echo '<tr>';
                       echo '<td class="col-md-4">'.$row['username'].'</td>';
-                      echo '<td class="col-md-4">'.$row['name'].'</td>';
+                      echo '<td class="col-md-4">
+                              <span data-placement="bottom" data-toggle="tooltip" title="Click to show more detailed information of the user.">
+                                <a role="button" data-toggle="modal" data-target="#userinfo" >'
+                                  .$row['name'].
+                                '</a>
+                              </span>
+                            </td>';
                       echo '<td class="col-md-4"><a href="processAdminApproveUser.php?userid='.$row['userid'].'"><i class="fa fa-user-plus"></i> Approve</a>';
                       echo '<br><br><a href="processAdminRejectUser.php?userid='.$row['userid'].'"><i class="fa fa-user-times"></i> Reject</a></td>';
                       echo '</tr>';
@@ -99,8 +105,26 @@
               </table>
             </div>
           </div>
-				
         </div>
+        
+        <div class="modal fade" id="userinfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+              </div>
+              <div class="modal-body">
+                ...
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+              </div>
+            </div>
+          </div>
+        </div><!-- Modal -->
+
         <div class="text-center col-lg-5 col-lg-offset-1">          
           <div class="section-header">
             <h5 class="section-title text-center fadeInDown">Approved User</h5>
@@ -153,7 +177,6 @@
 
   <script src="js/jquery-1.11.3.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
-  <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

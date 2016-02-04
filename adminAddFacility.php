@@ -70,10 +70,10 @@
                   <textarea rows="5" class="form-control" name="facility_description" placeholder="Enter the facility description here"></textarea>
                 </div>
                 <div class="form-group col-lg-6">
-                  <input type="text" class="form-control" name="facility_internal_price" placeholder="Price for Internal User (S$/Hour)">
+                  <input type="number" step="0.05" min="0" class="form-control" name="facility_internal_price" placeholder="Price for Internal User (S$/Hour)">
                 </div>
                 <div class="form-group col-lg-6">
-                  <input type="text" class="form-control" name="facility_external_price" placeholder="Price for External User (S$/Hour)">
+                  <input type="number" step="0.05" min="0" class="form-control" name="facility_external_price" placeholder="Price for External User (S$/Hour)">
                 </div>
                 <div class="form-group text-center">
                   <button type="submit" class="btn btn-success" name="submit">Add New Facility Now</button>&nbsp;&nbsp;
