@@ -83,7 +83,7 @@
                 for ($i = 0; $i < $num_results; $i++) {
                   $row = mysqli_fetch_array($result); 
                   echo '<tr>';
-                  echo '<td class="col-md-3 hidden-xs"><img height="250" width="300" src="data:image;base64,'.$row[2].'"></td>';
+                  echo '<td class="col-md-3 hidden-xs"><img height="250" width="300" src="'.$row['facility_imagepath'].'"></td>';
                   echo '<td class="col-md-5"><h4 class="text-center">'.$row['facility_name'].'</h4><hr><p class="hidden-sm hidden-xs">'.$row['facility_description'].'</p></td>';
                   echo '<td class="col-md-2"><br>For internal user: $'.$row['facility_internal_price'].'/Hour<hr>For external user: $'.$row['facility_external_price'].'/Hour</td>';
                   echo '<td class="col-md-2"><a href="userBookFacility.php?facility_id='.$row['facility_id'].'"><i class="fa fa-calendar"></i> Book Now</a>

@@ -58,22 +58,22 @@
       <div class="row">
           <div class="row">
             <div class="col-lg-6 col-lg-offset-3">
-              <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" enctype="multipart/form-data">
-                <div class="form-group">
+              <form method="post" action="processAdminAddFacility.php" enctype="multipart/form-data">
+                <div class="form-group col-lg-12">
                   <label for="facilityImageFile">Choose image of the new facility</label>
-                  <input type="file" id="facilityImageFile" name="image">
+                  <input type="file" id="facilityImageFile" name="facilityImageFile">
                 </div>
-                <div class="form-group">
+                <div class="form-group col-lg-12">
                   <input type="text" class="form-control" name="facility_name" placeholder="Enter the facility name here">
                 </div>
-                <div class="form-group">
+                <div class="form-group col-lg-12">
                   <textarea rows="5" class="form-control" name="facility_description" placeholder="Enter the facility description here"></textarea>
                 </div>
                 <div class="form-group col-lg-6">
-                  <input type="text" class="form-control" name="facility_internal_price" placeholder="Internal Price $/Hour">
+                  <input type="text" class="form-control" name="facility_internal_price" placeholder="Price for Internal User (S$/Hour)">
                 </div>
                 <div class="form-group col-lg-6">
-                  <input type="text" class="form-control" name="facility_external_price" placeholder="External Price $/Hour">
+                  <input type="text" class="form-control" name="facility_external_price" placeholder="Price for External User (S$/Hour)">
                 </div>
                 <div class="form-group text-center">
                   <button type="submit" class="btn btn-success" name="submit">Add New Facility Now</button>&nbsp;&nbsp;
@@ -81,35 +81,6 @@
                 </div>
               </form>
             </div>
-            <?php 
-              @ $db_conn = new mysqli('localhost','root','19921226','fyp');
-
-              if (mysqli_connect_errno()) {
-                echo '<script type="text/javascript">alert("Error: Could not connect to database. Please try again later.");</script>';
-                exit;
-              }
-              if(isset($_POST['submit'])) {
-                if(getimagesize($_FILES['image']['tmp_name']) == FALSE) {
-                  echo "Please select an image.";
-                }
-                else {
-                  $facility_imagename = addslashes($_FILES['image']['name']);
-                  $facility_name = $_POST['facility_name'];
-                  $facility_description = $_POST['facility_description'];
-                  $imageData = addslashes($_FILES['image']['tmp_name']);
-                  $facility_image = file_get_contents($imageData);
-                  $facility_image = base64_encode($facility_image);
-                  $facility_internal_price = $_POST['facility_internal_price'];
-                  $facility_external_price = $_POST['facility_external_price'];
-                  //Save image
-                  $query = "insert into facility_list (facility_imagename, facility_image, facility_name, facility_description, facility_internal_price, facility_external_price) values ('$facility_imagename', '$facility_image', '$facility_name', '$facility_description', '$facility_internal_price', 
-                    '$facility_external_price')";
-                  $result = $db_conn->query($query);
-                }
-              $db_conn->close();
-              echo '<script>window.location="adminManageFacility.php";</script>';
-              }
-            ?>
           </div>  
       </div>
     </div>

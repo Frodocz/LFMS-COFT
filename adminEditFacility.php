@@ -81,7 +81,7 @@
         ?>
     <div class="container">
       <div class="row">
-        <form method="post">
+        <form method="post" action="processAdminEditFacility.php" enctype="multipart/form-data">
           <div class="table-responsive">
             <table class="table table-bordered text-center">
             	<thead>
@@ -94,9 +94,9 @@
                 <?php
                   $row = mysqli_fetch_array($result);
                   echo '<input type="hidden" name="id" value="'.$facility_id.'">';
-                  echo '<td><img height="250" width="300" src="data:image;base64,'.$row[2].'"></td>';
+                  echo '<td><img height="250" width="300" src="'.$row['facility_imagepath'].'"></td>';
                   echo '<td><label for="facilityImageFile">Choose image of the new facility</label>
-                        <input class="form-control" type="file" id="facilityImageFile" name="image"></td>';
+                        <input class="form-control" type="file" id="facilityImageFile" name="facilityImageFile"></td>';
                   echo '<td><label for="facility_name">Edit the name of this facility</label>
                         <input class="form-control" type="text" name="facility_name" value="'.$row['facility_name'].'"><hr>';
                   echo '<label for="facility_description">Edit the description of this facility</label>
@@ -117,38 +117,6 @@
         </form>
       </div>
     </div>
-    <?php
-    if (isset($_POST['update'])) {
-      if(getimagesize($_FILES['image']['tmp_name']) == FALSE) {
-        $facility_name = $_POST['facility_name'];
-        $facility_description = $_POST['facility_description'];
-        $facility_internal_price = $_POST['facility_internal_price'];
-        $facility_external_price = $_POST['facility_external_price'];
-        $query1 = "UPDATE facility_list
-                  SET facility_name=$facility_name, facility_description=$facility_description, facility_internal_price=$facility_internal_price,
-                      facility_external_price=$facility_external_price
-                  WHERE facility_id=facility_id";
-        $result1 = $db_conn->query($query1);
-      }
-      else {
-        $facility_imagename = addslashes($_FILES['image']['name']);
-        $facility_name = $_POST['facility_name'];
-        $facility_description = $_POST['facility_description'];
-        $imageData = addslashes($_FILES['image']['tmp_name']);
-        $facility_image = file_get_contents($imageData);
-        $facility_image = base64_encode($facility_image);
-        //Save image
-        $query2 = "UPDATE facility_list
-                  SET facility_imagename=$facility_imagename, facility_image=$facility_image,
-                      facility_name=$facility_name, facility_description=$facility_description, 
-                      facility_internal_price=$facility_internal_price, facility_external_price=$facility_external_price
-                  WHERE facility_id=$facility_id";
-        $result2 = $db_conn->query($query2);
-      }
-      $db_conn->close();
-    }
-    ?>
-
   </section>
 
   <!-- Footer -->

@@ -145,60 +145,36 @@
         </div>
       </div>
     </div>
- 	</section>  
- 	<section id="facility">
+ 	</section> 
+  <?php
+    @ $db_conn = new mysqli('localhost','root','19921226','fyp');
+
+    if (mysqli_connect_errno()) {
+      echo '<script type="text/javascript">alert("Error: Could not connect to database. Please try again later.");</script>';
+      echo '<script>window.location="adminAddFacility.php";</script>';
+    }
+
+    $query = "SELECT * FROM facility_list";
+    $result = $db_conn->query($query);
+    $num_results = $result->num_rows;
+  ?>
+
+
+  <section id="facility">
     <div class="container">
       <div class="section-header">
         <h2 class="section-title text-center fadeInDown">Our Facilities</h2>
       </div>
 
-      <div class="facility-items">
-	      <div class="facility-item">
-	        <div class="facility-item-inner col-lg-4">
-	            <img class="img-responsive" src="images/facility/FDT.jpg" alt="Fibre Draw Tower">
-	          <div class="facility-info">
-	            <h3>F​IBRE DRAW TOWER</h3>
-	            <a class="image-link" href="images/facility/FDT.jpg"><i class="fa fa-eye"></i><img></a>
-	          </div>
-	        </div>
-	      </div><!--/.facility-item-->	      
-        <div class="facility-item">
-	        <div class="facility-item-inner col-lg-4">
-	          <img class="img-responsive" src="images/facility/GWL.jpg" alt="Glass Working Lathe">
-	          <div class="facility-info">
-	            <h3>GLASS WORKING LATH​E</h3>
-	            <a class="image-link" href="images/facility/GWL.jpg"><i class="fa fa-eye"></i><img></a>
-	          </div>
-	        </div>
-	      </div><!--/.facility-item-->	      
-        <div class="facility-item">
-	        <div class="facility-item-inner col-lg-4">
-	          <img class="img-responsive" src="images/facility/FIP.jpg" alt="IFA-100 - Fibre Index Profiler">
-	          <div class="facility-info">
-	            <h3>IFA-100 - FIBRE INDEX PROFILER</h3>
-	            <a class="image-link" href="images/facility/FIP.jpg"><img></a>
-	          </div>
-	        </div>
-	      </div><!--/.facility-item-->
-        <div class="facility-item">
-	        <div class="facility-item-inner col-lg-4">
-	          <img class="img-responsive" src="images/facility/GPS.jpg" alt="LZM-100 - Glass Processing Station">
-	          <div class="facility-info">
-	            <h3>LZM-100 - GLASS PROCESSING STATION</h3>
-	            <a class="image-link" href="images/facility/GPS.jpg"><i class="fa fa-eye"></i><img></a>
-	          </div>
-	        </div>
-	      </div><!--/.facility-item-->	      
-        <div class="facility-item">
-	        <div class="facility-item-inner col-lg-4">
-	          <img class="img-responsive" src="images/facility/MCVD.jpg" alt="Modified Chemical Vapour Deposition (MCVD) Lathe">
-	          <div class="facility-info">
-	            <h3>MCVD LATHE</h3>
-	            <a class="image-link" href="images/facility/MCVD.jpg"><i class="fa fa-eye"></i><img></a>
-	          </div>
-	        </div>
-	      </div><!--/.facility-item-->    
-      </div>
+      <?php
+        for ($i = 0; $i < $num_results; $i++) {
+          $row = mysqli_fetch_array($result); 
+          echo '<div class="facility-items"><div class="facility-item col-lg-4 col-md-6 col-sm-6 col-xs-10">';
+          echo '<img class="image-responsive" height="250" width="350" src="'.$row['facility_imagepath'].'" alt="'.$row['facility_name'].'">';
+          echo '<div class="facility-info">';
+          echo '<h4>'.$row['facility_name'].'</h4></div></div></div>';
+        } 
+      ?>
     </div><!--/.container-->
   </section><!--/#facility-->  
   <section id="team">
@@ -295,28 +271,6 @@
 
   <script src="js/jquery-1.11.3.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
-  <script src="js/jquery.magnific-popup.js"></script>
   <script src="js/main.js"></script>
-  <script type="text/javascript">
-     $('.image-link').magnificPopup({ 
-        type: 'image',
-        mainClass: 'mfp-with-zoom', // this class is for CSS animation below
-
-        zoom: {
-            enabled: true, // By default it's false, so don't forget to enable it
-            duration: 300, // duration of the effect, in milliseconds
-            easing: 'ease-in-out', // CSS transition easing function 
-
-            // The "opener" function should return the element from which popup will be zoomed in
-            // and to which popup will be scaled down
-            // By defailt it looks for an image tag:
-            opener: function(openerElement) {
-                // openerElement is the element on which popup was initialized, in this case its <a> tag
-                // you don't need to add "opener" option if this code matches your needs, it's defailt one.
-                return openerElement.is('img') ? openerElement : openerElement.find('img');
-            }
-        }
-    }); 
-  </script>
 </body>
 </html>
