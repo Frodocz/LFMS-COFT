@@ -19,8 +19,6 @@ if (mysqli_connect_errno()) {
 }
 
 $sql_getuser = "SELECT * FROM normal_user WHERE username='$username'";
-$result_getuser = $db_conn->query($sql_getuser);
-$userInfo = mysqli_fetch_array($result_getuser);
 
 if (($currentpassword != "" and $newpassword == "") or ($currentpassword == "" and $newpassword != "")) {
   echo '<script type="text/javascript">alert("You forget to enter one of the passwords.");</script>';
@@ -30,6 +28,9 @@ if (($currentpassword != "" and $newpassword == "") or ($currentpassword == "" a
 } elseif ($currentpassword == "" and $newpassword == "") {
   $sql_updatenopwd = "UPDATE normal_user SET name='".$name."', phone='".$phone."', addressline1='".$addressline1."',addressline2='".$addressline2."', postal='".$postal."', faculty='".$faculty."' WHERE username='".$username."'";
   $result_updatenopwd = $db_conn->query($sql_updatenopwd);
+  $result_getuser = $db_conn->query($sql_getuser);
+  $userInfo = mysqli_fetch_array($result_getuser);
+  $_SESSION['valid_user_name'] = $userInfo['name'];
   $db_conn->close();
   echo '<script>window.location="userManageProfile.php";</script>';
   exit();
@@ -38,6 +39,10 @@ if (($currentpassword != "" and $newpassword == "") or ($currentpassword == "" a
     $password = md5($newpassword);
     $sql_updatepwd = "UPDATE normal_user SET password='".$password."', name='".$name."', phone='".$phone."', addressline1='".$addressline1."',addressline2='".$addressline2."', postal='".$postal."', faculty='".$faculty."' WHERE username='".$username."'";
     $result_updatepwd = $db_conn->query($sql_updatepwd);
+    // $row = $result_normal ->fetch_assoc();
+    $result_getuser = $db_conn->query($sql_getuser);
+    $userInfo = mysqli_fetch_array($result_getuser);
+    $_SESSION['valid_user_name'] = $userInfo['name'];
     $db_conn->close();
     echo '<script>window.location="userManageProfile.php";</script>';
     exit();

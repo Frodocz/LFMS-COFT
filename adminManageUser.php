@@ -42,7 +42,7 @@
             <li class="scroll"><a href="adminManageUser.php">User Management</a></li>
             <li class="scroll"><a href="adminViewReport.php">Monthly Report</a></li>
             <li class="scroll"><a href="adminManageDatabase.php">Database Management</a></li>
-            <li class="scroll"><a href="#">Hi, <?php echo $_SESSION['valid_user'] ?></a></li>
+            <li class="scroll"><a href="#">Hi, <b><?php echo $_SESSION['valid_user_name'] ?></b></a></li>
             <li class="scroll"><a href="logout.php"><span><strong>Log Out<Strong><span></a></li>                 
           </ul>
         </div>
@@ -72,17 +72,16 @@
         <div class="text-center col-lg-6">
           
           <div class="section-header">
-            <h3 class="section-title text-center fadeInDown">User to be approved</h3>
+            <h5 class="section-title text-center fadeInDown">User to be approved</h5>
           </div>
 					
           <div class="row">
             <div class="table-responsive">
               <table class="table table-bordered text-center">
               	<thead>
-              		<th>User Account</th>
-              		<th>User Name</th>
-              		<th>Target Facility</th>
-              		<th>Action</th>
+              		<th class="text-center">User Account</th>
+              		<th class="text-center">User Name</th>
+              		<th class="text-center">Action</th>
               	</thead>
                 <tbody>
                   <?php 
@@ -90,9 +89,8 @@
                       $row = mysqli_fetch_array($result); 
                       echo '<tr>';
                       echo '<td class="col-md-4">'.$row['username'].'</td>';
-                      echo '<td class="col-md-2">'.$row['name'].'</td>';
-                      echo '<td class="col-md-4">'.$row['facility_access'].'</td>';
-                      echo '<td class="col-md-2"><a href="processAdminApproveUser.php?userid='.$row['userid'].'"><i class="fa fa-user-plus"></i> Approve</a>';
+                      echo '<td class="col-md-4">'.$row['name'].'</td>';
+                      echo '<td class="col-md-4"><a href="processAdminApproveUser.php?userid='.$row['userid'].'"><i class="fa fa-user-plus"></i> Approve</a>';
                       echo '<br><br><a href="processAdminRejectUser.php?userid='.$row['userid'].'"><i class="fa fa-user-times"></i> Reject</a></td>';
                       echo '</tr>';
                     }
@@ -103,18 +101,18 @@
           </div>
 				
         </div>
-        <div class="text-center col-lg-offset-1 col-lg-5">          
+        <div class="text-center col-lg-5 col-lg-offset-1">          
           <div class="section-header">
-            <h3 class="section-title text-center fadeInDown">Approved User</h3>
+            <h5 class="section-title text-center fadeInDown">Approved User</h5>
           </div>
           
           <div class="row">
             <div class="table-responsive">
               <table class="table table-bordered text-center">
                 <thead>
-                  <th>User Account</th>
-                  <th>User Name</th>
-                  <th>Action</th>
+                  <th class="text-center">User Account</th>
+                  <th class="text-center">User Name</th>
+                  <th class="text-center">Action</th>
                 </thead>
                 <tbody>
                   <?php 

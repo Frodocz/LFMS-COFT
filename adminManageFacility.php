@@ -42,7 +42,7 @@
             <li class="scroll"><a href="adminManageUser.php">User Management</a></li>
             <li class="scroll"><a href="adminViewReport.php">Monthly Report</a></li>
             <li class="scroll"><a href="adminManageDatabase.php">Database Management</a></li>
-            <li class="scroll"><a href="#">Hi, <?php echo $_SESSION['valid_user'] ?></a></li>
+            <li class="scroll"><a href="#">Hi, <b><?php echo $_SESSION['valid_user_name'] ?></b></a></li>
             <li class="scroll"><a href="logout.php"><span><strong>Log Out<Strong><span></a></li>                 
           </ul>
         </div>

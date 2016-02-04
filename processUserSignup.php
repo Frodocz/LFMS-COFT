@@ -25,23 +25,21 @@ $facility_access = trim($facility_access, ",");
 $db_conn = new mysqli('localhost', 'root', '19921226', 'fyp');
 if (mysqli_connect_errno()) {
    echo '<script type="text/javascript">alert("Error: Could not connect to database. Please try again later.");</script>';
-   exit;
+   echo '<script>window.location="userSignup.php";</script>';
 }
 
 if ($agreeterms != 'Yes') {
   echo '<script type="text/javascript">alert("Please agree the Terms & Conditions to proceed.");</script>';
   unset($username);
   session_destroy();
-  include 'userSignup.php';
-  exit();
+  echo '<script>window.location="userSignup.php";</script>';
 }
 
 if ($password != $confirmpassword) {
 	echo '<script type="text/javascript">alert("Password does not match.");</script>';
   unset($username);
   session_destroy();
-  include 'userSignup.php';
-  exit();
+  echo '<script>window.location="userSignup.php";</script>';
 }
 
 //Check if the username has been used
@@ -57,22 +55,21 @@ if(($result_normal->num_rows >0) || ($result_admin->num_rows >0)){
     echo '<script type="text/javascript">alert("The user name has already been taken. Please pick another one.");</script>';
     unset($username);
     session_destroy();
-    include 'userSignup.php';
-    exit();
+    echo '<script>window.location="userSignup.php";</script>';
 }
 
 $password = md5($password);
-$sql = "INSERT INTO normal_user VALUES (NULL, '$username', '$password', '$identity', '$name', '$phone', '$addressline1', '$addressline2', '$postal', '$faculty', '".date("Y\-m\-d")."', '$facility_access', $approved)";
+$sql = "INSERT INTO normal_user VALUES (NULL, '$username', '$password', '$identity', NULL, '$name', '$phone', '$addressline1', '$addressline2', '$postal', '$faculty', '".date("Y\-m\-d")."', '$facility_access', $approved)";
 $result = $db_conn->query($sql);
 if (!$result) {
-	echo '<script type="text/javascript">alert("Your query failed.");</script>';
+	echo '<script type="text/javascript">alert("Your registration is NOT successfully submitted. Please try again later.");</script>';
   $db_conn->close();
-  header("Location: userSignup.php");
+  echo '<script>window.location="userSignup.php";</script>';
   exit();
 } else {
   $_SESSION['valid_user'] = $username;
   $_SESSION['user_identity'] = "normal_nonapproved";   
-  header("Location: postUserSignup.php"); 
+  echo '<script>window.location="postUserSignup.php";</script>';
   $db_conn->close();
   exit();}	
 ?>
