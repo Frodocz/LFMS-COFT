@@ -202,7 +202,7 @@
                         </div>
                         <div class="modal-footer">
                           <button type="button" data-dismiss="modal"
-                            class="btn btn-default">I understand</button>
+                            class="btn btn-primary">I understand</button>
                         </div>
                       </div>
                     </div>

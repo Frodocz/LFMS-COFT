@@ -7,7 +7,7 @@
     echo '<script type="text/javascript">alert("Error: Could not connect to database. Please try again later.");</script>';
     exit;
   } else {
-    $query = "DELETE FROM normal_user WHERE userid=$userid";
+    $query = "DELETE FROM normal_user WHERE user_id=$userid";
     $result = $db_conn->query($query);
   }
     $db_conn->close();

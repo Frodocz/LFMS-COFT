@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <!-- Basic Page Needs -->
-  <title>Paperless Lab | The Admin Manage User Page</title>
-  <meta name="description" content="Admin Manage User Page for Paperless Lab.">
+  <title>Paperless Lab | The Test Page</title>
+  <meta name="description" content="Test Page for Paperless Lab.">
   <meta name="author" content="Chao Zhang">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -20,6 +20,35 @@
 
   <!-- Custom Fonts -->
   <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+  <!-- Calendar Documents -->
+  <link rel='stylesheet' href='fullcalendar/fullcalendar.css'>
+  <script src='fullcalendar/lib/jquery.min.js'></script>
+  <script src='fullcalendar/lib/moment.min.js'></script>
+  <script src='fullcalendar/fullcalendar.js'></script>
+  <link href='scheduler.css' rel='stylesheet' />
+  <script>
+    $(document).ready(function() {
+      // page is now ready, initialize the calendar...
+      $('#calendar').fullCalendar({
+        header: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'month,agendaWeek'
+        },
+        editable: true,
+        theme: false,
+        dragOpacity: {
+          agenda: .9,
+          '':.6
+        },
+
+
+
+
+      })
+    });
+  </script>
 </head>
 
 <body>
@@ -51,35 +80,11 @@
   </header><!--/header-->
 
 <section id="signup">
-<div class="container">
-  <div class="row">
-<!--     <form action="processTest.php" method="post"> -->
-<form action="#" method="post">
-<input type="checkbox" name="check_list[]" value="C/C++"><label>C/C++</label><br/>
-<input type="checkbox" name="check_list[]" value="Java"><label>Java</label><br/>
-<input type="checkbox" name="check_list[]" value="PHP"><label>PHP</label><br/>
-<input type="submit" name="submit" value="Submit"/>
-</form>
-<?php
-$facility = $_POST['check_list'];
-if(!empty($facility)){
-
-// Loop to store and display values of individual checked checkbox.
-    $facility_access = '';
-    $number_facility = sizeof($facility);
-    for($i = 0; $i < $number_facility; $i++){
-        $facility_access = $facility_access.$facility[$i].",";
-    }
-    $facility_access = trim($facility_access, ","); 
-  }
-  echo $facility_access;
-?>
-<!--       <div class="row">
-        <button class="btn">Submit</button>
-      </div>
-    </form>
+  <div class="container">
+    <div class="row">
+      <div id='calendar'></div>
+    </div>
   </div>
-</div> -->
 </section>
 
 
@@ -99,9 +104,7 @@ if(!empty($facility)){
     </div>
   </footer><!--/#footer-->
 
-  <script src="js/jquery-1.11.3.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
-  <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

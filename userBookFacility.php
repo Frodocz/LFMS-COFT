@@ -17,14 +17,14 @@
   <link rel="stylesheet" type="text/css" href="css/fullcalendar.css">
   <link rel="stylesheet" type="text/css" href="css/fancybox.css">
   <style type="text/css">
-    .fancy{width:550px; height:auto; padding-bottom: 45px}
+/*    .fancy{width:550px; height:auto; padding-bottom: 45px}
     .fancy p{height:28px; line-height:28px; padding:4px; color:#999}
     .btn{-webkit-border-radius: 3px;-moz-border-radius:3px;padding:5px 12px; cursor:pointer}
     .btn_ok{background: #360;border: 1px solid #390;color:#fff}
     .btn_cancel{background:#f0f0f0;border: 1px solid #d3d3d3; color:#666 }
     .btn_del{background:#f90;border: 1px solid #f80; color:#fff }
     .sub_btn{height:32px; line-height:32px; padding-top:6px; border-top:1px solid #f0f0f0; left:300px; position:relative}
-    .sub_btn .del{position:relative; left:-250px}
+    .sub_btn .del{position:relative; left:-250px}*/
   </style>
 
   <script src='js/jquery-1.11.3.min.js'></script>
@@ -55,7 +55,7 @@
           });
           },
         
-         eventResize: function(event,dayDelta,minuteDelta,revertFunc) {
+        eventResize: function(event,dayDelta,minuteDelta,revertFunc) {
           $.post("do.php?action=resize",{id:event.id,daydiff:dayDelta,minudiff:minuteDelta},function(msg){
             if(msg!=1){
               alert(msg);
@@ -150,7 +150,7 @@
           <?php
             $facilityInfo = mysqli_fetch_array($result);
             echo '<h4>'.$facilityInfo['facility_name'].'</h2>';
-            echo '<a class="image-link" href="data:image;base64,'.$facilityInfo[2].'"><img class="img-rounded" src="data:image;base64,'.$facilityInfo[2].'"></a>';  
+            echo '<img class="img-rounded" src="'.$facilityInfo['facility_imagepath'].'">';  
           ?>
         </div>
 

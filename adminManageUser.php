@@ -96,10 +96,10 @@
                                 '</a>
                               </span>
                             </td>';
-                      echo '<td class="col-md-4"><a href="processAdminApproveUser.php?userid='.$row['userid'].'"><i class="fa fa-user-plus"></i> Approve</a>';
-                      echo '<br><br><a href="processAdminRejectUser.php?userid='.$row['userid'].'"><i class="fa fa-user-times"></i> Reject</a></td>';
+                      echo '<td class="col-md-4"><a href="processAdminApproveUser.php?userid='.$row['user_id'].'"><i class="fa fa-user-plus"></i> Approve</a>';
+                      echo '<br><br><a href="processAdminRejectUser.php?userid='.$row['user_id'].'"><i class="fa fa-user-times"></i> Reject</a></td>';
                       echo '</tr>';
-                    }
+                    
                   ?>
                 </tbody>
               </table>
@@ -112,14 +112,27 @@
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                <h4 class="modal-title" id="myModalLabel">Applicant Information</h4>
               </div>
-              <div class="modal-body">
-                ...
+              <div class="modal-body text-left">
+                <?php
+                //Display Detailed Info
+                  $query_displayInfo = "SELECT * FROM normal_user WHERE user_id = '".$row['user_id']."'";
+                  $result_displayInfo = $db_conn->query($query_displayInfo);
+                  $row_displayInfo = mysqli_fetch_array($result_displayInfo); 
+                  echo '<div class="row"><div class="col-lg-10 col-lg-offset-1">
+                        <p>Email: '.$row_displayInfo['username'].'</p>';
+                  echo '<p>Name: '.$row_displayInfo['title'].$row_displayInfo['name'].'</p>'; 
+                  echo '<p>Faculty: '.$row_displayInfo['faculty'].'</p>'; 
+                  echo '<p>Phone No.: '.$row_displayInfo['phone'].'</p>'; 
+                  echo '<p>Address: '.$row_displayInfo['addressline1'].', '.$row_displayInfo['addressline2'].', '.$row_displayInfo['postal'].'</p>'; 
+                  echo '<p>Target Facility: '.$row_displayInfo['facility_access'].'</p>';
+                  echo '<p>Register Date: '.$row_displayInfo['registerdate'].'</p></div></div>'; 
+                  }
+                ?>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
               </div>
             </div>
           </div>
@@ -144,17 +157,53 @@
                       $row2 = mysqli_fetch_array($result2); 
                       echo '<tr>';
                       echo '<td class="col-md-4">'.$row2['username'].'</td>';
-                      echo '<td class="col-md-4">'.$row2['name'].'</td>';
-                      echo '<td class="col-md-4"><a href="processAdminDisapproveUser.php?userid='.$row2['userid'].'"><i class="fa fa-user-times"></i> Disapprove</a>';
-                      echo '<br><br><a href="processAdminRejectUser.php?userid='.$row2['userid'].'"><i class="fa fa-user-secret"></i> Remove</a></td>';
+                      echo '<td class="col-md-4">
+                              <span data-placement="bottom" data-toggle="tooltip" title="Click to show more detailed information of the user.">
+                                <a role="button" data-toggle="modal" data-target="#approveduserinfo" >'
+                                  .$row['name'].
+                                '</a>
+                              </span>
+                            </td>';
+                      echo '<td class="col-md-4"><a href="processAdminDisapproveUser.php?userid='.$row2['user_id'].'"><i class="fa fa-user-times"></i> Disapprove</a>';
+                      echo '<br><br><a href="processAdminRejectUser.php?userid='.$row2['user_id'].'"><i class="fa fa-user-secret"></i> Remove</a></td>';
                       echo '</tr>';
-                    }
+                    
                   ?>
                 </tbody>
               </table>
             </div>
           </div>
-        </div>    
+        </div>
+        <div class="modal fade" id="approveduserinfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Applicant Information</h4>
+              </div>
+              <div class="modal-body text-left">
+                <?php
+                //Display Detailed Info
+                  $query_displayInfo = "SELECT * FROM normal_user WHERE user_id = '".$row2['user_id']."'";
+                  $result_displayInfo = $db_conn->query($query_displayInfo);
+                  $row_displayInfo = mysqli_fetch_array($result_displayInfo); 
+                  echo '<div class="row"><div class="col-lg-10 col-lg-offset-1">
+                        <p>Email: '.$row_displayInfo['username'].'</p>';
+                  echo '<p>Name: '.$row_displayInfo['title'].$row_displayInfo['name'].'</p>'; 
+                  echo '<p>Faculty: '.$row_displayInfo['faculty'].'</p>'; 
+                  echo '<p>Phone No.: '.$row_displayInfo['phone'].'</p>'; 
+                  echo '<p>Address: '.$row_displayInfo['addressline1'].', '.$row_displayInfo['addressline2'].', '.$row_displayInfo['postal'].'</p>'; 
+                  echo '<p>Target Facility: '.$row_displayInfo['facility_access'].'</p>';
+                  echo '<p>Register Date: '.$row_displayInfo['registerdate'].'</p></div></div>'; 
+                  }
+                ?>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div><!-- Modal -->    
       </div>
     </div>
   </section>

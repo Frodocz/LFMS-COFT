@@ -7,7 +7,7 @@
     echo '<script type="text/javascript">alert("Error: Could not connect to database. Please try again later.");</script>';
     exit;
   } else {
-    $query = "UPDATE normal_user SET approved=0 WHERE userid=$userid;";
+    $query = "UPDATE normal_user SET approved=0 WHERE user_id=$userid;";
     $result = $db_conn->query($query);
   }
     $db_conn->close();

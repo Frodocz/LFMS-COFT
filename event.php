@@ -29,6 +29,7 @@ $enddate = empty($_GET['end'])?$date:$_GET['end'];
 <div class="fancy">
 	<h3>New Booking</h3>
     <form id="add_form" action="do.php?action=add" method="post">
+    <!-- Note here !!!-->
     <p>Booking Log：<input type="text" class="input" name="event" id="event" style="width:320px" placeholder="Booking Description"></p>
     <p>Start Time：<input type="text" class="input datepicker" name="startdate" id="startdate" value="<?php echo $date;?>" readonly>
     <span id="sel_start" style="display:none"><select name="s_hour">
