@@ -28,6 +28,7 @@ if (isset($_POST['username']) && isset($_POST['loginPassword']))
     $username = $row['username'];
     $_SESSION['valid_user'] = $username;  
     $_SESSION['valid_user_name'] = $row['name'];
+    $_SESSION['valid_user_id'] = $row['user_id'];
     if($row['approved'] == 1) {
         header("Location: userHomepage.php"); 
     } else {

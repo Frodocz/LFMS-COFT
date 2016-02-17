@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <!-- Basic Page Needs -->
-  <title>Paperless Lab | The Test Page</title>
-  <meta name="description" content="Test Page for Paperless Lab.">
+  <title>Paperless Lab | The User Book Facility Page</title>
+  <meta name="description" content="User Book Facility Page for Paperless Lab.">
   <meta name="author" content="Chao Zhang">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,41 +14,21 @@
 
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="css/animate.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="css/fullcalendar.css">
+  <link rel="stylesheet" type="text/css" href="css/fancybox.css">
+  <style type="text/css">
+  </style>
+
+  <script src='js/jquery-1.11.3.min.js'></script>
+  <script src='http://code.jquery.com/ui/1.10.3/jquery-ui.js'></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src='js/fullcalendar.min.js'></script>
 
   <!-- Custom CSS -->
   <link href="css/main.css" rel="stylesheet">
 
   <!-- Custom Fonts -->
   <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
-  <!-- Calendar Documents -->
-  <link rel='stylesheet' href='fullcalendar/fullcalendar.css'>
-  <script src='fullcalendar/lib/jquery.min.js'></script>
-  <script src='fullcalendar/lib/moment.min.js'></script>
-  <script src='fullcalendar/fullcalendar.js'></script>
-  <link href='scheduler.css' rel='stylesheet' />
-  <script>
-    $(document).ready(function() {
-      // page is now ready, initialize the calendar...
-      $('#calendar').fullCalendar({
-        header: {
-          left: 'prev,next today',
-          center: 'title',
-          right: 'month,agendaWeek'
-        },
-        editable: true,
-        theme: false,
-        dragOpacity: {
-          agenda: .9,
-          '':.6
-        },
-
-
-
-
-      })
-    });
-  </script>
 </head>
 
 <body>
@@ -67,10 +47,9 @@
         
         <div class="collapse navbar-collapse navbar-right">
           <ul class="nav navbar-nav">
-            <li class="scroll"><a href="adminManageFacility.php">Facility Management</a></li>
-            <li class="scroll"><a href="adminManageUser.php">User Management</a></li>
-            <li class="scroll"><a href="adminViewReport.php">Monthly Report</a></li>
-            <li class="scroll"><a href="adminManageDatabase.php">Database Management</a></li>
+            <li class="scroll"><a href="userHomepage.php">Facility Booking</a></li>
+            <li class="scroll"><a href="userManageBooking.php">Booking Management</a></li>
+            <li class="scroll"><a href="userManageProfile.php">Profile Management</a></li>
             <li class="scroll"><a href="#">Hi, <b><?php echo $_SESSION['valid_user_name'] ?></b></a></li>
             <li class="scroll"><a href="logout.php"><span><strong>Log Out<Strong><span></a></li>                 
           </ul>
@@ -79,14 +58,12 @@
     </nav><!--/nav-->
   </header><!--/header-->
 
-<section id="signup">
-  <div class="container">
-    <div class="row">
-      <div id='calendar'></div>
-    </div>
-  </div>
-</section>
-
+  <section id="userbookfacility">
+    <form action="processUserManageBooking.php?action=add" method="post">
+      <button type="submit">Click Me</button>
+    </form>
+  </section>
+    <div id="addBooking"></div>
 
   <!-- Footer -->
   <footer id="footer">
@@ -103,8 +80,5 @@
       </div>
     </div>
   </footer><!--/#footer-->
-
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/main.js"></script>
 </body>
 </html>
