@@ -14,12 +14,13 @@
 
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="css/animate.css" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="css/fullcalendar.css">
+  <link rel="stylesheet" type="text/css" href="css/fullcalendar.min.css">
   <style type="text/css">
   </style>
 
   <script src='js/jquery-1.11.3.min.js'></script>
   <script src="js/bootstrap.min.js"></script>
+  <script src='js/moment.min.js'></script>
   <script src='js/fullcalendar.min.js'></script>
 
   <!-- Custom CSS -->
@@ -102,15 +103,16 @@
       </div>    
     </div>
   </section>
-  <div id="addBooking"></div>
+  <div id="manageBooking"></div>
 
     <script type="text/javascript">
     $(function() {
       $('#calendar').fullCalendar({
+        defaultView: 'agendaWeek',
         header: {
           left: 'prev,next today',
           center: 'title',
-          right: 'month,agendaWeek'
+          right: 'agendaWeek,month'
         },
         editable: true,
         theme: false,
@@ -118,6 +120,8 @@
           agenda: .5,
           '':.6
         },
+        minTime: "07:00:00",
+        maxTime: "19:00:00",
         // eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
         //   $.post("processUserManageBooking.php?action=drag",{id:event.id,daydiff:dayDelta,minudiff:minuteDelta,allday:allDay},function(msg){
         //     if(msg!=1){
@@ -137,36 +141,63 @@
         //   },
         
         
-        // selectable: true,
-        // select: function( startDate, endDate, allDay, jsEvent, view ){
-        //   var start =$.fullCalendar.formatDate(startDate,'yyyy-MM-dd');
-        //   var end =$.fullCalendar.formatDate(endDate,'yyyy-MM-dd');
-        //   $.fancybox({
-        //     'type':'ajax',
-        //     'href':'userManageBooking.php?action=add&date='+start+'&end='+end
+        selectable: true,
+        select: function(start, end, jsEvent, view ){
+          //Set the date and time seperately in specific formats using moment.js 
+          startDate = moment(start).format('YYYY-MM-DD');
+          startHour = moment(start).format('HH');
+          startMinu = moment(start).format('mm');
+
+          endDate = moment(end).format('YYYY-MM-DD');
+          // endDate = startDate;
+          endHour = moment(end).format('HH');
+          endMinu = moment(end).format('mm');
+
+          $.post('userManageBooking.php?action=add',
+          {
+            facility_id: "<?php echo $facility_id ?>",
+            user_id: "<?php echo $user_id ?>",
+            startDate: startDate,
+            startHour: startHour,
+            startMinu: startMinu,
+            endDate: endDate,
+            endHour: endHour,
+            endMinu: endMinu
+          },
+          function(content) {
+            $('#manageBooking').html(content)
+            $('#addModal').modal('show');
+          });
+        },
+        events: 'userFetchBooking.php?facility_id='+<?php echo $facility_id ?>,
+        timeFormat: 'HH:mm',
+        
+        //when click a random day
+        // dayClick: function(date, jsEvent, view) {
+        //   var selDate = date.format('YYYY-MM-DD');
+        //   // var startHour = moment(start).format('hh');
+        //   // var startMinu = moment(start).format('mm');
+        //   $.post('userManageBooking.php?action=add&date='+selDate,
+        //   {
+        //     facility_id: "<?php echo $facility_id ?>",
+        //     user_id: "<?php echo $user_id ?>",
+
+        //   }, 
+        //   function(content) {
+        //       $('#manageBooking').html(content)
+        //       $('#addModal').modal('show');
         //   });
         // },
-        events: 'userFetchBooking.php?facility_id='+<?php echo $facility_id ?>,
-        dayClick: function(date, allDay, jsEvent, view) {
-          var selDate =$.fullCalendar.formatDate(date,'yyyy-MM-dd');
-          $.post('userManageBooking.php?action=add&date='+selDate,
-          {
-              facility_id: "<?php echo $facility_id ?>",
-              "user_id": "<?php echo $user_id ?>"
-          }, 
+
+        //when click an existing event
+        eventClick: function(calEvent, jsEvent, view) {
+          $.post('userManageBooking.php?action=edit&id='+calEvent.id,
           function(content) {
-              $('#addBooking').html(content)
-              $('#addModal').modal('show');
+              $('#manageBooking').html(content)
+              $('#editModal').modal('show');
           });
         }
-        // eventClick: function(calEvent, jsEvent, view) {
-        //   $.fancybox({
-        //     'type':'ajax',
-        //     'href':'userManageBooking.php?action=edit&id='+calEvent.id
-        //   });
-        // }
       });
-      
     });
   </script>
 

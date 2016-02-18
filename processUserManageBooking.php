@@ -28,45 +28,44 @@ if ($action == "add") {
   }else{
     echo "Failed to book this facility. Please try again later."; 
   }
+} elseif ($action == "edit") {
+  $booking_id = intval($_POST['id']);
+  if ($booking_id == 0){
+    echo 'The record does not exist！';
+    exit; 
+  }
+
+  $facility_id = $_POST['facility_id'];
+  $user_id = $_POST['user_id'];
+
+  $startdate = trim($_POST['startdate']);
+  $enddate = trim($_POST['enddate']);
+
+  $s_time = $_POST['s_hour'].':'.$_POST['s_minute'].':00';
+  $e_time = $_POST['e_hour'].':'.$_POST['e_minute'].':00';
+
+  $starttime = strtotime($startdate.' '.$s_time);
+  $endtime = strtotime($enddate.' '.$e_time);
+
+  mysql_query("UPDATE `booking_list` SET `starttime`='$starttime',`endtime`='$endtime' WHERE `booking_id`='$booking_id'");
+  if(mysql_affected_rows()==1){
+    echo 'The booking record is successfully updated.';
+  }else{
+    echo 'Failed to update the booking record. Please try again later.'; 
+  }
+} elseif ($action == "del") {
+  $booking_id = intval($_POST['id']);
+  if( $booking_id > 0 ){
+    mysql_query("DELETE FROM `booking_list` where `booking_id`='$booking_id'");
+    if(mysql_affected_rows()==1){
+      echo 'The booking record is successfully deleted.';
+    }else{
+      echo 'Failed to delete this booking record. Please try again later.'; 
+    }
+  }else{
+    echo 'The booking record does not exist！';
+  }
 }
-// } elseif ($action=="edit") {
-//   $booking_id = intval($_POST['id']);
-//   if($booking_id==0){
-//     echo 'The record does not exist！';
-//     exit; 
-//   }
-
-//   $facility_id = $_POST['facility_id'];
-//   $user_id = $_POST['user_id'];
-
-//   $startdate = trim($_POST['startdate']);//开始日期
-//   $enddate = trim($_POST['enddate']);//结束日期
-
-//   $s_time = $_POST['s_hour'].':'.$_POST['s_minute'].':00';//开始时间
-//   $e_time = $_POST['e_hour'].':'.$_POST['e_minute'].':00';//结束时间
-
-
-//   $starttime = strtotime($startdate.' '.$s_time);
-//   $endtime = strtotime($enddate.' '.$e_time);
-
-//   mysql_query("UPDATE `booking_list` SET `starttime`='$starttime',`endtime`='$endtime', where `booking_id`='$booking_id'");
-//   if(mysql_affected_rows()==1){
-//     echo '1';
-//   }else{
-//     echo 'Error'; 
-//   }
-// } elseif ($action=="delete") {
-//   $booking_id = intval($_POST['id']);
-//   if($booking_id>0){
-//     mysql_query("DELETE FROM `booking_list` where `booking_id`='$booking_id'");
-//     if(mysql_affected_rows()==1){
-//       echo '1';
-//     }else{
-//       echo 'Error'; 
-//     }
-//   }else{
-//     echo 'The record does not exist！';
-//   }
 // } elseif ($action=="drag") {
 //   $booking_id = $_POST['id'];
 //   $daydiff = (int)$_POST['daydiff']*24*60*60;

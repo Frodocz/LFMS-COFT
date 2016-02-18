@@ -17,7 +17,7 @@ while($booking = mysql_fetch_array($query_booking)){
     
     $data[] = array(
         'id' => $booking['booking_id'],
-        'title' => $facility['facility_name']." by ".$user['name'],
+        'title' => $user['name'].' - '.$facility['facility_name'],
         'start' => date('Y-m-d H:i',$booking['starttime']),
         'end' => date('Y-m-d H:i',$booking['endtime']),
         'color' => $booking['color']
