@@ -9,12 +9,128 @@
     case 'add':
       addform();
       break;
+    case 'select':
+      selectform();
+      break;
     case 'edit':
       editform($id);
       break;
   }
-  
+
 function addform(){
+  $date = $_GET['date'];
+  $facility_id = $_POST['facility_id'];
+  $user_id = $_POST['user_id'];
+
+  $sql_facility = "SELECT * FROM facility_list WHERE facility_id='".$facility_id."'";
+  $query_getFacility = mysql_query($sql_facility);
+  $facility = mysql_fetch_array($query_getFacility);
+
+  $sql_user = "SELECT * FROM normal_user WHERE user_id=".$_SESSION['valid_user_id']."";
+  $query_getUser = mysql_query($sql_user);
+  $user = mysql_fetch_array($query_getUser);
+
+?>
+<div class="modal fade" id="addModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="modalTitle">Add New Booking</h4>
+      </div>
+
+      <form id="add_form">
+        <div class="modal-body">
+          <?php
+            echo '<input type="hidden" class="form-control" id="facility_id" name="facility_id" value="'.$facility_id.'">';
+            echo '<input type="hidden" class="form-control" id="user_id" name="user_id" value="'.$user_id.'">';  
+          ?>
+          <div class="row control-group">
+            <div class="form-group col-xs-12 floating-label-form-group controls">
+              <label>Facility Name</label>
+              <input type="text" class="form-control" id="facility_name" name="facility_name" readonly value="<?php echo $facility['facility_name'] ?>">
+            </div>
+          </div>
+          <div class="row control-group">
+            <div class="form-group col-xs-12 floating-label-form-group controls">
+              <label>User Name</label>
+              <input type="text" class="form-control" id="user_name" name="user_name" readonly value="<?php echo $user['name'];?>"> 
+            </div>
+          </div>
+          <div class="row control-group">
+            <div class="form-group col-lg-6 floating-label-form-group controls">
+              <label>Start Date</label>
+              <input type="text" class="form-control" id="startdate" name="startdate" readonly value="<?php echo $date;?>"> 
+            </div>
+
+            <div class="form-group col-lg-3 floating-label-form-group controls">
+              <label>Start Hour</label>
+              <select class="form-control" name="s_hour" id="s_hour">
+                <option>08</option>
+                <option>09</option>
+                <option>10</option>
+                <option>11</option>
+                <option>12</option>
+                <option>13</option>
+                <option>14</option>
+                <option>15</option>
+                <option>16</option>
+                <option>17</option>
+                <option>18</option>
+              </select>
+            </div>
+            <div class="form-group col-lg-3 floating-label-form-group controls">
+            <label>Start Minute</label>
+              <select class="form-control" name="s_minute" id="s_minute">
+                <option>00</option>
+                <option>30</option>
+              </select>
+            </div>
+          </div>
+          <div class="row control-group">
+            <div class="form-group col-lg-6 floating-label-form-group controls">
+              <label>End Date</label>
+              <input type="text" class="form-control" id="enddate" name="enddate" readonly value="<?php echo $date;?>">
+            </div>
+
+            <div class="form-group col-lg-3 floating-label-form-group controls">
+              <label>End Hour</label>
+              <select class="form-control" name="e_hour" id="e_hour">
+                <option>08</option>
+                <option>09</option>
+                <option>10</option>
+                <option>11</option>
+                <option>12</option>
+                <option>13</option>
+                <option>14</option>
+                <option>15</option>
+                <option>16</option>
+                <option>17</option>
+                <option>18</option>
+              </select>
+            </div>
+            <div class="form-group col-lg-3 floating-label-form-group controls">
+            <label>End Minute</label>
+              <select class="form-control" name="e_minute" id="e_minute">
+                <option>00</option>
+                <option>30</option>
+              </select>
+            </div>
+          </div> 
+      </div>
+      <div class="modal-footer">
+        <div class="text-right">
+          <button type="submit" id="add_submit" class="btn btn-success">Add Now</button>
+          <button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </form>
+  </div>
+</div>
+<?php }
+function selectform(){
   $start_d = $_POST['startDate'];
   $start_h = $_POST['startHour'];
   $start_m = $_POST['startMinu'];
@@ -46,7 +162,7 @@ function addform(){
 
 ?>
 
-<div class="modal fade" id="addModal">
+<div class="modal fade" id="selectModal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -54,7 +170,7 @@ function addform(){
         <h4 class="modal-title" id="modalTitle">Add New Booking</h4>
       </div>
 
-      <form id="add_form">
+      <form id="select_form">
         <div class="modal-body">
           <?php
             echo '<input type="hidden" class="form-control" id="facility_id" name="facility_id" value="'.$facility_id.'">';
@@ -139,7 +255,7 @@ function addform(){
       </div>
       <div class="modal-footer">
         <div class="text-right">
-          <button type="submit" id="add_submit" class="btn btn-success">Add Now</button>
+          <button type="submit" id="select_submit" class="btn btn-success">Add Now</button>
           <button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
         </div>
         </form>
@@ -287,16 +403,32 @@ function editform($id) {
 <script type="text/javascript">
 
 $(function() {
-  //Action add will happen 
-  $("#add_form").submit(function(e){
+  //Action add will happen
+  // $("#add_form").submit(function(e){
+  //   $.ajax({
+  //      type: "POST",
+  //      url: "processUserManageBooking.php?action=add",
+  //      data: $("#add_form").serialize(), // serializes the form's elements.
+  //      success: function(data)
+  //      {
+  //        alert(data); // show response from the php script.
+  //        $("#addModal").modal('hide');
+  //        $('#calendar').fullCalendar('refetchEvents');
+  //      }
+  //    });
+  //   e.preventDefault();
+  // });
+
+  //Action select will happen 
+  $("#select_form").submit(function(e){
     $.ajax({
        type: "POST",
        url: "processUserManageBooking.php?action=add",
-       data: $("#add_form").serialize(), // serializes the form's elements.
+       data: $("#select_form").serialize(), // serializes the form's elements.
        success: function(data)
        {
          alert(data); // show response from the php script.
-         $("#addModal").modal('hide');
+         $("#selectModal").modal('hide');
          $('#calendar').fullCalendar('refetchEvents');
        }
      });

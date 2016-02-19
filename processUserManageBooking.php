@@ -18,12 +18,12 @@ if ($action == "add") {
   $starttime = strtotime($startdate.' '.$s_time);
   $endtime = strtotime($enddate.' '.$e_time);
 
-  $colors = array("#360","#f30","#06c");
+  $colors = array("#378006","#115599");
   $key = array_rand($colors);
   $color = $colors[$key];
 
-  $query = mysql_query("INSERT INTO `booking_list` VALUES (NULL, $facility_id, $user_id, '$starttime', '$endtime', '$color')");
-  if(mysql_insert_id()>0){
+  $result = mysql_query("INSERT INTO `booking_list` VALUES (NULL, $facility_id, $user_id, '$starttime', '$endtime', '$color')");
+  if($result){
     echo "You booking is successfully added.";
   }else{
     echo "Failed to book this facility. Please try again later."; 
@@ -47,8 +47,8 @@ if ($action == "add") {
   $starttime = strtotime($startdate.' '.$s_time);
   $endtime = strtotime($enddate.' '.$e_time);
 
-  mysql_query("UPDATE `booking_list` SET `starttime`='$starttime',`endtime`='$endtime' WHERE `booking_id`='$booking_id'");
-  if(mysql_affected_rows()==1){
+  $result = mysql_query("UPDATE `booking_list` SET `starttime`='$starttime',`endtime`='$endtime' WHERE `booking_id`='$booking_id'");
+  if($result){
     echo 'The booking record is successfully updated.';
   }else{
     echo 'Failed to update the booking record. Please try again later.'; 
@@ -65,42 +65,44 @@ if ($action == "add") {
   }else{
     echo 'The booking record does not exist！';
   }
-}
-// } elseif ($action=="drag") {
-//   $booking_id = $_POST['id'];
-//   $daydiff = (int)$_POST['daydiff']*24*60*60;
-//   $minudiff = (int)$_POST['minudiff']*60;
-//   $query  = mysql_query("SELECT * FROM `booking_list` WHERE booking_id='$booking_id'");
-//   $row = mysql_fetch_array($query);
-  
-//   $difftime = $daydiff + $minudiff;
-//     $sql = "UPDATE `booking_list` SET starttime=starttime+'$difftime',endtime=endtime+'$difftime' WHERE booking_id='$booking_id'";
-//   }
-//   $result = mysql_query($sql);
-//   if(mysql_affected_rows()==1){
-//     echo '1';
-//   }else{
-//     echo 'Error'; 
-//   }
-// } elseif ($action=="resize") {
-//   $booking_id = $_POST['id'];
-//   $daydiff = (int)$_POST['daydiff']*24*60*60;
-//   $minudiff = (int)$_POST['minudiff']*60;
-  
-//   $query  = mysql_query("SELECT * FROM `booking_list` WHERE booking_id='$booking_id'");
-//   $row = mysql_fetch_array($query);
-//   //echo $allday;exit;
-//   $difftime = $daydiff + $minudiff;
+} elseif ($action=="drag") {
+  $booking_id = intval($_POST['id']);
+  $startDate = $_POST['startDate'];
+  $startHour = $_POST['startHour'];
+  $startMinu = $_POST['startMinu'];
 
-//   $sql = "UPDATE `booking_list` SET endtime=endtime+'$difftime' WHERE booking_id='$booking_id'";
-  
-//   $result = mysql_query($sql);
-//   if(mysql_affected_rows()==1){
-//     echo '1';
-//   }else{
-//     echo 'Error'; 
-//   }
-// }else{
-  
-// }
+  $endDate = $_POST['endDate'];
+  $endHour = $_POST['endHour'];
+  $endMinu = $_POST['endMinu'];
+
+  $starttime = strtotime($startDate.' '.$startHour.':'.$startMinu.':00');
+  $endtime = strtotime($endDate.' '.$endHour.':'.$endMinu.':00');
+
+  $sql = "UPDATE booking_list SET starttime='$starttime',endtime='$endtime' WHERE booking_id='$booking_id'";
+  $result = mysql_query($sql);
+  if ($result) {
+    //echo 'The booking record is updated successfully';
+    echo '1';
+  } else {
+    echo 'Failed to drop this booking record to new time slot.';
+  }
+} elseif ($action=="resize") {
+  $booking_id = intval($_POST['id']);
+  $endDate = $_POST['endDate'];
+  $endHour = $_POST['endHour'];
+  $endMinu = $_POST['endMinu'];
+
+  $endtime = strtotime($endDate.' '.$endHour.':'.$endMinu.':00');
+  $sql = "UPDATE booking_list SET endtime='$endtime' WHERE booking_id='$booking_id'";  
+
+  $result = mysql_query($sql);
+  if ($result) {
+    //echo 'The booking record is updated successfully';
+    echo '1';
+  } else {
+    echo 'Failed to reschedule this booking record.'; 
+  }
+} else {
+  //Other conditions  
+}
 ?>
