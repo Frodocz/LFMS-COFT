@@ -135,6 +135,7 @@
         eventDrop: function(event, delta, revertFunc) {
           if (confirm("Are you sure about this change?")) {
             $.post("processUserManageBooking.php?action=drag",
+            // $.post("test.php?action=drag",
             { 
               id: event.id,
               startDate: moment(event.start).format('YYYY-MM-DD'),
@@ -152,6 +153,8 @@
                 alert("The booking record is updated successfully");
               }
             });
+          }else {
+            revertFunc();
           }
         },
         
@@ -163,7 +166,9 @@
               id: event.id,
               endDate: moment(event.end).format('YYYY-MM-DD'),
               endHour: moment(event.end).format('HH'),
-              endMinu: moment(event.end).format('mm')
+              endMinu: moment(event.end).format('mm'),
+              facility_id: "<?php echo $facility_id ?>",
+              user_id: "<?php echo $user_id ?>"
             },
             function(msg) {
               if(msg!=1) {
@@ -173,6 +178,8 @@
                 alert("The booking record is updated successfully");
               }
             });
+          } else {
+            revertFunc();
           }
         },
 
@@ -212,23 +219,6 @@
             });
           }
         },
-
-        
-        // when click a random day
-        // dayClick: function(date, jsEvent, view) {
-        //   var selDate = date.format('YYYY-MM-DD');
-        //   // var startHour = moment(start).format('hh');
-        //   // var startMinu = moment(start).format('mm');
-        //   $.post('userManageBooking.php?action=add&date='+selDate,
-        //   {
-        //     facility_id: "<?php echo $facility_id ?>",
-        //     user_id: "<?php echo $user_id ?>",
-        //   }, 
-        //   function(content) {
-        //       $('#manageBooking').html(content)
-        //       $('#addModal').modal('show');
-        //   });
-        // },
 
         //when click an existing event
         eventClick: function(calEvent, jsEvent, view) {

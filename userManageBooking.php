@@ -50,7 +50,7 @@ function selectform(){
 
   $price = $facility['facility_internal_price'];
     // $fee = round($price*$hourdiff,2);
-  $fee = number_format($price*$hourdiff, 2, '.', '')
+  $fee = number_format($price*$hourdiff, 2, '.', '');
 ?>
 
 <div class="modal fade" id="selectModal">
@@ -190,9 +190,6 @@ function editform($id) {
     $query_getUser = mysql_query($sql_user);
     $user = mysql_fetch_array($query_getUser);
 
-    // $facility_name = $facility['facility_name'];
-    // $user_name = $user['name'];
-
     $starttime = $row['starttime'];
     $start_d = date("Y-m-d",$starttime);
     $start_h = date("H",$starttime);
@@ -214,7 +211,6 @@ function editform($id) {
         <h4 class="modal-title" id="modalTitle">Edit Booking</h4>
       </div>
 
-      <!-- <form id="add_form" action="processUserManageBooking.php?action=add" method="post"> -->
       <form id="edit_form">
         <div class="modal-body">
           <?php
@@ -375,6 +371,8 @@ $(function() {
     }
     e.preventDefault();
   });
+
+  //Dynamically change price and duration when changing the start/end time options
   $(".select_time").change(function(){
     var s_date = $("#startdate").val(),
         e_date = $("#enddate").val(),
@@ -397,12 +395,6 @@ $(function() {
       $('input[name=hourdiff]').val(duration);
       $('input[name=fee]').val(fee);
     }
-
-    // var duration = moment.duration(endtime.diff(starttime));
-    // var daydiff = duration.asDays();
-    // var hourdiff = duration.asHours();
-
   });
-
 });
 </script>
