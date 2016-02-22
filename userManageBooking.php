@@ -159,7 +159,6 @@ function selectform(){
     $query_getUser = mysql_query($sql_user);
     $user = mysql_fetch_array($query_getUser);
   
-
 ?>
 
 <div class="modal fade" id="selectModal">
@@ -174,7 +173,7 @@ function selectform(){
         <div class="modal-body">
           <?php
             echo '<input type="hidden" class="form-control" id="facility_id" name="facility_id" value="'.$facility_id.'">';
-            echo '<input type="hidden" class="form-control" id="user_id" name="user_id" value="'.$user_id.'">';  
+            echo '<input type="hidden" class="form-control" id="user_id" name="user_id" value="'.$user_id.'">'; 
           ?>
           <div class="row control-group">
             <div class="form-group col-xs-12 floating-label-form-group controls">

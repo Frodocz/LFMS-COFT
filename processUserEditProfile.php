@@ -4,6 +4,7 @@ session_start();
 $username = $_POST['username']; 
 $currentpassword = $_POST['currentPassword'];
 $newpassword = $_POST['newPassword'];
+$title = $_POST['title'];
 $name = $_POST['name'];
 $phone = $_POST['phoneNumber'];
 $addressline1 = $_POST['addressLine1'];
@@ -26,7 +27,7 @@ if (($currentpassword != "" and $newpassword == "") or ($currentpassword == "" a
   $db_conn->close();
   exit();
 } elseif ($currentpassword == "" and $newpassword == "") {
-  $sql_updatenopwd = "UPDATE normal_user SET name='".$name."', phone='".$phone."', addressline1='".$addressline1."',addressline2='".$addressline2."', postal='".$postal."', faculty='".$faculty."' WHERE username='".$username."'";
+  $sql_updatenopwd = "UPDATE normal_user SET title='".$title."', name='".$name."', phone='".$phone."', addressline1='".$addressline1."',addressline2='".$addressline2."', postal='".$postal."', faculty='".$faculty."' WHERE username='".$username."'";
   $result_updatenopwd = $db_conn->query($sql_updatenopwd);
   $result_getuser = $db_conn->query($sql_getuser);
   $userInfo = mysqli_fetch_array($result_getuser);
@@ -37,7 +38,7 @@ if (($currentpassword != "" and $newpassword == "") or ($currentpassword == "" a
 } else {
   if (md5($currentpassword) == $userInfo['password']) {
     $password = md5($newpassword);
-    $sql_updatepwd = "UPDATE normal_user SET password='".$password."', name='".$name."', phone='".$phone."', addressline1='".$addressline1."',addressline2='".$addressline2."', postal='".$postal."', faculty='".$faculty."' WHERE username='".$username."'";
+    $sql_updatepwd = "UPDATE normal_user SET password='".$password."', title='".$title."', name='".$name."', phone='".$phone."', addressline1='".$addressline1."',addressline2='".$addressline2."', postal='".$postal."', faculty='".$faculty."' WHERE username='".$username."'";
     $result_updatepwd = $db_conn->query($sql_updatepwd);
     // $row = $result_normal ->fetch_assoc();
     $result_getuser = $db_conn->query($sql_getuser);

@@ -99,7 +99,7 @@
                       echo '<td class="col-md-4"><a href="processAdminApproveUser.php?userid='.$row['user_id'].'"><i class="fa fa-user-plus"></i> Approve</a>';
                       echo '<br><br><a href="processAdminRejectUser.php?userid='.$row['user_id'].'"><i class="fa fa-user-times"></i> Reject</a></td>';
                       echo '</tr>';
-                    
+                    }
                   ?>
                 </tbody>
               </table>
@@ -128,7 +128,7 @@
                   echo '<p>Address: '.$row_displayInfo['addressline1'].', '.$row_displayInfo['addressline2'].', '.$row_displayInfo['postal'].'</p>'; 
                   echo '<p>Target Facility: '.$row_displayInfo['facility_access'].'</p>';
                   echo '<p>Register Date: '.$row_displayInfo['registerdate'].'</p></div></div>'; 
-                  }
+                  
                 ?>
               </div>
               <div class="modal-footer">
@@ -160,14 +160,14 @@
                       echo '<td class="col-md-4">
                               <span data-placement="bottom" data-toggle="tooltip" title="Click to show more detailed information of the user.">
                                 <a role="button" data-toggle="modal" data-target="#approveduserinfo" >'
-                                  .$row['name'].
+                                  .$row2['name'].
                                 '</a>
                               </span>
                             </td>';
                       echo '<td class="col-md-4"><a href="processAdminDisapproveUser.php?userid='.$row2['user_id'].'"><i class="fa fa-user-times"></i> Disapprove</a>';
                       echo '<br><br><a href="processAdminRejectUser.php?userid='.$row2['user_id'].'"><i class="fa fa-user-secret"></i> Remove</a></td>';
                       echo '</tr>';
-                    
+                    }
                   ?>
                 </tbody>
               </table>
@@ -195,7 +195,7 @@
                   echo '<p>Address: '.$row_displayInfo['addressline1'].', '.$row_displayInfo['addressline2'].', '.$row_displayInfo['postal'].'</p>'; 
                   echo '<p>Target Facility: '.$row_displayInfo['facility_access'].'</p>';
                   echo '<p>Register Date: '.$row_displayInfo['registerdate'].'</p></div></div>'; 
-                  }
+                  
                 ?>
               </div>
               <div class="modal-footer">

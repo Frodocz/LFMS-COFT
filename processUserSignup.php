@@ -4,6 +4,7 @@ session_start();
 $username = $_POST['username'];	
 $password = $_POST['signupPassword'];
 $confirmpassword = $_POST['confirmPassword'];
+$title = $_POST['title'];
 $name = $_POST['name'];
 $phone = $_POST['phoneNumber'];
 $addressline1 = $_POST['addressLine1'];
@@ -59,7 +60,7 @@ if(($result_normal->num_rows >0) || ($result_admin->num_rows >0)){
 }
 
 $password = md5($password);
-$sql = "INSERT INTO normal_user VALUES (NULL, '$username', '$password', '$identity', 'Mr.', '$name', '$phone', '$addressline1', '$addressline2', '$postal', '$faculty', '".date("Y\-m\-d")."', '$facility_access', $approved)";
+$sql = "INSERT INTO normal_user VALUES (NULL, '$username', '$password', '$identity', '$title', '$name', '$phone', '$addressline1', '$addressline2', '$postal', '$faculty', '".date("Y\-m\-d")."', '$facility_access', $approved)";
 $result = $db_conn->query($sql);
 if (!$result) {
 	echo '<script type="text/javascript">alert("Your registration is NOT successfully submitted. Please try again later.");</script>';

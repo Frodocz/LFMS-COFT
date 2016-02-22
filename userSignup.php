@@ -133,7 +133,19 @@
                 </div>
               </div>
               <div class="row control-group">
-                <div class="form-group col-xs-12 floating-label-form-group controls">
+                <div class="form-group col-lg-3 floating-label-form-group controls">
+                  <label>Title</label>
+                  <select class="form-control" name="title" id="title">
+                    <option>Mr.</option>
+                    <option>Ms.</option>
+                    <option>Mrs.</option>
+                    <option>Dr.</option>
+                    <option>Prof.</option>
+                    <option>Assoc Prof.</option>
+                    <option>Asst Prof.</option>
+                  </select>
+                </div>
+                <div class="form-group col-xs-9 floating-label-form-group controls">
                   <label>Name</label>
                   <input type="text" class="form-control" placeholder="Enter Your Name" id="name" name="name" required data-validation-required-message="Please enter your name.">
                   <p class="help-block text-danger"></p>
