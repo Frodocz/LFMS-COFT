@@ -184,25 +184,33 @@
           startMinu = moment(start).format('mm');
 
           endDate = moment(end).format('YYYY-MM-DD');
-          // endDate = startDate;
           endHour = moment(end).format('HH');
           endMinu = moment(end).format('mm');
 
-          $.post('userManageBooking.php?action=select',
-          {
-            facility_id: "<?php echo $facility_id ?>",
-            user_id: "<?php echo $user_id ?>",
-            startDate: startDate,
-            startHour: startHour,
-            startMinu: startMinu,
-            endDate: endDate,
-            endHour: endHour,
-            endMinu: endMinu
-          },
-          function(content) {
-            $('#manageBooking').html(content)
-            $('#selectModal').modal('show');
-          });
+          var duration = moment.duration(end.diff(start));
+          var hourdiff = duration.asHours();
+          if (hourdiff >= 24 || startDate != endDate){
+            alert("You are not allowed to booking the facility for more than a day.");
+          } else if (duration <= 0) {
+            alert("The start time must be earlier than the end time.");
+          } else {
+            $.post('userManageBooking.php?action=select',
+            {
+              facility_id: "<?php echo $facility_id ?>",
+              user_id: "<?php echo $user_id ?>",
+              startDate: startDate,
+              startHour: startHour,
+              startMinu: startMinu,
+              endDate: endDate,
+              endHour: endHour,
+              endMinu: endMinu,
+              hourdiff: hourdiff
+            },
+            function(content) {
+              $('#manageBooking').html(content)
+              $('#selectModal').modal('show');
+            });
+          }
         },
 
         
@@ -225,6 +233,10 @@
         //when click an existing event
         eventClick: function(calEvent, jsEvent, view) {
           $.post('userManageBooking.php?action=edit&id='+calEvent.id,
+          {
+            facility_id: "<?php echo $facility_id ?>",
+            user_id: "<?php echo $user_id ?>"
+          },
           function(content) {
               $('#manageBooking').html(content)
               $('#editModal').modal('show');
