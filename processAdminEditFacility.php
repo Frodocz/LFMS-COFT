@@ -12,11 +12,14 @@
   $facility_description = $_POST['facility_description'];
   $facility_internal_price = $_POST['facility_internal_price'];
   $facility_external_price = $_POST['facility_external_price'];
+  $status = $_POST['facility_status'];
+  $description = $_POST['sel_status'];
 
 	if($_FILES['facilityImageFile']['name'] == "") {		
   	$query_noimg = "UPDATE facility_list
- 							SET facility_name='$facility_name', facility_description='$facility_description', facility_internal_price=$facility_internal_price,
- 									facility_external_price=$facility_external_price
+ 							SET facility_name='$facility_name', facility_description='$facility_description', facility_internal_price=$facility_internal_price, 
+                                facility_external_price=$facility_external_price,
+                                status=$status, description='$description'
  							WHERE facility_id='$facility_id'";
     $result_noimg = $db_conn->query($query_noimg);
     if ($result_noimg) {
@@ -49,7 +52,8 @@
 
 	  			if (move_uploaded_file($file_tmp, $file_destination)) {
 	  				$qry_withimg = "UPDATE facility_list
- 													  SET facility_imagename='$file_name', facility_imagepath='$file_destination', facility_name='$facility_name', facility_description='$facility_description', facility_internal_price=$facility_internal_price, facility_external_price=$facility_external_price
+ 													  SET facility_imagename='$file_name', facility_imagepath='$file_destination', facility_name='$facility_name', facility_description='$facility_description', facility_internal_price=$facility_internal_price, facility_external_price=$facility_external_price,
+                                                          status=$status, description='$description'
  										        WHERE facility_id='$facility_id'";
  						$result_withimg = $db_conn->query($qry_withimg);
  						if ($result_withimg) {

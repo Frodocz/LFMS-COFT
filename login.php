@@ -37,7 +37,7 @@
         
         <div class="collapse navbar-collapse navbar-right">
           <ul class="nav navbar-nav">
-            <li class="scroll"><a href="#login" class="btn"><h3>CENTRE FOR OPTICAL FIBRE TECHNOLOGY</h3></a></li>              
+            <li class="scroll"><a href="index.php" class="btn"><h3>CENTRE FOR OPTICAL FIBRE TECHNOLOGY</h3></a></li>              
           </ul>
         </div>
       </div><!--/.container-->
@@ -50,7 +50,7 @@
         <h2 class="section-title text-center fadeInDown">Please Sign In</h2>
       </div>
       <div class="row">
-        <div class="col-sm-6">
+        <div class="col-xs-10 col-xs-offset-1 col-md-4 col-md-offset-1 col-sm-4 col-sm-offset-1">
           <div class="media fadeInRight">
             <div class="pull-left">
               <i class="fa fa-graduation-cap"></i>
@@ -88,38 +88,38 @@
             </div>
           </div>
         </div>
-        <div class="col-sm-6">
+        <div class="col-md-4 col-md-offset-1 col-sm-4 col-sm-offset-1 col-xs-10 col-xs-offset-1">
           <form action="processLogin.php" method="post">
                 <div class="row control-group">
-                  <div class="form-group col-xs-10 floating-label-form-group controls">
+                  <div class="form-group col-xs-12 floating-label-form-group controls">
                     <label>Email Address</label>
                     <input type="email" class="form-control" placeholder="Email Address" id="username" name="username" required data-validation-required-message="Please enter your email address.">
                     <p class="help-block text-danger"></p>
                   </div>
                 </div>
                 <div class="row control-group">
-                  <div class="form-group col-xs-10 floating-label-form-group controls">
+                  <div class="form-group col-xs-12 floating-label-form-group controls">
                     <label>Password</label>
                     <input type="password" class="form-control" placeholder="Password" id="loginPassword" name="loginPassword" required data-validation-required-message="Please enter your password.">
                     <p class="help-block text-danger"></p>
                   </div>
                 </div>
                 <div class="row">
-                  <div class="form-group col-xs-10">
+                  <div class="form-group col-xs-12">
                     <button type="submit" class="btn btn-success" id="signinbtn">Sign In</button>
                   </div>
                 </div>
                 <div class="row">
-                  <div class="formgroup col-xs-10">
+                  <div class="form-group col-xs-12">
                     <a href="userSignup.php"> Or Sign up now?</a>
                   </div>
                 </div>
                 <div class="row">
-                  <div class="formgroup col-xs-10">
+                  <div class="form-group col-xs-12">
                     <a href="userForgetPassword.php">Forget your password?</a>
                   </div>
                 </div>
-              </form>
+          </form>
         </div>
       </div>
     </div>

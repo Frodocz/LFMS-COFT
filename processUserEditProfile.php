@@ -33,6 +33,7 @@ if (($currentpassword != "" and $newpassword == "") or ($currentpassword == "" a
   $userInfo = mysqli_fetch_array($result_getuser);
   $_SESSION['valid_user_name'] = $userInfo['name'];
   $db_conn->close();
+  echo '<script type="text/javascript">alert("Your profile have been updated successfully.");</script>';
   echo '<script>window.location="userManageProfile.php";</script>';
   exit();
 } else {
@@ -45,6 +46,7 @@ if (($currentpassword != "" and $newpassword == "") or ($currentpassword == "" a
     $userInfo = mysqli_fetch_array($result_getuser);
     $_SESSION['valid_user_name'] = $userInfo['name'];
     $db_conn->close();
+    echo '<script type="text/javascript">alert("Your profile have been updated successfully.");</script>';
     echo '<script>window.location="userManageProfile.php";</script>';
     exit();
   } else {

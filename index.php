@@ -51,26 +51,55 @@
   </header><!--/header-->
 	
 	<section id="main-slider">
-		<div class="carousel slide hidden-xs">
+		<div id="featured" class="carousel slide hidden-xs">
 		  <div class="carousel-inner">
-		    <div class="item">
-		      <img src="images/background/bg.jpg" alt="Background Picture 1">
-		      <div class="header-text hidden-xs">
+        <div class="item">
+          <img src="images/slider/1.jpg" alt="Background Picture 1">
+          <div class="header-text hidden-xs">
             <div class="col-md-12 text-center">
                 <h2 class="carousel-caption">
-                	<span>Welcome to <strong>COFT</strong></span> Facility Booking System
+                  Welcome to <strong>COFT</strong> Facility Booking System
                 </h2>
                 <br>
                 <div class="">
                   <a class="btn btn-theme btn-sm btn-min-block" href="login.php">Login</a>
-                  <a class="btn btn-theme btn-sm btn-min-block" href="userSignip.php">Register</a>
+                  <a class="btn btn-theme btn-sm btn-min-block" href="userSignup.php">Register</a>
                 </div>
             </div>
-        	</div><!-- /header-text -->
-
-		    </div>
+          </div><!-- /header-text -->
+        </div>
+        <div class="item">
+          <img src="images/slider/2.jpg" alt="Background Picture 2">
+          <div class="header-text hidden-xs">
+            <div class="col-md-12 text-center">
+                <h2 class="carousel-caption">
+                  Welcome to <strong>COFT</strong> Facility Booking System
+                </h2>
+                <br>
+                <div class="">
+                  <a class="btn btn-theme btn-sm btn-min-block" href="login.php">Login</a>
+                  <a class="btn btn-theme btn-sm btn-min-block" href="userSignup.php">Register</a>
+                </div>
+            </div>
+          </div><!-- /header-text -->
+        </div>
+        <div class="item">
+          <img src="images/slider/3.jpg" alt="Background Picture 3">
+  	      <div class="header-text hidden-xs">
+            <div class="col-md-12 text-center">
+                <h2 class="carousel-caption">
+                	Welcome to <strong>COFT</strong> Facility Booking System
+                </h2>
+                <br>
+                <div class="">
+                  <a class="btn btn-theme btn-sm btn-min-block" href="login.php">Login</a>
+                  <a class="btn btn-theme btn-sm btn-min-block" href="userSignup.php">Register</a>
+                </div>
+            </div>
+          </div><!-- /header-text -->
+        </div>
 		    <div class="item active">
-		      <img src="images/background/bg1.jpg" alt="Background Picture 2">
+          <img src="images/slider/4.jpg" alt="Background Picture 4">
 		      <div class="header-text hidden-xs">
             <div class="col-md-12 text-center">
                 <h2 class="carousel-caption">

@@ -65,31 +65,31 @@
       </div>
 
     	<div class="row">
-    		<div class="col-xs-12">
+    		<div class="col-md-12">
 					<form action="processUserSignup.php" method="post">
             <!-- Form Part 1 -->
-            <div class="col-xs-4">
+            <div class="col-md-4">
               <div class="row">
-                <div class="col-sm-12">
+                <div class="col-md-12">
                   <h4>Set Your Account &amp; Password</h3>
                 </div>
               </div>
               <div class="row control-group">
-                <div class="form-group col-xs-12 floating-label-form-group controls">
+                <div class="form-group col-md-12 floating-label-form-group controls">
                   <label>Email Address</label>
                   <input type="email" class="form-control" placeholder="Enter Your Email Address" id="username" name="username" required data-validation-required-message="Please enter your email address.">
                   <p class="help-block text-danger"></p>
                 </div>
               </div>
               <div class="row control-group">
-                <div class="form-group col-xs-12 floating-label-form-group controls">
+                <div class="form-group col-md-12 floating-label-form-group controls">
                   <label>Password</label>
                   <input type="password" class="form-control" placeholder="Choose A Password" id="signupPassword" name="signupPassword" required data-validation-required-message="Please enter your password.">
                   <p class="help-block text-danger"></p>
                 </div>
               </div> 
               <div class="row control-group">
-                <div class="form-group col-xs-12 floating-label-form-group controls">
+                <div class="form-group col-md-12 floating-label-form-group controls">
                   <label>Re-enter Password</label>
                   <input type="password" class="form-control" placeholder="Confirm Your Password" id="confirmPassword" name="confirmPassword" required data-validation-required-message="Please re-enter your password.">
                   <p class="help-block text-danger"></p>
@@ -97,14 +97,14 @@
               </div>                                   
             </div>
             <!-- Form Part 2 -->
-            <div class="col-xs-4">
+            <div class="col-md-4">
               <div class="row">
-                <div class="col-xs-12">
+                <div class="col-md-12">
                   <h4>Your Faculty &amp; Facility</h3>
                 </div>                    
               </div>
               <div class="row control-group">
-                <div class="form-group col-xs-12 floating-label-form-group controls">
+                <div class="form-group col-md-12 floating-label-form-group controls">
                   <label>Faculty</label>
                   <input type="text" class="form-control" placeholder="Enter Your Faculty (eg. EEE / Apple Inc.)" id="faculty" name="faculty" required data-validation-required-message="Please enter your faculty.">
                   <p class="help-block text-danger"></p>
@@ -113,7 +113,7 @@
               <div class="panel panel-default">
                 <div class="row control-group">
                   <div class="panel-body">
-                    <div class="form-group col-xs-12 floating-label-form-group controls">
+                    <div class="form-group col-md-12 floating-label-form-group controls">
                       <label>Select facilities to register for:</label><br>
                       <?php for ($i = 0; $i < $num_results; $i++) {
                         $row = $result->fetch_assoc();
@@ -126,14 +126,14 @@
               </div>
             </div>
             <!-- Form Part 3 -->
-            <div class="col-xs-4">
+            <div class="col-md-4">
               <div class="row">
-                <div class="col-xs-12">
+                <div class="col-md-12">
                   <h4>Complete Your Contact Info</h3>
                 </div>
               </div>
               <div class="row control-group">
-                <div class="form-group col-lg-3 floating-label-form-group controls">
+                <div class="form-group col-md-3 floating-label-form-group controls">
                   <label>Title</label>
                   <select class="form-control" name="title" id="title">
                     <option>Mr.</option>
@@ -145,35 +145,35 @@
                     <option>Asst Prof.</option>
                   </select>
                 </div>
-                <div class="form-group col-xs-9 floating-label-form-group controls">
+                <div class="form-group col-md-9 floating-label-form-group controls">
                   <label>Name</label>
                   <input type="text" class="form-control" placeholder="Enter Your Name" id="name" name="name" required data-validation-required-message="Please enter your name.">
                   <p class="help-block text-danger"></p>
                 </div>
               </div>
               <div class="row control-group">
-                <div class="form-group col-xs-12 floating-label-form-group controls">
+                <div class="form-group col-md-12 floating-label-form-group controls">
                   <label>Phone Number</label>
                   <input type="text" class="form-control" placeholder="Enter Your Phone No." id="phoneNumber" name="phoneNumber" required data-validation-required-message="Please enter your phone no.">
                   <p class="help-block text-danger"></p>
                 </div>
               </div>
               <div class="row control-group">
-                <div class="form-group col-xs-12 floating-label-form-group controls">
+                <div class="form-group col-md-12 floating-label-form-group controls">
                   <label>Address Line 1</label>
                   <input type="text" class="form-control" placeholder="Enter Your Address Line 1" id="addressLine1" name="addressLine1" required data-validation-required-message="Please enter your address.">
                   <p class="help-block text-danger"></p>
                 </div>
               </div>
               <div class="row control-group">
-                <div class="form-group col-xs-12 floating-label-form-group controls">
+                <div class="form-group col-md-12 floating-label-form-group controls">
                   <label>Address Line 2 (Optional)</label>
                   <input type="text" class="form-control" placeholder="Enter Address Line 2 (Optional)" id="addressLine2" name="addressLine2">
                   <p class="help-block text-danger"></p>
                 </div>
               </div>              
               <div class="row control-group">
-                <div class="form-group col-xs-12 floating-label-form-group controls">
+                <div class="form-group col-md-12 floating-label-form-group controls">
                   <label>Postal Code</label>
                   <input type="text" class="form-control" placeholder="Enter Your Postal Code" id="postal" name="postal" required data-validation-required-message="Please enter your postal code.">
                   <p class="help-block text-danger"></p>
@@ -184,7 +184,7 @@
               <div class="row control-group"><p></p></div>
               <div class="row control-group"><p></p></div>
               <div class="row control-group">
-                <div class="col-lg-12 text-center">
+                <div class="col-md-12 text-center">
                   <div class="checkbox">
                     <label>
                       <input type="checkbox" id="agreeTerms" name="agreeTerms" value="Yes">
@@ -219,12 +219,12 @@
                       </div>
                     </div>
                   </div>
-                  <div class="form-group col-lg-12 text-center">
+                  <div class="form-group col-md-12 text-center">
                     <button type="submit" class="btn btn-success" id="signinbtn">Get Started Now</button>
                   </div>
                 </div>
                 <div class="row">
-                	<div class="formgroup col-lg-12 text-center">
+                	<div class="formgroup col-md-12 text-center">
                     <a href="login.php">Already have an account? Login now!</a>
                   </div>
                 </div>

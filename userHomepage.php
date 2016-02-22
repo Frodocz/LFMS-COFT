@@ -83,11 +83,31 @@
                 for ($i = 0; $i < $num_results; $i++) {
                   $row = mysqli_fetch_array($result); 
                   echo '<tr>';
-                  echo '<td class="col-md-3 hidden-xs"><img height="250" width="300" src="'.$row['facility_imagepath'].'"></td>';
-                  echo '<td class="col-md-5"><h4 class="text-center">'.$row['facility_name'].'</h4><hr><p class="hidden-sm hidden-xs">'.$row['facility_description'].'</p></td>';
-                  echo '<td class="col-md-2"><br>For internal user: $'.$row['facility_internal_price'].'/Hour<hr>For external user: $'.$row['facility_external_price'].'/Hour</td>';
-                  echo '<td class="col-md-2"><a href="userBookFacility.php?facility_id='.$row['facility_id'].'"><i class="fa fa-calendar"></i> Book Now</a>
-                                            <br><br><a href="userBookVisit.php?facility_id='.$row['facility_id'].'"><i class="fa fa-calendar"></i> Reserve A Visit</a>';
+                  echo '<td class="col-md-3 hidden-xs">
+                          <img height="250" width="300" src="'.$row['facility_imagepath'].'">
+                        </td>';
+                  echo '<td class="col-md-5">
+                          <h4 class="text-center">'.$row['facility_name'].'</h4><hr>
+                          <p class="hidden-sm hidden-xs">'.$row['facility_description'].'</p>
+                        </td>';
+                  echo '<td class="col-md-3">
+                          <h4>Booking Fee</h4>
+                            For internal user: S$'.$row['facility_internal_price'].'/Hour<br>
+                            For external user: S$'.$row['facility_external_price'].'/Hour<hr>';
+                        if ($row['status'] == 1) {
+                          echo '<h4>Status: <div style="display: inline; color:darkgreen">Available</div></h4>';
+                          echo '<td class="col-md-1">
+                                  <a class="btn btn-default btn-block" href="userBookFacility.php?facility_id='.$row['facility_id'].'"><i class="fa fa-calendar"></i> Book Now</a>
+                                  <br>
+                                  <a class="btn btn-default btn-block" href="userBookVisit.php?facility_id='.$row['facility_id'].'"><i class="fa fa-calendar"></i> Reserve A Visit</a></td>';
+                        } else {
+                          echo '<h4>Status: <div style="display: inline; color:darkred">Unavaliable</div></h4>';
+                          echo '</td>';
+                          echo '<td class="col-md-1">
+                          <a class="btn btn-default btn-block disabled" href="userBookFacility.php?facility_id='.$row['facility_id'].'"><i class="fa fa-calendar"></i> Book Now</a>
+                                            <br>
+                          <a class="btn btn-default btn-block disabled" href="userBookVisit.php?facility_id='.$row['facility_id'].'"><i class="fa fa-calendar"></i> Reserve A Visit</a></td>';
+                        }
                 }
               ?>
             </tbody>
@@ -114,6 +134,17 @@
 
   <script src="js/jquery-1.11.3.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
+
+  <script>
+    $(document).ready(function(){
+      var test = "<?php $row['status']; ?>";
+      // $('#book').addClass('disabled');
+      $('#book').on('click', function(e) { 
+        alert(test);
+      //e.preventDefault(); });
+      });
+    });
+  </script>
   <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
   <script src="js/main.js"></script>
 </body>

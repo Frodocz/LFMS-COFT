@@ -70,7 +70,7 @@
       </div>
 
         <div class="row">
-            <div class="col-xs-12">
+            <div class="col-lg-10 col-lg-offset-1">
               <form action="processUserEditProfile.php" method="post">
             <!-- Form Part 1 -->
             <div class="col-sm-6">
@@ -187,8 +187,8 @@
               </div>
             </div>
             <div class="row">
-              <div class="form-group col-lg-12 text-center">
-                <br><button type="submit" class="btn btn-success col-lg-4 col-lg-offset-4" id="signinbtn">Update Now</button>
+              <div class="form-group col-xs-4 col-xs-offset-4">
+                <button type="submit" class="btn btn-success btn-block" id="signinbtn">Update Now</button>
               </div>
             </div>
           </form>

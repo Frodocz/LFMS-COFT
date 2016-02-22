@@ -77,22 +77,41 @@
           	<thead>
           		<th>Facility Image</th>
           		<th>Facility Name &amp; Description</th>
-          		<th>Facility Booking Fee</th>
+          		<th>Booking Fee &amp; Status</th>
           		<th>Action</th>
           	</thead>
             <tbody>
               <?php 
                 for ($i = 0; $i < $num_results; $i++) {
                   $row = mysqli_fetch_array($result); 
-                  echo '<tr>';
-                  echo '<td class="col-md-3"><img height="250" width="300" src="'.$row['facility_imagepath'].'"></td>';
-                  echo '<td class="col-md-6"><h4 class="text-center">'.$row['facility_name'].'</h4><hr><p>'.$row['facility_description'].'</p></td>';
-                  echo '<td class="col-md-2">For internal user: S$'.$row['facility_internal_price'].'/Hour<hr>For external user: S$'.$row['facility_external_price'].'/Hour</td>';
-                  echo '<td class="col-md-1"><a href="adminEditFacility.php?facility_id='.$row['facility_id'].'"><i class="fa fa-pencil-square-o"></i> Edit</a>';
-                  echo '<br><br><a class="confirmationDelete" href="processAdminDeleteFacility.php?facility_id='.$row['facility_id'].'"><i class="fa fa-minus-square-o"></i> Delete</a></td>';
-                  echo '</tr>';
-                }
               ?>
+              <tr>
+                <td class="col-md-3"><img height="250" width="300" src="<?php echo $row['facility_imagepath'] ?>"></td>
+                <td class="col-md-5">
+                  <h4 class="text-center"><?php echo $row['facility_name'] ?></h4><hr>
+                  <p><?php echo $row['facility_description'] ?></p>
+                </td>
+                <td class="col-md-3">
+                  <h4>Booking Fee</h4>
+                  For internal user: S$ <?php echo $row['facility_internal_price'] ?>/Hour<br>
+                  For external user: S$ <?php echo $row['facility_external_price'] ?>/Hour<hr>
+                  <?php 
+                    if ($row['status'] == 1) { 
+                  ?>
+                  <h4>Status: <div style="display: inline; color:#006400">Available</div></h4><hr>
+                  <h4>Description: <div style="display: inline; color:#006400"> <?php echo $row['description'] ?></h4>
+                  <?php } else {  ?>
+                  <h4>Status: <div style="display: inline; color:#8B0000">Unavaliable</div></h4><hr>
+                  <h4>Description: <div style="display: inline; color:#8B0000"><?php echo $row['description'] ?></h4>
+                  <?php } ?>
+                </td>
+                <td class="col-md-1">
+                  <a href="adminEditFacility.php?facility_id=<?php echo $row['facility_id'] ?>"><i class="fa fa-pencil-square-o"></i> Edit</a>
+                  <br><br>
+                  <a class="confirmationDelete" href="processAdminDeleteFacility.php?facility_id=<?php echo $row['facility_id'] ?>"><i class="fa fa-minus-square-o"></i> Delete</a>
+                </td>
+              </tr>
+             <?php } ?>
             </tbody>
           </table>
         </div>

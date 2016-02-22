@@ -76,17 +76,17 @@
     ?>
     <div class="container">
       <div class="row">
-        <div class="col-lg-6 text-center"> 
+        <div class="col-lg-5 col-lg-offset-1 text-center"> 
           <?php
             $facilityInfo = mysqli_fetch_array($result);
-            echo '<h4>'.$facilityInfo['facility_name'].'</h2>';
-            echo '<img class="img-rounded" src="'.$facilityInfo['facility_imagepath'].'">';  
+            echo '<h4>'.$facilityInfo['facility_name'].'</h4><hr>';
+            echo '<img class="img-rounded" height="250" width="330" src="'.$facilityInfo['facility_imagepath'].'">';  
           ?>
         </div>
 
         <div class="col-lg-5">
           <?php
-            echo '<h4>Description<hr></h3>';
+            echo '<h4>Description<hr></h4>';
             echo '<p>'.$facilityInfo['facility_description'].'</p>';
           }
           ?>

@@ -83,30 +83,69 @@
       <div class="row">
         <form method="post" action="processAdminEditFacility.php" enctype="multipart/form-data">
           <div class="table-responsive">
-            <table class="table table-bordered text-center">
+            <table class="table table-bordered">
             	<thead>
             		<th>Facility Image</th>
-                <th>Choose New Image</th>
+                <th>Facility Image & Status</th>
             		<th>Facility Name &amp; Description</th>
             		<th>Facility Booking Fee ($/Hour)</th>
             	</thead>
               <tbody>
-                <?php
-                  $row = mysqli_fetch_array($result);
-                  echo '<input type="hidden" name="id" value="'.$facility_id.'">';
-                  echo '<td><img height="250" width="300" src="'.$row['facility_imagepath'].'"></td>';
-                  echo '<td><label for="facilityImageFile">Choose image of the new facility</label>
-                        <input class="form-control" type="file" id="facilityImageFile" name="facilityImageFile"></td>';
-                  echo '<td><label for="facility_name">Edit the name of this facility</label>
-                        <input class="form-control" type="text" name="facility_name" value="'.$row['facility_name'].'"><hr>';
-                  echo '<label for="facility_description">Edit the description of this facility</label>
-                        <textarea class="form-control" rows="5" name="facility_description">'.$row['facility_description'].'</textarea></td>';
-                  echo '<td><label for="facility_internal_price">Update price for internal user</label>
-                        <input type="text" class="form-control" name="facility_internal_price" value="'.$row['facility_internal_price'].'"><hr>';
-                  echo '<label for="facility_external_price">Update price for external user</label>
-                        <input type="text" class="form-control" name="facility_external_price" value="'.$row['facility_external_price'].'"></td>';
-                }
-                ?>
+                <?php $row = mysqli_fetch_array($result); ?>
+                <input type="hidden" name="id" value="<?php echo $facility_id ?>">
+                <td><img height="250" width="300" src="<?php echo $row['facility_imagepath'] ?>"></td>
+                <td>
+                  <label for="facilityImageFile">Choose image of the new facility</label>
+                  <input class="form-control" type="file" id="facilityImageFile" name="facilityImageFile"><hr>
+                  <label for="facilityStatus">Set status of this facility</label>
+
+                  <?php if ($row['status'] == 1) { ?>
+                    <div class="radio">
+                      <label>
+                        <input type="radio" name="facility_status" id="facility_status1" value="1" checked>Available
+                      </label>
+                    </div>
+                    <div class="radio">
+                      <label>
+                        <input type="radio" name="facility_status" id="facility_status2" value="0">Unavailable
+                      </label>
+                    </div>
+                  <?php } else { ?>
+                    <div class="radio">
+                      <label>
+                        <input type="radio" name="facility_status" id="facility_status1" value="1">Available
+                      </label>
+                    </div>
+                    <div class="radio">
+                      <label>
+                        <input type="radio" name="facility_status" id="facility_status2" value="0" checked>Unavailable
+                      </label>
+                    </div>
+                  <?php } ?>
+                  <div class="form-group">
+                    <label for="sel_status">Status Description:</label>
+                    <select class="form-control" name="sel_status" id="sel_status">
+                      <option value="<?php echo $row['description'] ?>"><?php echo $row['description'] ?></option>
+                      <option value="Working Well">Working Well</option>
+                      <option value="Under Maintenance">Under Maintenance</option>
+                      <option value="Permanently Removed">Permanently Removed</option>
+                    </select>
+                  </div>
+                </td>
+                <td>
+                  <label for="facility_name">Edit the name of this facility</label>
+                  <input class="form-control" type="text" name="facility_name" value="<?php echo $row['facility_name'] ?>">
+                  <hr>
+                  <label for="facility_description">Edit the description of this facility</label>
+                  <textarea class="form-control" rows="5" name="facility_description"><?php echo $row['facility_description'] ?>
+                  </textarea>
+                </td>
+                <td>
+                  <label for="facility_internal_price">Update price for internal user</label>
+                  <input type="text" class="form-control" name="facility_internal_price" value="<?php echo $row['facility_internal_price'] ?>"><hr>
+                  <label for="facility_external_price">Update price for external user</label>
+                  <input type="text" class="form-control" name="facility_external_price" value="<?php echo $row['facility_external_price'] ?>"></td>
+                
               </tbody>
             </table>
           </div>
@@ -118,6 +157,7 @@
       </div>
     </div>
   </section>
+  <?php } ?>
 
   <!-- Footer -->
   <footer id="footer">

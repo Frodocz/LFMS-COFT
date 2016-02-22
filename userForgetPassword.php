@@ -51,7 +51,7 @@
         <h2 class="section-title text-center fadeInDown">Reset your password</h2>
       </div>
       <div class="row">
-        <div class="col-sm-6">
+        <div class="col-xs-10 col-xs-offset-1 col-md-4 col-md-offset-1 col-sm-4 col-sm-offset-1">
           <div class="media fadeInRight">
             <div class="pull-left">
               <i class="fa fa-graduation-cap"></i>
@@ -89,7 +89,7 @@
             </div>
           </div>
         </div>
-        <div class="col-sm-6">
+        <div class="col-md-4 col-md-offset-1 col-sm-4 col-sm-offset-1 col-xs-10 col-xs-offset-1">
           <form action="processLogin.php" method="post">
                 <div class="row control-group">
                   <div class="form-group col-xs-12 floating-label-form-group controls">
