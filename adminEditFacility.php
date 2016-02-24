@@ -33,7 +33,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.php"><img src="images/logo2.png" alt="logo"></a>
+          <a class="navbar-brand" href="http://www.ntu.edu.sg/Pages/Home.aspx"><img src="images/logo2.png" alt="logo"></a>
         </div>
         
         <div class="collapse navbar-collapse navbar-right">
@@ -50,35 +50,18 @@
     </nav><!--/nav-->
   </header><!--/header-->
 
-  <?php
-    @ $db_conn = new mysqli('localhost','root','19921226','fyp');
-
-    if (mysqli_connect_errno()) {
-       echo '<script type="text/javascript">alert("Error: Could not connect to database. Please try again later.");</script>';
-       exit;
-    }
-
-    $query = "SELECT * FROM facility_list";
-    $result = $db_conn->query($query);
-    $num_results = $result->num_rows;
-  ?>
-
   <section id="admineditfacility">
     <div class="section-header">
       <h2 class="section-title text-center fadeInDown">Edit This Facility</h2>
     </div>
-
     <?php
-      @ $db_conn = new mysqli('localhost','root','19921226','fyp');
+      include_once('connect.php');
 
-      if (mysqli_connect_errno()) {
-            echo '<script type="text/javascript">alert("Error: Could not connect to database. Please try again later.");</script>';
-            exit;
-        } else {
-          $facility_id = $_GET['facility_id'];
-          $query = 'SELECT * FROM facility_list WHERE facility_id="'.$facility_id.'"';
-          $result = $db_conn->query($query);
-        ?>
+      $facility_id = $_GET['facility_id'];
+      $query = 'SELECT * FROM facility_list WHERE facility_id="'.$facility_id.'"';
+      $result = mysql_query($query);
+      $row = mysql_fetch_array($result);
+    ?>
     <div class="container">
       <div class="row">
         <form method="post" action="processAdminEditFacility.php" enctype="multipart/form-data">
@@ -86,17 +69,16 @@
             <table class="table table-bordered">
             	<thead>
             		<th>Facility Image</th>
-                <th>Facility Image & Status</th>
+                <th>Facility Image &amp; Status</th>
             		<th>Facility Name &amp; Description</th>
             		<th>Facility Booking Fee ($/Hour)</th>
             	</thead>
               <tbody>
-                <?php $row = mysqli_fetch_array($result); ?>
                 <input type="hidden" name="id" value="<?php echo $facility_id ?>">
                 <td><img height="250" width="300" src="<?php echo $row['facility_imagepath'] ?>"></td>
                 <td>
                   <label for="facilityImageFile">Choose image of the new facility</label>
-                  <input class="form-control" type="file" id="facilityImageFile" name="facilityImageFile"><hr>
+                  <input type="file" id="facilityImageFile" name="facilityImageFile"><hr>
                   <label for="facilityStatus">Set status of this facility</label>
 
                   <?php if ($row['status'] == 1) { ?>
@@ -157,7 +139,6 @@
       </div>
     </div>
   </section>
-  <?php } ?>
 
   <!-- Footer -->
   <footer id="footer">

@@ -33,6 +33,14 @@ a:focus {
   color: #2a95be;
 }
 
+/* Set the position of glyphicon to be center horizentally*/ 
+.form-control-feedback {
+  padding-top: 6px;
+}
+#name1 {
+  padding-right: 40px;
+}
+
 hr {
   border-top: 1px solid #e5e5e5;
   border-bottom: 1px solid #fff;

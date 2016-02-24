@@ -33,12 +33,12 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-        	<a class="navbar-brand" href="index.php"><img src="images/logo2.png" alt="logo"></a>
+        	<a class="navbar-brand" href="http://www.ntu.edu.sg/Pages/Home.aspx"><img src="images/logo2.png" alt="logo"></a>
       	</div>
 				
         <div class="collapse navbar-collapse navbar-right">
           <ul class="nav navbar-nav">
-            <li class="scroll"><a href="#main-slider">Centre for Optical Fibre Technology</a></li>
+            <li class="scroll"><a href="http://www.coft.eee.ntu.edu.sg/Pages/Home.aspx">Centre for Optical Fibre Technology</a></li>
             <li class="scroll"><a href="#features">Features</a></li>
             <li class="scroll"><a href="#facility">Facilities</a></li>
             <li class="scroll"><a href="#team">Team</a></li>
@@ -175,19 +175,6 @@
       </div>
     </div>
  	</section> 
-  <?php
-    @ $db_conn = new mysqli('localhost','root','19921226','fyp');
-
-    if (mysqli_connect_errno()) {
-      echo '<script type="text/javascript">alert("Error: Could not connect to database. Please try again later.");</script>';
-      echo '<script>window.location="adminAddFacility.php";</script>';
-    }
-
-    $query = "SELECT * FROM facility_list";
-    $result = $db_conn->query($query);
-    $num_results = $result->num_rows;
-  ?>
-
 
   <section id="facility">
     <div class="container">
@@ -196,14 +183,24 @@
       </div>
 
       <?php
+        include_once('connect.php');
+
+        $query = "SELECT * FROM facility_list";
+        $result = mysql_query($query);
+        $num_results = mysql_num_rows($result);
+
         for ($i = 0; $i < $num_results; $i++) {
-          $row = mysqli_fetch_array($result); 
-          echo '<div class="facility-items"><div class="facility-item col-lg-4 col-md-6 col-sm-6 col-xs-10">';
-          echo '<img class="image-responsive" height="250" width="350" src="'.$row['facility_imagepath'].'" alt="'.$row['facility_name'].'">';
-          echo '<div class="facility-info">';
-          echo '<h4>'.$row['facility_name'].'</h4></div></div></div>';
-        } 
+          $row = mysql_fetch_array($result); 
       ?>
+      <div class="facility-items">
+        <div class="facility-item col-lg-4 col-md-6 col-sm-6 col-xs-10">
+          <img class="image-responsive img-rounded" height="250" width="350" src="<?php echo $row['facility_imagepath'] ?>" alt="<?php echo $row['facility_name'] ?>">
+          <div class="facility-info">
+            <h4><?php echo $row['facility_name'] ?></h4>
+          </div>
+        </div>
+      </div>
+      <?php } ?>
     </div><!--/.container-->
   </section><!--/#facility-->  
   <section id="team">

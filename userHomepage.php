@@ -33,7 +33,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.php"><img src="images/logo2.png" alt="logo"></a>
+          <a class="navbar-brand" href="http://www.ntu.edu.sg/Pages/Home.aspx"><img src="images/logo2.png" alt="logo"></a>
         </div>
         
         <div class="collapse navbar-collapse navbar-right">
@@ -137,12 +137,12 @@
 
   <script>
     $(document).ready(function(){
-      var test = "<?php $row['status']; ?>";
-      // $('#book').addClass('disabled');
-      $('#book').on('click', function(e) { 
-        alert(test);
-      //e.preventDefault(); });
-      });
+      // var test = "<?php $row['status']; ?>";
+      // // $('#book').addClass('disabled');
+      // $('#book').on('click', function(e) { 
+      //   alert(test);
+      // //e.preventDefault(); });
+      // });
     });
   </script>
   <script src="http://maps.google.com/maps/api/js?sensor=true"></script>

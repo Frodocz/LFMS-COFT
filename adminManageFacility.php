@@ -33,7 +33,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.php"><img src="images/logo2.png" alt="logo"></a>
+          <a class="navbar-brand" href="http://www.ntu.edu.sg/Pages/Home.aspx"><img src="images/logo2.png" alt="logo"></a>
         </div>
         
         <div class="collapse navbar-collapse navbar-right">
@@ -49,20 +49,6 @@
       </div><!--/.container-->
     </nav><!--/nav-->
   </header><!--/header-->
-
-
-  <?php
-    @ $db_conn = new mysqli('localhost','root','19921226','fyp');
-
-    if (mysqli_connect_errno()) {
-      echo '<script type="text/javascript">alert("Error: Could not connect to database. Please try again later.");</script>';
-      echo '<script>window.location="adminManageFacility.php";</script>';
-    }
-
-    $query = "SELECT * FROM facility_list";
-    $result = $db_conn->query($query);
-    $num_results = $result->num_rows;
-  ?>
 
   <!-- Display Facility -->
   <section id="adminmanagefacility">
@@ -81,10 +67,16 @@
           		<th>Action</th>
           	</thead>
             <tbody>
-              <?php 
-                for ($i = 0; $i < $num_results; $i++) {
-                  $row = mysqli_fetch_array($result); 
-              ?>
+            <?php
+              include_once('connect.php');
+
+              $query = "SELECT * FROM facility_list";
+              $result = mysql_query($query);
+              $num_results = mysql_num_rows($result);
+
+              for ($i = 0; $i < $num_results; $i++) {
+                $row = mysql_fetch_array($result); 
+            ?>
               <tr>
                 <td class="col-md-3"><img height="250" width="300" src="<?php echo $row['facility_imagepath'] ?>"></td>
                 <td class="col-md-5">

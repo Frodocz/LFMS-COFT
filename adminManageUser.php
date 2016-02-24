@@ -33,7 +33,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.php"><img src="images/logo2.png" alt="logo"></a>
+          <a class="navbar-brand" href="http://www.ntu.edu.sg/Pages/Home.aspx"><img src="images/logo2.png" alt="logo"></a>
         </div>
         
         <div class="collapse navbar-collapse navbar-right">
@@ -49,22 +49,6 @@
       </div><!--/.container-->
     </nav><!--/nav-->
   </header><!--/header-->
-
-  <?php
-    @ $db_conn = new mysqli('localhost','root','19921226','fyp');
-
-    if (mysqli_connect_errno()) {
-       echo '<script type="text/javascript">alert("Error: Could not connect to database. Please try again later.");</script>';
-       exit;
-    }
-
-    $query = "SELECT * FROM normal_user WHERE approved LIKE 0 ORDER BY registerdate ASC";
-    $query2 = "SELECT * FROM normal_user WHERE approved LIKE 1 ORDER BY username ASC";
-    $result = $db_conn->query($query);
-    $result2 = $db_conn->query($query2);
-    $num_results = $result->num_rows;
-    $num_results2 = $result2->num_rows;
-  ?>
         
   <section id="adminmanageuser">
     <div class="container">
@@ -74,19 +58,27 @@
           <div class="section-header">
             <h5 class="section-title text-center fadeInDown">User to be approved</h5>
           </div>
-					
+                    
           <div class="row">
             <div class="table-responsive">
               <table class="table table-bordered text-center">
-              	<thead>
-              		<th class="text-center">User Account</th>
-              		<th class="text-center">User Name</th>
-              		<th class="text-center">Action</th>
-              	</thead>
+                <thead>
+                    <th class="text-center">User Account</th>
+                    <th class="text-center">User Name</th>
+                    <th class="text-center">Action</th>
+                </thead>
                 <tbody>
                   <?php 
+                    include_once('connect.php');
+
+                    $query = "SELECT * FROM normal_user WHERE approved LIKE 0 ORDER BY registerdate ASC";
+                    $query2 = "SELECT * FROM normal_user WHERE approved LIKE 1 ORDER BY username ASC";
+                    $result = mysql_query($query);
+                    $result2 = mysql_query($query2);
+                    $num_results = mysql_num_rows($result);
+                    $num_results2 = mysql_num_rows($result2);
                     for ($i = 0; $i < $num_results; $i++) {
-                      $row = mysqli_fetch_array($result); 
+                      $row = mysql_fetch_array($result); 
                       echo '<tr>';
                       echo '<td class="col-md-4">'.$row['username'].'</td>';
                       echo '<td class="col-md-4">
@@ -118,8 +110,8 @@
                 <?php
                 //Display Detailed Info
                   $query_displayInfo = "SELECT * FROM normal_user WHERE user_id = '".$row['user_id']."'";
-                  $result_displayInfo = $db_conn->query($query_displayInfo);
-                  $row_displayInfo = mysqli_fetch_array($result_displayInfo); 
+                  $result_displayInfo = mysql_query($query_displayInfo);
+                  $row_displayInfo = mysql_fetch_array($result_displayInfo); 
                   echo '<div class="row"><div class="col-lg-10 col-lg-offset-1">
                         <p>Email: '.$row_displayInfo['username'].'</p>';
                   echo '<p>Name: '.$row_displayInfo['title'].$row_displayInfo['name'].'</p>'; 
@@ -154,7 +146,7 @@
                 <tbody>
                   <?php 
                     for ($i = 0; $i < $num_results2; $i++) {
-                      $row2 = mysqli_fetch_array($result2); 
+                      $row2 = mysql_fetch_array($result2); 
                       echo '<tr>';
                       echo '<td class="col-md-4">'.$row2['username'].'</td>';
                       echo '<td class="col-md-4">
@@ -185,8 +177,8 @@
                 <?php
                 //Display Detailed Info
                   $query_displayInfo = "SELECT * FROM normal_user WHERE user_id = '".$row2['user_id']."'";
-                  $result_displayInfo = $db_conn->query($query_displayInfo);
-                  $row_displayInfo = mysqli_fetch_array($result_displayInfo); 
+                  $result_displayInfo = mysql_query($query_displayInfo);
+                  $row_displayInfo = mysql_fetch_array($result_displayInfo); 
                   echo '<div class="row"><div class="col-lg-10 col-lg-offset-1">
                         <p>Email: '.$row_displayInfo['username'].'</p>';
                   echo '<p>Name: '.$row_displayInfo['title'].$row_displayInfo['name'].'</p>'; 
@@ -195,7 +187,6 @@
                   echo '<p>Address: '.$row_displayInfo['addressline1'].', '.$row_displayInfo['addressline2'].', '.$row_displayInfo['postal'].'</p>'; 
                   echo '<p>Target Facility: '.$row_displayInfo['facility_access'].'</p>';
                   echo '<p>Register Date: '.$row_displayInfo['registerdate'].'</p></div></div>'; 
-                  
                 ?>
               </div>
               <div class="modal-footer">

@@ -41,7 +41,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.php"><img src="images/logo2.png" alt="logo"></a>
+          <a class="navbar-brand" href="http://www.ntu.edu.sg/Pages/Home.aspx"><img src="images/logo2.png" alt="logo"></a>
         </div>
         
         <div class="collapse navbar-collapse navbar-right">
@@ -63,33 +63,25 @@
     </div>
 
     <?php
-      @ $db_conn = new mysqli('localhost','root','19921226','fyp');
+      include_once('connect.php');
 
-      if (mysqli_connect_errno()) {
-        echo '<script type="text/javascript">alert("Error: Could not connect to database. Please try again later.");</script>';
-        exit;
-      } else {
-        $user_id = $_SESSION['valid_user_id'];
-        $facility_id = $_GET['facility_id'];
-        $query = 'SELECT * FROM facility_list WHERE facility_id="'.$facility_id.'"';
-        $result = $db_conn->query($query);
+      $user_id = $_SESSION['valid_user_id'];
+      $facility_id = $_GET['facility_id'];
+      $query = 'SELECT * FROM facility_list WHERE facility_id="'.$facility_id.'"';
+      $result = mysql_query($query);
+
+      $facilityInfo = mysql_fetch_array($result);
     ?>
     <div class="container">
       <div class="row">
-        <div class="col-lg-5 col-lg-offset-1 text-center"> 
-          <?php
-            $facilityInfo = mysqli_fetch_array($result);
-            echo '<h4>'.$facilityInfo['facility_name'].'</h4><hr>';
-            echo '<img class="img-rounded" height="250" width="330" src="'.$facilityInfo['facility_imagepath'].'">';  
-          ?>
+        <div class="col-lg-5 col-lg-offset-1 text-center">   
+          <h4><?php echo $facilityInfo['facility_name']; ?></h4><hr>
+          <img class="img-rounded" height="250" width="330" src="<?php echo $facilityInfo['facility_imagepath'] ?>">
         </div>
 
         <div class="col-lg-5">
-          <?php
-            echo '<h4>Description<hr></h4>';
-            echo '<p>'.$facilityInfo['facility_description'].'</p>';
-          }
-          ?>
+            <h4>Description<hr></h4>
+            <p><?php echo $facilityInfo['facility_description'] ?></p>
         </div>
       </div>
 

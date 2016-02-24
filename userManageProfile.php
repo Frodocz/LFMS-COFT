@@ -33,7 +33,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.php"><img src="images/logo2.png" alt="logo"></a>
+          <a class="navbar-brand" href="http://www.ntu.edu.sg/Pages/Home.aspx"><img src="images/logo2.png" alt="logo"></a>
         </div>
         
         <div class="collapse navbar-collapse navbar-right">
@@ -50,19 +50,6 @@
     </nav><!--/nav-->
   </header><!--/header-->
 
-  <?php
-    @ $db = new mysqli('localhost','root','19921226','fyp');
-
-    if (mysqli_connect_errno()) {
-       echo '<script type="text/javascript">alert("Error: Could not connect to database. Please try again later.");</script>';
-       exit;
-    }
-
-    $query = 'SELECT * FROM normal_user WHERE username="'.$_SESSION['valid_user'].'"';
-    $result = $db->query($query);
-    $num_results = $result->num_rows;
-  ?>
-
   <section id="usereditprofile">
     <div class="container">
       <div class="section-header">
@@ -78,111 +65,109 @@
                 <div class="col-sm-12">
                   <h4>Account General Information</h3>
                 </div>
-              </div>
-              <div class="row control-group">
-                <div class="form-group col-xs-12 floating-label-form-group controls">
+              </div>                  
+              <?php
+                include_once('connect.php');
+
+                $query = 'SELECT * FROM normal_user WHERE username="'.$_SESSION['valid_user'].'"';
+                $result = mysql_query($query);
+                $userInfo = mysql_fetch_array($result);
+              ?>
+              <div class="row">
+                <div class="form-group col-xs-12 controls">
                   <label>Email Address</label>
-                  <?php
-                    $userInfo = mysqli_fetch_array($result);
-                    echo '<input type="email" class="form-control" id="username" name="username" readonly value="'.$userInfo['username'].'">'; 
-                  ?>
+                  <input type="email" class="form-control" id="username" name="username" readonly value="<?php echo $userInfo['username'] ?>">
                 </div>
               </div>
-              <div class="row control-group">
-                <div class="form-group col-xs-12 floating-label-form-group controls">
+              <div class="row">
+                <div class="form-group col-xs-12 controls">
                   <label>Date of Registration</label>
-                  <?php
-                    echo '<input type="text" class="form-control" id="registerdate" name="registerdate" readonly value="'.$userInfo['registerdate'].'">'; 
-                  ?>
+                  <input type="text" class="form-control" id="registerdate" name="registerdate" readonly value="<?php echo $userInfo['registerdate'] ?>">
                 </div>
               </div>
 
               <div class="row">
                 <div class="col-sm-12">
-                  <br>
                   <h4>Change Your Password</h3>
                 </div>
               </div>
 
-              <div class="row control-group">
-                <div class="form-group col-xs-12 floating-label-form-group controls">
+              <div class="row">
+                <div class="form-group col-xs-12">
                   <label>Enter Current Password For Verification</label>
-                  <?php echo '<input type="password" class="form-control" placeholder="Enter Your Password" id="currentPassword" name="currentPassword">';
-                  ?>
+                  <input type="password" class="form-control" placeholder="Enter Your Password" id="currentPassword" name="currentPassword">
                 </div>
               </div> 
-              <div class="row control-group">
-                <div class="form-group col-xs-12 floating-label-form-group controls">
+              <div class="row">
+                <div class="form-group col-xs-12">
                   <label>Please Choose A New Password</label>
-                  <?php echo '<input type="password" class="form-control" placeholder="Choose A New Password" id="newPassword" name="newPassword">';
-                  ?>
+                  <input type="password" class="form-control" placeholder="Choose A New Password" id="newPassword" name="newPassword">
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-xs-12">
+                  <label>Please Re-enter Your New Password</label>
+                  <input type="password" class="form-control" placeholder="Re-enter The New Password" id="confirmNewPass" name="confirmNewPass">
                 </div>
               </div> 
                                  
             </div>
             <!-- Form Part 2 -->
             <div class="col-sm-6">
-
               <div class="row">
                 <div class="col-xs-12">
                   <h4>Contact Information Updating</h3>
                 </div>
               </div>
-              <div class="row control-group">
-                <div class="form-group col-lg-3 floating-label-form-group controls">
+              <div class="row">
+                <div class="form-group col-lg-3">
                   <label>Title</label>
                   <select class="form-control" name="title" id="title">
                     <option selected value="<?php echo $userInfo['title']; ?>"><?php echo $userInfo['title']; ?></option>
                     <option>Mr.</option>
                     <option>Ms.</option>
                     <option>Mrs.</option>
-                    <option>Dr.</option>
                     <option>Prof.</option>
                     <option>Assoc Prof.</option>
                     <option>Asst Prof.</option>
+                    <option>Dr.</option>
                   </select>
                 </div>
-                <div class="form-group col-lg-9 floating-label-form-group controls">
+                <div class="form-group col-lg-9">
                   <label>Name</label>
-                  <?php echo '<input type="text" class="form-control" placeholder="Enter Your Name" id="name" name="name" value="'.$userInfo['name'].'">';
-                  ?>
+                  <input type="text" class="form-control" placeholder="Enter Your Name" id="name" name="name" value="<?php echo $userInfo['name'] ?>">
                 </div>
               </div>
 
-              <div class="row control-group">
-                <div class="form-group col-xs-12 floating-label-form-group controls">
+              <div class="row">
+                <div class="form-group col-xs-12">
                 <label>Faculty</label>
-                  <?php echo '<input type="text" class="form-control" placeholder="Enter Your Faculty (eg. EEE / Apple Inc.)" id="faculty" name="faculty" value="'.$userInfo['faculty'].'">';
-                  ?>
+                  <input type="text" class="form-control" placeholder="Enter Your Faculty (eg. EEE / Apple Inc.)" id="faculty" name="faculty" value="<?php echo $userInfo['faculty'] ?>">
                 </div>
               </div> 
 
-              <div class="row control-group">
-                <div class="form-group col-xs-12 floating-label-form-group controls">
+              <div class="row">
+                <div class="form-group col-xs-12">
                   <label>Phone Number</label>
-                  <?php echo '<input type="text" class="form-control" placeholder="Enter Your Phone No." id="phoneNumber" name="phoneNumber" value="'.$userInfo['phone'].'">';
-                  ?>
+                  <input type="text" class="form-control" placeholder="Enter Your Phone No." id="phoneNumber" name="phoneNumber" value="<?php echo $userInfo['phone']?>">
                 </div>
               </div>
-              <div class="row control-group">
-                <div class="form-group col-xs-12 floating-label-form-group controls">
+              <div class="row">
+                <div class="form-group col-xs-12">
                   <label>Address Line 1</label>
-                  <?php echo '<input type="text" class="form-control" placeholder="Enter Your Address Line 1" id="addressLine1" name="addressLine1" value="'.$userInfo['addressline1'].'">';
-                  ?>
+                  <input type="text" class="form-control" placeholder="Enter Your Address Line 1" id="addressLine1" name="addressLine1" value="<?php echo $userInfo['addressline1'] ?>">
                 </div>
               </div>
-              <div class="row control-group">
-                <div class="form-group col-xs-12 floating-label-form-group controls">
+              <div class="row">
+                <div class="form-group col-xs-12">
                   <label>Address Line 2 (Optional)</label>
-                  <?php echo '<input type="text" class="form-control" placeholder="Enter Address Line 2 (Optional)" id="addressLine2" name="addressLine2" value="'.$userInfo['addressline2'].'">';
-                  ?>
+                  <input type="text" class="form-control" placeholder="Enter Address Line 2 (Optional)" id="addressLine2" name="addressLine2" value="<?php echo $userInfo['addressline2'] ?>">
                 </div>
               </div>              
-              <div class="row control-group">
-                <div class="form-group col-xs-12 floating-label-form-group controls">
+              <div class="row">
+                <div class="form-group col-xs-12">
                   <label>Postal Code</label>
-                  <?php echo '<input type="text" class="form-control" placeholder="Enter Your Postal Code" id="postal" name="postal" value="'.$userInfo['postal'].'">';
-                  ?>
+                  <input type="text" class="form-control" placeholder="Enter Your Postal Code" id="postal" name="postal" value="<?php echo $userInfo['postal'] ?>">
                 </div>
               </div>
             </div>
@@ -215,7 +200,6 @@
 
   <script src="js/jquery-1.11.3.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
-  <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

@@ -32,12 +32,12 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="index.php"><img src="images/logo2.png" alt="logo"></a>
+          <a class="navbar-brand" href="http://www.ntu.edu.sg/Pages/Home.aspx"><img src="images/logo2.png" alt="logo"></a>
         </div>
         
         <div class="collapse navbar-collapse navbar-right">
           <ul class="nav navbar-nav">
-            <li class="scroll"><a href="index.php" class="btn"><h3>CENTRE FOR OPTICAL FIBRE TECHNOLOGY</h3></a></li>              
+            <li class="scroll"><a href="http://www.coft.eee.ntu.edu.sg/Pages/Home.aspx" class="btn"><h3>CENTRE FOR OPTICAL FIBRE TECHNOLOGY</h3></a></li>              
           </ul>
         </div>
       </div><!--/.container-->
@@ -89,33 +89,31 @@
           </div>
         </div>
         <div class="col-md-4 col-md-offset-1 col-sm-4 col-sm-offset-1 col-xs-10 col-xs-offset-1">
-          <form action="processLogin.php" method="post">
-                <div class="row control-group">
-                  <div class="form-group col-xs-12 floating-label-form-group controls">
-                    <label>Email Address</label>
-                    <input type="email" class="form-control" placeholder="Email Address" id="username" name="username" required data-validation-required-message="Please enter your email address.">
-                    <p class="help-block text-danger"></p>
+          <form id="login_form" action="processLogin.php" method="post">
+                <div class="row col-xs-12">
+                  <div class="form-group has-feedback">
+                    <label class="control-label" for="username">Email Address</label>
+                    <input type="email" class="form-control required" placeholder="Email Address" id="username" name="username"><span class="glyphicon form-control-feedback" id="username1"></span>
                   </div>
                 </div>
-                <div class="row control-group">
-                  <div class="form-group col-xs-12 floating-label-form-group controls">
-                    <label>Password</label>
-                    <input type="password" class="form-control" placeholder="Password" id="loginPassword" name="loginPassword" required data-validation-required-message="Please enter your password.">
-                    <p class="help-block text-danger"></p>
+                <div class="row col-xs-12">
+                  <div class="form-group has-feedback">
+                    <label class="control-label" for="loginPassword">Password</label>
+                    <input type="password" class="form-control required" placeholder="Password" id="loginPassword" name="loginPassword"><span class="glyphicon form-control-feedback" id="loginPassword1"></span>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="form-group col-xs-12">
+                <div class="row col-xs-12">
+                  <div class="form-group">
                     <button type="submit" class="btn btn-success" id="signinbtn">Sign In</button>
                   </div>
                 </div>
                 <div class="row">
-                  <div class="form-group col-xs-12">
+                  <div class="col-xs-12">
                     <a href="userSignup.php"> Or Sign up now?</a>
                   </div>
                 </div>
                 <div class="row">
-                  <div class="form-group col-xs-12">
+                  <div class="col-xs-12">
                     <a href="userForgetPassword.php">Forget your password?</a>
                   </div>
                 </div>
@@ -139,10 +137,11 @@
       </div>
     </div>
   </footer><!--/#footer-->
-
+  
   <script src="js/jquery-1.11.3.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
-  <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
+  <script src="js/jquery.validate.min.js"></script>
   <script src="js/main.js"></script>
+
 </body>
 </html>
