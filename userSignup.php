@@ -78,9 +78,8 @@
               <input type="text" class="form-control required" placeholder="Enter Your Faculty (eg. EEE / Apple Inc.)" id="faculty" name="faculty">
               <span class="glyphicon form-control-feedback" id="faculty1"></span>
             </div>            
-            <div class="panel panel-default">
+            <div class="panel panel-default form-group has-feedback">
               <div class="panel-body">
-                <div class="form-group has-feedback">
                 <label>Select facilities to register for: </label>
                   <?php
                     include_once('connect.php');
@@ -96,8 +95,7 @@
                     </label>                
                   </div>
                   <?php } ?>
-                </div><span class="glyphicon form-control-feedback" id="facility_access"></span>
-              </div>
+              </div><!-- <span class="glyphicon form-control-feedback" id="facility_access"></span> -->
             </div>
           </div>
           <!-- End of Form Part 2 -->

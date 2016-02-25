@@ -13,7 +13,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link href="css/bootstrap.min.css" rel="stylesheet">
-  <link href="css/animate.css" rel="stylesheet">
 
   <!-- Custom CSS -->
   <link href="css/main.css" rel="stylesheet">
@@ -79,7 +78,8 @@
                 <td>
                   <label for="facilityImageFile">Choose image of the new facility</label>
                   <input type="file" id="facilityImageFile" name="facilityImageFile"><hr>
-                  <label for="facilityStatus">Set status of this facility</label>
+                  <div class="form-group">  
+                    <label for="facilityStatus">Set status of this facility</label>
 
                   <?php if ($row['status'] == 1) { ?>
                     <div class="radio">
@@ -104,6 +104,7 @@
                       </label>
                     </div>
                   <?php } ?>
+                  </div>
                   <div class="form-group">
                     <label for="sel_status">Status Description:</label>
                     <select class="form-control" name="sel_status" id="sel_status">
@@ -158,7 +159,6 @@
 
   <script src="js/jquery-1.11.3.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
-  <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

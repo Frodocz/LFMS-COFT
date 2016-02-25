@@ -110,10 +110,10 @@ $(document).ready(function(){
         faculty: {
 
         },
-        // 'facility_access[]': {
-        //   required: true,
-        //   minlength: 1
-        // }
+        'facility_access[]': {
+          // required: true,
+          minlength: 1
+        }
       },
       messages: {
         username: {
@@ -126,7 +126,7 @@ $(document).ready(function(){
           maxlength: "The maximum password length is 16."
         },
         // 'facility_access[]': {
-        //   required: "",
+        //   required: ,
         //   minlength: "Please check at least {0} option."
         // }
       },
