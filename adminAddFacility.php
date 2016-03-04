@@ -33,15 +33,22 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="http://www.ntu.edu.sg/Pages/home.aspx"><img src="images/logo2.png" alt="logo"></a>
-        </div>
-        
+          <a class="navbar-brand" href="http://www.ntu.edu.sg/Pages/Home.aspx"><img src="images/logo2.png" alt="logo"></a>
+        </div>        
         <div class="collapse navbar-collapse navbar-right">
           <ul class="nav navbar-nav">
-            <li class="scroll"><a href="adminManageFacility.php">Facility Management</a></li>
-            <li class="scroll"><a href="adminManageUser.php">User Management</a></li>
-            <li class="scroll"><a href="adminViewReport.php">Monthly Report</a></li>
-            <li class="scroll"><a href="adminManageDatabase.php">Database Management</a></li>
+            <li class="scroll"><a href="adminHomepage.php"><i class="fa fa-home"></i> Homepage</a></li>
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                <i class="fa fa-wrench"></i> Admin Management <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <li><a href="adminManageUser.php">User Management</a></li>
+                <li><a href="adminManageFacility.php">facility Management</a></li>
+                <li><a href="adminManageDatabase.php">Database Management</a></li>
+              </ul>
+            </li>
+            <li class="scroll"><a href="adminViewReport.php"><i class="fa fa-bar-chart"></i> Monthly Report</a></li>
             <li class="scroll"><a href="#">Hi, <b><?php echo $_SESSION['valid_user_name'] ?></b></a></li>
             <li class="scroll"><a href="logout.php"><span><strong>Log Out<Strong><span></a></li>                 
           </ul>
@@ -50,7 +57,7 @@
     </nav><!--/nav-->
   </header><!--/header-->
   <!-- Add Facility -->
-  <section id="adminaddfacility">
+  <section id="normal">
     <div class="section-header">
       <h2 class="section-title text-center fadeInDown">Add New Facility</h2>
     </div>

@@ -124,14 +124,9 @@ $(document).ready(function(){
           required: "The password field cannot be empty.",
           minlength: "The minimum password length is 6.",
           maxlength: "The maximum password length is 16."
-        },
-        // 'facility_access[]': {
-        //   required: ,
-        //   minlength: "Please check at least {0} option."
-        // }
+        }
       },
     });
-
 
 });
 

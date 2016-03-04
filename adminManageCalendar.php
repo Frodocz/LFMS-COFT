@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <!-- Basic Page Needs -->
-  <title>Paperless Lab | The User Book Facility Page</title>
-  <meta name="description" content="User Book Facility Page for Paperless Lab.">
+  <title>Paperless Lab | The Admin Manage Calendar Page</title>
+  <meta name="description" content="Admin Manage Calendar Page for Paperless Lab.">
   <meta name="author" content="Chao Zhang">
   
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -26,7 +26,6 @@
   <!-- Custom Fonts -->
   <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 </head>
-
 <body>
   <header id="header">
     <nav id="main-menu" class="navbar navbar-default navbar-fixed-top" role="banner">
@@ -39,49 +38,31 @@
             <span class="icon-bar"></span>
           </button>
           <a class="navbar-brand" href="http://www.ntu.edu.sg/Pages/Home.aspx"><img src="images/logo2.png" alt="logo"></a>
-        </div>
-        
+        </div>        
         <div class="collapse navbar-collapse navbar-right">
           <ul class="nav navbar-nav">
-            <li class="scroll"><a href="userHomepage.php">Facility Booking</a></li>
-            <li class="scroll"><a href="userManageBooking.php">Booking Management</a></li>
-            <li class="scroll"><a href="userManageProfile.php">Profile Management</a></li>
+            <li class="scroll"><a href="adminHomepage.php"><i class="fa fa-home"></i> Homepage</a></li>
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                <i class="fa fa-wrench"></i> Admin Management <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <li><a href="adminManageUser.php">User Management</a></li>
+                <li><a href="adminManageFacility.php">facility Management</a></li>
+                <li><a href="adminManageDatabase.php">Database Management</a></li>
+              </ul>
+            </li>
+            <li class="scroll"><a href="adminViewReport.php"><i class="fa fa-bar-chart"></i> Monthly Report</a></li>
             <li class="scroll"><a href="#">Hi, <b><?php echo $_SESSION['valid_user_name'] ?></b></a></li>
-            <li class="scroll"><a href="logout.php"><span><strong>Log Out<Strong><span></a></li>                 
+            <li class="scroll"><a href="logout.php"><span><strong>Log Out</strong></span></a></li>                 
           </ul>
         </div>
       </div><!--/.container-->
     </nav><!--/nav-->
   </header><!--/header-->
 
-  <section id="userbookfacility">
-    <div class="section-header">
-      <h2 class="section-title text-center fadeInDown">Book This Facility</h2>
-    </div>
-
-    <?php
-      include_once('connect.php');
-
-      $user_id = $_SESSION['valid_user_id'];
-      $facility_id = $_GET['facility_id'];
-      $query = 'SELECT * FROM facility_list WHERE facility_id="'.$facility_id.'"';
-      $result = mysql_query($query);
-
-      $facilityInfo = mysql_fetch_array($result);
-    ?>
+  <section id="normal">
     <div class="container">
-      <div class="row">
-        <div class="col-lg-5 col-lg-offset-1 text-center">   
-          <h4><?php echo $facilityInfo['facility_name']; ?></h4><hr>
-          <img class="img-rounded" height="250" width="330" src="<?php echo $facilityInfo['facility_imagepath'] ?>">
-        </div>
-
-        <div class="col-lg-5">
-            <h4>Description<hr></h4>
-            <p><?php echo $facilityInfo['facility_description'] ?></p>
-        </div>
-      </div>
-
       <div class="row">
         <div class="col-lg-10 col-lg-offset-1">
           <div class="bookingtime">
@@ -89,10 +70,9 @@
             <div id='calendar'></div>
           </div>
         </div>
-      </div>    
+      </div>  
     </div>
   </section>
-  <div id="manageBooking"></div>
 
     <script type="text/javascript">
     $(function() {
@@ -113,7 +93,7 @@
           agenda: .5,
           '':.6
         },
-        events: 'userFetchBooking.php?facility_id='+<?php echo $facility_id ?>,
+        events: 'adminFetchBooking.php',
         timeFormat: 'HH:mm',
         minTime: "07:00:00",
         maxTime: "19:00:00",

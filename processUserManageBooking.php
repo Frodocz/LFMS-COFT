@@ -26,7 +26,7 @@ if ($action == "add") {
   $key = array_rand($colors);
   $color = $colors[$key];
 
-  $result = mysql_query("INSERT INTO `booking_list` VALUES (NULL, $facility_id, $user_id, '$starttime', '$endtime', '$color', '$hourdiff', '$fee')");
+  $result = mysql_query("INSERT INTO `booking_list` VALUES (NULL, $facility_id, $user_id, '$starttime', '$endtime', '$color', '$hourdiff', '$fee',0)");
   if($result){
     echo "You booking is successfully added.";
   }else{

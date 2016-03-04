@@ -34,14 +34,21 @@
             <span class="icon-bar"></span>
           </button>
           <a class="navbar-brand" href="http://www.ntu.edu.sg/Pages/Home.aspx"><img src="images/logo2.png" alt="logo"></a>
-        </div>
-        
+        </div>        
         <div class="collapse navbar-collapse navbar-right">
           <ul class="nav navbar-nav">
-            <li class="scroll"><a href="adminManageFacility.php">Facility Management</a></li>
-            <li class="scroll"><a href="adminManageUser.php">User Management</a></li>
-            <li class="scroll"><a href="adminViewReport.php">Monthly Report</a></li>
-            <li class="scroll"><a href="adminManageDatabase.php">Database Management</a></li>
+            <li class="scroll"><a href="adminHomepage.php"><i class="fa fa-home"></i> Homepage</a></li>
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                <i class="fa fa-wrench"></i> Admin Management <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <li><a href="adminManageUser.php">User Management</a></li>
+                <li><a href="adminManageFacility.php">facility Management</a></li>
+                <li><a href="adminManageDatabase.php">Database Management</a></li>
+              </ul>
+            </li>
+            <li class="scroll"><a href="adminViewReport.php"><i class="fa fa-bar-chart"></i> Monthly Report</a></li>
             <li class="scroll"><a href="#">Hi, <b><?php echo $_SESSION['valid_user_name'] ?></b></a></li>
             <li class="scroll"><a href="logout.php"><span><strong>Log Out<Strong><span></a></li>                 
           </ul>
@@ -51,11 +58,15 @@
   </header><!--/header-->
 
   <!-- Display Facility -->
-  <section id="adminmanagefacility">
+  <section id="normal">
     <div class="container">
       <div class="section-header">
         <h2 class="section-title text-center fadeInDown">Facility List</h2>
-        <h4 class="text-center"><a href="adminAddFacility.php"><i class="fa fa-plus-square-o"></i> Add New Facility</a></h4>
+        <h4 class="text-center">
+          <a href="adminAddFacility.php" data-placement="bottom" data-toggle="tooltip" title="Click to add new facilities." id="add_facility">
+            <i class="fa fa-plus-square-o"></i> Add New Facility
+          </a>
+        </h4>
       </div>		
       <div class="row">
         <div class="table-responsive">
@@ -98,9 +109,9 @@
                   <?php } ?>
                 </td>
                 <td class="col-md-1">
-                  <a href="adminEditFacility.php?facility_id=<?php echo $row['facility_id'] ?>"><i class="fa fa-pencil-square-o"></i> Edit</a>
+                  <a data-placement="bottom" data-toggle="tooltip" title="Click to edit facility information." href="adminEditFacility.php?facility_id=<?php echo $row['facility_id'] ?>"><i class="fa fa-pencil-square-o"></i> Edit</a>
                   <br><br>
-                  <a class="confirmationDelete" href="processAdminDeleteFacility.php?facility_id=<?php echo $row['facility_id'] ?>"><i class="fa fa-minus-square-o"></i> Delete</a>
+                  <a class="confirmationDelete" data-placement="bottom" data-toggle="tooltip" title="Click to delete the facility." href="processAdminDeleteFacility.php?facility_id=<?php echo $row['facility_id'] ?>"><i class="fa fa-minus-square-o"></i> Delete</a>
                 </td>
               </tr>
              <?php } ?>

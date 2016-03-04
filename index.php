@@ -12,12 +12,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<link href="css/bootstrap.min.css" rel="stylesheet">
-	<link href="css/animate.css" rel="stylesheet">
-  <link rel="stylesheet" href="css/magnific-popup.css">
 
 	<!-- Custom CSS -->
 	<link href="css/main.css" rel="stylesheet">
-
 	<!-- Custom Fonts -->
 	<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 </head>
@@ -132,7 +129,7 @@
       </div>
       <div class="row">
         <div class="col-sm-6 fadeInLeft">
-          <img class="img-responsive" src="images/feature.jpg" alt="Feature">
+          <img class="img-responsive img-rounded" src="images/feature.jpg" alt="Feature">
         </div>
       	<div class="col-sm-6">
           <div class="media fadeInRight">
