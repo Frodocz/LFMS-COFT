@@ -44,7 +44,8 @@
               </a>
               <ul class="dropdown-menu">
                 <li><a href="adminManageUser.php">User Management</a></li>
-                <li><a href="adminManageFacility.php">facility Management</a></li>
+                <li><a href="adminManageFacility.php">Facility Management</a></li>
+                <li><a href="adminManageCalendar.php">Booking &amp; Visiting Management</a></li>
                 <li><a href="adminManageDatabase.php">Database Management</a></li>
               </ul>
             </li>

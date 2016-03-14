@@ -9,6 +9,7 @@ $action = $_GET['action'];
 if ($action == "add") {
   $facility_id = $_POST['facility_id'];
   $user_id = $_POST['user_id'];
+  $type = $_POST['book_type'];
   
   $startdate = trim($_POST['startdate']);//Start Date
   $enddate = trim($_POST['enddate']);//End Date
@@ -22,11 +23,9 @@ if ($action == "add") {
   $hourdiff = $_POST['hourdiff'];
   $fee = $_POST['fee'];
 
-  $colors = array("#378006","#115599");
-  $key = array_rand($colors);
-  $color = $colors[$key];
+  $color = "#980000";//Dark red for ono-approved booking
 
-  $result = mysql_query("INSERT INTO `booking_list` VALUES (NULL, $facility_id, $user_id, '$starttime', '$endtime', '$color', '$hourdiff', '$fee',0)");
+  $result = mysql_query("INSERT INTO `booking_list` VALUES (NULL, $facility_id, $user_id, '$type', '$starttime', '$endtime', '$color', '$hourdiff', '$fee',0)");
   if($result){
     echo "You booking is successfully added.";
   }else{
@@ -43,6 +42,7 @@ elseif ($action == "edit") {
 
   $facility_id = $_POST['facility_id'];
   $user_id = $_POST['user_id'];
+  $type = $_POST['book_type'];
 
   $startdate = trim($_POST['startdate']);
   $enddate = trim($_POST['enddate']);
@@ -56,7 +56,7 @@ elseif ($action == "edit") {
   $hourdiff = $_POST['hourdiff'];
   $fee = $_POST['fee'];
 
-  $result = mysql_query("UPDATE `booking_list` SET `starttime`='$starttime',`endtime`='$endtime', `hourdiff`='$hourdiff', `fee`='$fee' WHERE `booking_id`='$booking_id'");
+  $result = mysql_query("UPDATE `booking_list` SET `type`='$type',`starttime`='$starttime',`endtime`='$endtime', color='#980000', `hourdiff`='$hourdiff', `fee`='$fee', `approved`=0 WHERE `booking_id`='$booking_id'");
   if($result){
     echo 'The booking record is successfully updated.';
   }else{
@@ -90,7 +90,7 @@ elseif ($action=="drag") {
 
   $starttime = strtotime($startDate.' '.$startHour.':'.$startMinu.':00');
   $endtime = strtotime($endDate.' '.$endHour.':'.$endMinu.':00');
-  $result = mysql_query("UPDATE `booking_list` SET `starttime`='$starttime',`endtime`='$endtime' WHERE `booking_id`='$booking_id'");
+  $result = mysql_query("UPDATE `booking_list` SET `starttime`='$starttime',`endtime`='$endtime', color='#980000',approved=0 WHERE `booking_id`='$booking_id'");
   if ($result) {
     //echo 'The booking record is updated successfully';
     echo '1';
@@ -131,7 +131,7 @@ elseif ($action=="resize") {
     $fee = number_format($price*$hourdiff, 2, '.', '');
   }
   
-  $sql = "UPDATE booking_list SET endtime='$endtime', hourdiff='$hourdiff', fee='$fee' WHERE booking_id='$booking_id'"; 
+  $sql = "UPDATE booking_list SET endtime='$endtime', color='#980000', hourdiff='$hourdiff', fee='$fee', approved=0 WHERE booking_id='$booking_id'"; 
   $result = mysql_query($sql);
   if ($result) {
     echo '1';

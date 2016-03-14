@@ -98,15 +98,13 @@
                           echo '<h4>Status: <div style="display: inline; color:darkgreen">Available</div></h4>';
                           echo '<td class="col-md-1">
                                   <a class="btn btn-default btn-block" href="userBookFacility.php?facility_id='.$row['facility_id'].'"><i class="fa fa-calendar"></i> Book Now</a>
-                                  <br>
-                                  <a class="btn btn-default btn-block" href="userBookVisit.php?facility_id='.$row['facility_id'].'"><i class="fa fa-calendar"></i> Reserve A Visit</a></td>';
+                                </td>';
                         } else {
                           echo '<h4>Status: <div style="display: inline; color:darkred">Unavaliable</div></h4>';
                           echo '</td>';
                           echo '<td class="col-md-1">
-                          <a class="btn btn-default btn-block disabled" href="userBookFacility.php?facility_id='.$row['facility_id'].'"><i class="fa fa-calendar"></i> Book Now</a>
-                                            <br>
-                          <a class="btn btn-default btn-block disabled" href="userBookVisit.php?facility_id='.$row['facility_id'].'"><i class="fa fa-calendar"></i> Reserve A Visit</a></td>';
+                                  <a class="btn btn-default btn-block disabled" href="userBookFacility.php?facility_id='.$row['facility_id'].'"><i class="fa fa-calendar"></i> Book Now</a>
+                                </td>';
                         }
                 }
               ?>
@@ -134,18 +132,6 @@
 
   <script src="js/jquery-1.11.3.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
-
-  <script>
-    $(document).ready(function(){
-      // var test = "<?php $row['status']; ?>";
-      // // $('#book').addClass('disabled');
-      // $('#book').on('click', function(e) { 
-      //   alert(test);
-      // //e.preventDefault(); });
-      // });
-    });
-  </script>
-  <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

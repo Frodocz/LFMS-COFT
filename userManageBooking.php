@@ -74,9 +74,16 @@ function selectform(){
             </div>
           </div>
           <div class="row control-group">
-            <div class="form-group col-xs-12 floating-label-form-group controls">
+            <div class="form-group col-xs-6 floating-label-form-group controls">
               <label>User Name</label>
               <input type="text" class="form-control" id="user_name" name="user_name" readonly value="<?php echo $user['name'];?>"> 
+            </div>
+            <div class="form-group col-xs-6 floating-label-form-group controls">
+              <label>Type of Booking</label>
+              <select class="form-control" name="book_type" id="book_type">
+                <option selected value="book">Booking</option>
+                <option value="visit">Visiting</option>
+              </select>
             </div>
           </div>
           <div class="row control-group">
@@ -181,6 +188,7 @@ function editform($id) {
     $facility_id = $row['facility_id'];
     $fee = $row['fee'];
     $hourdiff = $row['hourdiff'];
+    $type = $row['type'];
 
     $sql_facility = "SELECT * FROM facility_list WHERE facility_id='".$facility_id."'";
     $query_getFacility = mysql_query($sql_facility);
@@ -223,9 +231,17 @@ function editform($id) {
             </div>
           </div>
           <div class="row control-group">
-            <div class="form-group col-xs-12 floating-label-form-group controls">
+            <div class="form-group col-xs-6 floating-label-form-group controls">
               <label>User Name</label>
               <input type="text" class="form-control" id="user_name" name="user_name" readonly value="<?php echo $user['name'];?>"> 
+            </div>
+            <div class="form-group col-xs-6 floating-label-form-group controls">
+              <label>Type of Booking</label>
+              <select class="form-control" name="book_type" id="book_type">
+                <option value="<?php echo $type; ?>" selected><?php echo $type; ?></option> 
+                <option value="book">Booking</option>
+                <option value="visit">Visiting</option>
+              </select>
             </div>
           </div>
           <div class="row control-group">

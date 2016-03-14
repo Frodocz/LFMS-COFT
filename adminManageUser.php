@@ -45,7 +45,8 @@
               </a>
               <ul class="dropdown-menu">
                 <li><a href="adminManageUser.php">User Management</a></li>
-                <li><a href="adminManageFacility.php">facility Management</a></li>
+                <li><a href="adminManageFacility.php">Facility Management</a></li>
+                <li><a href="adminManageCalendar.php">Booking &amp; Visiting Management</a></li>
                 <li><a href="adminManageDatabase.php">Database Management</a></li>
               </ul>
             </li>
@@ -108,11 +109,11 @@
                         </span>
                       </td>
                       <td>
-                        <a href="processAdminApproveUser.php?userid=<?php echo $row['user_id'] ?>">
+                        <a href="processAdminManageUser.php?action=approve&id=<?php echo $row['user_id'] ?>">
                           <i class="fa fa-user-plus"></i> Approve
                         </a>
                         <br><br>
-                        <a href="processAdminRejectUser.php?userid=<?php echo $row['user_id'] ?>">
+                        <a class="confirmationDelete" href="processAdminManageUser.php?action=reject&id=<?php echo $row['user_id'] ?>">
                           <i class="fa fa-user-times"></i> Reject
                         </a>
                       </td>
@@ -192,11 +193,11 @@
                         </span>
                       </td>
                       <td>
-                        <a href="processAdminDisapproveUser.php?userid=<?php echo $row2['user_id'] ?>">
+                        <a href="processAdminManageUser.php?action=disapprove&id=<?php echo $row2['user_id'] ?>">
                           <i class="fa fa-user-times"></i> Disapprove
                         </a>
                         <br><br>
-                        <a href="processAdminRejectUser.php?userid=<?php echo $row2['user_id'] ?>">
+                        <a class="confirmationDelete" href="processAdminManageUser.php?action=reject&id=<?php echo $row2['user_id'] ?>">
                           <i class="fa fa-user-secret"></i> Remove
                         </a>
                       </td>

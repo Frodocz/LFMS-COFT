@@ -46,7 +46,8 @@
               </a>
               <ul class="dropdown-menu">
                 <li><a href="adminManageUser.php">User Management</a></li>
-                <li><a href="adminManageFacility.php">facility Management</a></li>
+                <li><a href="adminManageFacility.php">Facility Management</a></li>
+                <li><a href="adminManageCalendar.php">Booking & Visiting Management</a></li>
                 <li><a href="adminManageDatabase.php">Database Management</a></li>
               </ul>
             </li>
@@ -66,11 +67,11 @@
     $result_user = mysqli_query($db_conn, $query_user);
     $num_result_user = mysqli_num_rows($result_user);
     //Get unapproved facility booking records
-    $query_booking = "SELECT * FROM booking_list WHERE approved=0";
+    $query_booking = "SELECT * FROM booking_list WHERE approved=0 AND type='book'";
     $result_booking = mysqli_query($db_conn, $query_booking);
     $num_result_booking = mysqli_num_rows($result_booking);
 
-    $query_visiting = "SELECT * FROM visiting_list WHERE approved=0";
+    $query_visiting = "SELECT * FROM booking_list WHERE approved=0 AND type='visit'";
     $result_visiting = mysqli_query($db_conn, $query_visiting);
     $num_result_visiting = mysqli_num_rows($result_visiting);
 
@@ -142,12 +143,12 @@
                     <i class="fa fa-eye fa-3x"></i>
                   </div>
                   <div class="col-xs-9 text-right">
-                    <div class="huge"><?php echo $num_result_visiting?></div>
+                    <div class="huge"><?php echo $num_result_visiting; ?></div>
                     <div>New Visiting Records</div>
                   </div>
                 </div>
               </div>
-              <a href="#">
+              <a href="adminManageCalendar.php">
                 <div class="panel-footer">
                     <span class="pull-left">View Visiting Details</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -267,7 +268,7 @@
         series: [{
             name: 'Facilities',
             type: 'bar',
-            barWidth : 30,
+            // barWidth : 30,
             data: []
         }]
     });
@@ -287,8 +288,6 @@
         });
     });
   
-
-
   </script>
 
 </body>
