@@ -21,6 +21,7 @@
   <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 </head>
 
+
 <body>
   <header id="header">
     <nav id="main-menu" class="navbar navbar-default navbar-fixed-top" role="banner">
@@ -91,11 +92,17 @@
                   ?>
                   <div class="checkbox">
                     <label>
-                      <input type="checkbox" name="facility_access[]" value="<?php echo $row['facility_name']?>"><?php echo $row['facility_name'] ?>
+                      <input type="checkbox" id="facility_access[]" name="facility_access[]" value="<?php echo $row['facility_name']?>"><?php echo $row['facility_name'] ?>
                     </label>                
                   </div>
                   <?php } ?>
               </div><!-- <span class="glyphicon form-control-feedback" id="facility_access"></span> -->
+            </div>
+            <div class="form-group">                
+              <input type="checkbox" id="agreeTerms" name="agreeTerms" required>
+              <a data-toggle="modal" data-target="#policy">
+                I have read and agree to the Terms &amp; Conditions.
+              </a>                        
             </div>
           </div>
           <!-- End of Form Part 2 -->
@@ -145,20 +152,6 @@
               <span class="glyphicon form-control-feedback" id="postal1"></span>
             </div>
           </div><!-- End of Form Part 3 -->
-      </div>
-      <div class="row">
-        <div class="row">
-          <div class="text-center">
-            <div class="checkbox">
-              <label>
-                <input class="required" type="checkbox" id="agreeTerms" name="agreeTerms" value="Yes">
-                  <a data-toggle="modal" data-target="#policy">
-                    I have read and agree to the Terms &amp; Conditions.
-                  </a>
-              </label>
-            </div>
-          </div>
-        </div>
                             
         <!-- A pop-up window to show the terms &amp; Conditions -->
         <div class="modal fade" id="policy" taboindex="-1" role="dialog">
@@ -182,11 +175,15 @@
             </div>
           </div>
         </div>
-
+      </div>
+      <div class="row">
         <div class="form-group text-center">
           <button type="submit" class="btn btn-success" id="signinbtn">Get Started Now</button>
         </div>
-				</form><!-- End of Form -->
+      </div>
+
+			  </form><!-- End of Form -->
+      </div>
 
         <div class="row text-center">
           <a href="login.php">Already have an account? Login now!</a>

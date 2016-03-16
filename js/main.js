@@ -49,30 +49,6 @@ $(document).ready(function(){
           required: "The password field cannot be empty.",
           minlength: "The minimum password length is 6.",
           maxlength: "The maximum password length is 16."
-        },
-        confirmPassword: {
-          minlength: 6,
-          maxlength: 16,
-          required: true,
-
-        },
-        title: {
-
-        },
-        name: {
-
-        },
-        phoneNumber: {
-
-        },
-        addressLine1: {
-
-        },
-        postal: {
-
-        },
-        faculty: {
-
         }
       },
     });
@@ -90,42 +66,43 @@ $(document).ready(function(){
         confirmPassword: {
           minlength: 6,
           maxlength: 16,
+          required: true,
+          equalTo: "#signupPassword"
+        },
+        title: "required",
+        name: "required",
+        phoneNumber: {
           required: true
         },
-        title: {
-
-        },
-        name: {
-
-        },
-        phoneNumber: {
-
-        },
         addressLine1: {
-
+          required: true
         },
         postal: {
-
+          required: true
         },
         faculty: {
-
+          required: true
         },
-        'facility_access[]': {
-          // required: true,
-          minlength: 1
-        }
+        agreeTerms: "required"
       },
       messages: {
         username: {
           required: "The email address field cannot be empty.",
           email: "The email address you entered is not valid."
         },
-        loginPassword: {
+        signupPassword: {
           required: "The password field cannot be empty.",
           minlength: "The minimum password length is 6.",
           maxlength: "The maximum password length is 16."
-        }
-      },
+        },
+        confirmPassword: {
+          required: "The password field cannot be empty.",
+          minlength: "The minimum password length is 6.",
+          maxlength: "The maximum password length is 16.",
+          equalTo: "The confirm password you entered doesn't match the password above."
+        },
+        agreeTerms: "You must confirm that you have read and agree to the Terms & Conditions."
+      }
     });
 
 });

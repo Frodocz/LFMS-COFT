@@ -3,10 +3,7 @@ session_start();
 
 $username = $_POST['username'];
 $password = $_POST['loginPassword'];
-
-if (isset($_POST['username']) && isset($_POST['loginPassword']))
-{
-  // if the user has just tried to log in
+// if the user has just tried to log in
 
   $db_conn = new mysqli('localhost', 'root', '19921226', 'fyp');
 
@@ -29,7 +26,9 @@ if (isset($_POST['username']) && isset($_POST['loginPassword']))
     $_SESSION['valid_user'] = $username;  
     $_SESSION['valid_user_name'] = $row['name'];
     $_SESSION['valid_user_id'] = $row['user_id'];
+    $_SESSION['valid_user_identity'] = "normal";
     if($row['approved'] == 1) {
+        //echo 1;
         header("Location: userHomepage.php"); 
     } else {
         header("Location: postUserSignup.php"); 
@@ -40,21 +39,17 @@ if (isset($_POST['username']) && isset($_POST['loginPassword']))
     $username = $row['username'];
     $_SESSION['valid_user'] = $username;
     $_SESSION['valid_user_name'] = $row['admin_name'];  
-    //$_SESSION['user_identity'] = "admin";
+    $_SESSION['valid_user_identity'] = "admin";
+    //echo 1;
     header("Location: adminHomepage.php"); 
     exit(); 
-
   } else {
     unset($username);
     unset($password);
     session_destroy();
-    header("Location: login.php?login_fail=1");
+    echo '<script type="text/javascript">alert("Your email or password was incorrect. Please try again.");</script>';
+    echo '<script>window.location="login.php?login_fail=1";</script>';
     exit();
   }
   $db_conn->close();
-} else {
-  session_destroy();
-  header("Location: login.php?login_fail=1");
-  exit();
-}
 ?>

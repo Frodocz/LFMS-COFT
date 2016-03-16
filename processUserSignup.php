@@ -19,28 +19,14 @@ $facilities = $_POST['facility_access'];
 $facility_access = '';
 $number_facility = sizeof($facilities);
 for($i = 0; $i < $number_facility; $i++){
-    $facility_access = $facility_access.$facilities[$i].",";
+    $facility_access = $facility_access.$facilities[$i].", ";
 }
-$facility_access = trim($facility_access, ","); 
+$facility_access = trim($facility_access, ", "); 
 
 $db_conn = new mysqli('localhost', 'root', '19921226', 'fyp');
 if (mysqli_connect_errno()) {
    echo '<script type="text/javascript">alert("Error: Could not connect to database. Please try again later.");</script>';
    echo '<script>window.location="userSignup.php";</script>';
-}
-
-if ($agreeterms != 'Yes') {
-  echo '<script type="text/javascript">alert("Please agree the Terms & Conditions to proceed.");</script>';
-  unset($username);
-  session_destroy();
-  echo '<script>window.location="userSignup.php";</script>';
-}
-
-if ($password != $confirmpassword) {
-	echo '<script type="text/javascript">alert("Password does not match.");</script>';
-  unset($username);
-  session_destroy();
-  echo '<script>window.location="userSignup.php";</script>';
 }
 
 //Check if the username has been used
@@ -67,9 +53,7 @@ if (!$result) {
   $db_conn->close();
   echo '<script>window.location="userSignup.php";</script>';
   exit();
-} else {
-  $_SESSION['valid_user'] = $username;
-  $_SESSION['user_identity'] = "normal_nonapproved";   
+} else { 
   echo '<script>window.location="postUserSignup.php";</script>';
   $db_conn->close();
   exit();}	
