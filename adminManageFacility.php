@@ -1,4 +1,8 @@
-<?php session_start() ?>
+<?php 
+  session_start(); 
+  if(isset($_SESSION['valid_user'])) {
+    if ($_SESSION['valid_user_identity'] == "admin"){
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -112,7 +116,7 @@
                 <td class="col-md-1">
                   <a data-placement="bottom" data-toggle="tooltip" title="Click to edit facility information." href="adminEditFacility.php?facility_id=<?php echo $row['facility_id'] ?>"><i class="fa fa-pencil-square-o"></i> Edit</a>
                   <br><br>
-                  <a class="confirmationDelete" data-placement="bottom" data-toggle="tooltip" title="Click to delete the facility." href="processAdminDeleteFacility.php?facility_id=<?php echo $row['facility_id'] ?>"><i class="fa fa-minus-square-o"></i> Delete</a>
+                  <a class="confirmationDelete" data-placement="bottom" data-toggle="tooltip" title="Click to delete the facility." href="processAdminManageFacility.php?action=delete&facility_id=<?php echo $row['facility_id'] ?>"><i class="fa fa-minus-square-o"></i> Delete</a>
                 </td>
               </tr>
              <?php } ?>
@@ -140,9 +144,12 @@
 
   <script src="js/jquery-1.11.3.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
-  <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
   <script src="js/main.js"></script>
 </body>
 </html>
-
-
+<?php } else if ($_SESSION['valid_user_identity'] == "normal") {
+      header("Location: 404NotFound.html");
+    } 
+} else {
+      include("identityVerify.php");
+} ?>

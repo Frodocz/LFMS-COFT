@@ -508,31 +508,20 @@ ul.nostyle i {
 #normal {
   padding: 100px 0;
 }
-#adminmanageuser {
-  padding: 130px 0;
-}
-#adminmanagedatabase {
+/*#adminmanagedatabase {
   padding: 130px 0;
 }
 #adminbackupdatabase {
   padding: 130px 0;
-}
-#userhome {
-  padding: 100px 0;
-}
-#userbookfacility {
-  padding: 100px 0;
-}
-#userbookfacility .facilityInfo{
+}*/
+/* User book facility page */
+.facilityInfo{
   /*background-color: #f0f0f0;*/
   padding-top: 25px;
   padding-bottom: 30px;  
 }
-#userbookfacility .bookingtime{
+.bookingtime{
   /*background-color: #f0f0f0;*/
   margin-top: 30px;
   padding-bottom: 30px;  
-}
-#usereditprofile {
-  padding: 100px 0;
 }

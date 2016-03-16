@@ -1,4 +1,8 @@
-<?php session_start() ?>
+<?php 
+  session_start(); 
+  if(isset($_SESSION['valid_user'])) {
+    if ($_SESSION['valid_user_identity'] == "admin"){
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -289,6 +293,11 @@
     });
   
   </script>
-
 </body>
 </html>
+<?php } else if ($_SESSION['valid_user_identity'] == "normal") {
+      header("Location: 404NotFound.html");
+    } 
+} else {
+      include("identityVerify.php");
+} ?>

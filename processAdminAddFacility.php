@@ -29,7 +29,7 @@
 
           if (move_uploaded_file($file_tmp, $file_destination)) {
 
-            $qry = "INSERT INTO facility_list (facility_id, facility_imagename, facility_imagepath, facility_name, facility_description, facility_internal_price, facility_external_price, status) VALUES (NULL, '$file_name', '$file_destination', '$facility_name', '$facility_description', '$facility_internal_price', '$facility_external_price', '$status')";
+            $qry = "INSERT INTO facility_list (facility_id, facility_imagename, facility_imagepath, facility_name, facility_description, facility_internal_price, facility_external_price, status, description) VALUES (NULL, '$file_name', '$file_destination', '$facility_name', '$facility_description', '$facility_internal_price', '$facility_external_price', '$status', 'Working Well')";
             $result = $db_conn->query($qry);
             if ($result) {
               echo '<script>alert("The facility is successfully added.");</script>';

@@ -93,8 +93,9 @@
           </div>
         </div>
         <div class="col-md-4 col-md-offset-1 col-sm-4 col-sm-offset-1 col-xs-10 col-xs-offset-1">
-          <form id="login_form" action="processLogin.php" method="post">
+          <form id="login_form" method="post">
                 <div class="row col-xs-12">
+                  <div class="error" id="logerror"></div>
                   <div class="form-group has-feedback">
                     <label class="control-label" for="username">Email Address</label>
                     <input type="email" class="form-control required" placeholder="Email Address" id="username" name="username"><span class="glyphicon form-control-feedback" id="username1"></span>
@@ -146,6 +147,35 @@
   <script src="js/bootstrap.min.js"></script>
   <script src="js/jquery.validate.min.js"></script>
   <script src="js/main.js"></script>
+  <script>  
+    $(document).ready(function(){ 
+      $(document).on('click','#signinbtn',function(){
+        var url = "processLogin.php";       
+        if($('#login_form').valid()){
+          $('#logerror').html(' Please wait...');
+          $('#logerror').addClass("alert alert-info");   
+          $.ajax({
+          type: "POST",
+          url: url,
+          data: $("#login_form").serialize(), // serializes the form's elements.
+          success: function(data)
+          {
+            if(data=="admin") {
+              window.location.href = "adminHomepage.php";
+            } else if (data=="normal") {
+              window.location.href = "userHomepage.php";
+            } else if (data=="non_approved") {
+              window.location.href = "postUserSignup.php";
+            } else { 
+              $('#logerror').html('<i class="fa fa-exclamation-triangle"></i> You may have entered an invalid email or password.');
+              $('#logerror').addClass("alert alert-danger"); }
+            }
+          });
+        }
+        return false;
+      });
+    });
+  </script>
 
 </body>
 </html>

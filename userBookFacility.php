@@ -1,4 +1,8 @@
-<?php session_start() ?>
+<?php 
+  session_start(); 
+  if(isset($_SESSION['valid_user'])) {
+    if ($_SESSION['valid_user_identity'] == "normal") {
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -54,7 +58,7 @@
     </nav><!--/nav-->
   </header><!--/header-->
 
-  <section id="userbookfacility">
+  <section id="normal">
     <div class="section-header">
       <h2 class="section-title text-center fadeInDown">Book This Facility</h2>
     </div>
@@ -242,3 +246,9 @@
   </footer><!--/#footer-->
 </body>
 </html>
+<?php } else if ($_SESSION['valid_user_identity'] == "admin") {
+      header("Location: 404NotFound.html");
+    } 
+} else {
+      include("identityVerify.php");
+} ?>

@@ -1,3 +1,7 @@
+<?php 
+  session_start();
+  if(!isset($_SESSION['valid_user'])) {
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,7 +41,7 @@
         
         <div class="collapse navbar-collapse navbar-right">
           <ul class="nav navbar-nav">
-            <li class="scroll"><a href="#login" class="btn"><h3>CENTRE FOR OPTICAL FIBRE TECHNOLOGY</h3></a></li>              
+            <li class="scroll"><a href="login.php" class="btn"><h3>CENTRE FOR OPTICAL FIBRE TECHNOLOGY</h3></a></li>              
           </ul>
         </div>
       </div><!--/.container-->
@@ -136,3 +140,11 @@
   <script src="js/main.js"></script>
 </body>
 </html>
+<?php
+} elseif ($_SESSION['valid_user_identity'] == "admin"){
+    header('Location: adminHomepage.php');
+} else {
+    header('Location: userHomepage.php');
+}
+?>
+
