@@ -72,8 +72,8 @@
     </div>
     <?php 
       include_once('connect.php');
-      $query = "SELECT * FROM normal_user WHERE approved LIKE 0 ORDER BY registerdate ASC";
-      $query2 = "SELECT * FROM normal_user WHERE approved LIKE 1 ORDER BY username ASC";
+      $query = "SELECT * FROM normal_user WHERE approved=0 ORDER BY registerdate ASC";
+      $query2 = "SELECT * FROM normal_user WHERE approved=1 ORDER BY username ASC";
       $result = mysql_query($query);
       $result2 = mysql_query($query2);
       $num_results = mysql_num_rows($result);
@@ -101,11 +101,11 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
                     <?php 
                       for ($i = 1; $i < $num_results+1; $i++) {
                         $row = mysql_fetch_array($result); 
                     ?>
+                    <tr>
                       <td><?php echo $i; ?></td>
                       <td><?php echo $row['username'] ?></td>
                       <td>
@@ -140,7 +140,7 @@
                               $row_displayInfo = mysql_fetch_array($result_displayInfo); 
                               echo '<div class="row"><div class="col-lg-10 col-lg-offset-1">
                                     <p>Email: '.$row_displayInfo['username'].'</p>';
-                              echo '<p>Name: '.$row_displayInfo['title'].$row_displayInfo['name'].'</p>'; 
+                              echo '<p>Name: '.$row_displayInfo['title'].' '.$row_displayInfo['name'].'</p>'; 
                               echo '<p>Faculty: '.$row_displayInfo['faculty'].'</p>'; 
                               echo '<p>Phone No.: '.$row_displayInfo['phone'].'</p>'; 
                               echo '<p>Address: '.$row_displayInfo['addressline1'].', '.$row_displayInfo['addressline2'].', '.$row_displayInfo['postal'].'</p>'; 
@@ -155,7 +155,7 @@
                       </div>
                     </div><!-- Modal -->
                     <?php
-                      }
+                    }
                     ?>
                   </tbody>
                 </table>

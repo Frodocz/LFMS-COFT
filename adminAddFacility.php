@@ -127,16 +127,20 @@
   <script src="js/main.js"></script>
   <script>  
     $(document).ready(function(){ 
-      $(document).on('click','#add_fa_btn',function(){
-        var url = "processAdminAddFacility.php";       
+      $("#add_fa_form").submit(function(e){
+        // Need to format the image as it is not the same as text data
+        var formData = new FormData($(this)[0]);
+        var url = "processAdminmanageFacility.php?action=add";
+
         if($('#add_fa_form').valid()){
           $('#notice').html(' Please wait...');
           $('#notice').addClass("alert alert-info");   
           $.ajax({
             type: "POST",
             url: url,
-            // serializes the form's elements.
-            data: $("#add_fa_form").serialize(), success: function(data) {
+            data: formData,
+            async: false,
+            success: function(data) {
               if(data=="oversize") {
                 $('#notice').html('<i class="fa fa-exclamation-triangle"></i> The image size should not exceed 2MB.');
                 $('#notice').removeClass("alert-info").addClass("alert-danger"); 
@@ -146,18 +150,22 @@
                 $('#notice').removeClass("alert-info").addClass("alert-danger"); 
               } 
               else if (data==1) {
-                $('#notice').html('<i class="fa fa-exclamation-triangle"></i> The facility has been successfully added.');
-                $('#notice').removeClass("alert-info").addClass("alert-success"); 
+                $('#notice').html('<i class="fa fa-exclamation-triangle"></i> The facility has been successfully added. The page will be reloaded in 3 seconds.');
+                $('#notice').removeClass("alert-info").removeClass("alert-danger").addClass("alert-success"); 
+                window.setTimeout(function() {
+                  window.location.href = 'adminAddFacility.php';
+                }, 3000);
               } 
-              else if (data="test"){
-                alert("Here");
-              }
               else if (data=="conn_err") { 
                 $('#notice').html('<i class="fa fa-exclamation-triangle"></i> Cannot connect to the database. Please try again later.');
                 $('#notice').removeClass("alert-info").addClass("alert-danger"); 
               } 
-            }
+            },
+            cache: false,
+            contentType: false,
+            processData: false
           });
+          e.preventDefault();
         }
         return false;
       });

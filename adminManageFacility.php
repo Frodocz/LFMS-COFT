@@ -59,7 +59,7 @@
             </li>
             <li class="scroll"><a href="adminViewReport.php"><i class="fa fa-bar-chart"></i> Monthly Report</a></li>
             <li class="scroll"><a href="#">Hi, <b><?php echo $_SESSION['valid_user_name'] ?></b></a></li>
-            <li class="scroll"><a href="logout.php"><span><strong>Log Out<Strong><span></a></li>                 
+            <li class="scroll"><a href="logout.php"><span><strong>Log Out</strong></span></a></li>                 
           </ul>
         </div>
       </div><!--/.container-->
@@ -80,10 +80,10 @@
       <div class="row">
         <div class="panel panel-primary">
           <div class="panel-heading">
-              DataTables Advanced Tables
+              Facility List
           </div>
           <div class="panel-body">
-            <div class="dataTable-wrapper">
+            <div class="dataTable_wrapper">
               <table class="table table-bordered text-left" id="facility_table">
               	<thead>
               		<th>Facility Image</th>
@@ -155,6 +155,7 @@
   </footer><!--/#footer-->
 
   <script src="js/jquery-1.11.3.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
   <!-- Datatable -->
   <script src="js/jquery.dataTables.min.js"></script>
   <script src="js/dataTables.bootstrap.min.js"></script>

@@ -17,7 +17,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link href="css/bootstrap.min.css" rel="stylesheet">
-  <link href="css/animate.css" rel="stylesheet">
+  <!-- DataTables CSS -->
+  <link href="css/dataTables.bootstrap.min.css" rel="stylesheet">
+
+  <!-- DataTables Responsive CSS -->
+  <link href="css/responsive.dataTables.min.css" rel="stylesheet">
 
   <!-- Custom CSS -->
   <link href="css/main.css" rel="stylesheet">
@@ -74,50 +78,60 @@
         <h2 class="section-title text-center fadeInDown">Facility List</h2>
       </div>    
       <div class="row">
-        <div class="table">
-          <table class="table table-bordered text-left">
-            <thead>
-              <th class="hidden-xs">Facility Image</th>
-              <th>Facility Name &amp; Description</th>
-              <th>Facility Booking Fee</th>
-              <th>Action</th>
-            </thead>
-            <tbody>
-              <?php 
-                for ($i = 0; $i < $num_results; $i++) {
-                  $row = mysqli_fetch_array($result);
-              ?> 
-              <tr>
-                <td class="col-md-3 hidden-xs">
-                  <img height="250" width="300" src="<?php echo $row['facility_imagepath']; ?>">
-                </td>
-                <td class="col-md-5">
-                  <h4 class="text-center"><?php echo $row['facility_name']; ?></h4><hr>
-                  <p class="hidden-sm hidden-xs"><?php echo $row['facility_description'] ?></p>
-                </td>
-                <td class="col-md-3">
-                  <h4>Booking Fee</h4>
-                    For internal user: S$ <?php echo $row['facility_internal_price'] ?>/Hour<br>
-                    For external user: S$ <?php echo $row['facility_external_price'] ?>/Hour<hr>
-                    <?php if ($row['status'] == 1) { ?>
-                  <h4>Status: <div style="display: inline; color:darkgreen">Available</div></h4>
-                </td>
-                <td class="col-md-1">
-                  <a class="btn btn-default btn-block" href="userBookFacility.php?facility_id=<?php echo $row['facility_id'] ?>"><i class="fa fa-calendar"></i> Book Now</a>
-                </td>
-                <?php } else { ?>
-                  <h4>Status: <div style="display: inline; color:darkred">Unavaliable</div></h4>
-                </td>
-                <td class="col-md-1">
-                  <a class="btn btn-default btn-block disabled" href="userBookFacility.php?facility_id=<?php echo $row['facility_id'] ?>"><i class="fa fa-calendar"></i> Book Now</a>
-                </td>
-                <?php
-                  }
-                }
-              ?>
-            </tbody>
-          </table>
-        </div>
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+              Facility List
+          </div>
+          <div class="panel-body">
+            <div class="dataTable_wrapper">
+              <table class="table table-bordered text-left" id="facility_table">
+                <thead>
+                  <th class="hidden-xs">Facility Image</th>
+                  <th>Facility Name &amp; Description</th>
+                  <th>Facility Booking Fee</th>
+                  <th>Action</th>
+                </thead>
+                <tbody>
+                  <?php 
+                    for ($i = 0; $i < $num_results; $i++) {
+                      $row = mysqli_fetch_array($result);
+                  ?> 
+                  <tr>
+                    <td class="col-md-3 hidden-xs">
+                      <img height="250" width="300" src="<?php echo $row['facility_imagepath']; ?>">
+                    </td>
+                    <td class="col-md-5">
+                      <h4 class="text-center"><?php echo $row['facility_name']; ?></h4><hr>
+                      <p class="hidden-sm hidden-xs"><?php echo $row['facility_description'] ?></p>
+                    </td>
+                    <td class="col-md-3">
+                      <h4>Booking Fee</h4>
+                        For internal user: S$ <?php echo $row['facility_internal_price'] ?>/Hour<br>
+                        For external user: S$ <?php echo $row['facility_external_price'] ?>/Hour<hr>
+                        <?php if ($row['status'] == 1) { ?>
+                      <h4>Status: <div style="display: inline; color:darkgreen">Available</div></h4><hr>
+                      <h4>Description: <div style="display: inline; color:#006400"> <?php echo $row['description'] ?></h4>
+                    </td>
+                    <td class="col-md-1">
+                      <a class="btn btn-default btn-block" href="userBookFacility.php?facility_id=<?php echo $row['facility_id'] ?>"><i class="fa fa-calendar"></i> Book Now</a>
+                    </td>
+                    <?php } else { ?>
+                      <h4>Status: <div style="display: inline; color:darkred">Unavaliable</div></h4><hr>
+                      <h4>Description: <div style="display: inline; color:#8B0000"><?php echo $row['description'] ?></h4>
+                    </td>
+                    <td class="col-md-1">
+                      <a class="btn btn-default btn-block disabled" href="userBookFacility.php?facility_id=<?php echo $row['facility_id'] ?>"><i class="fa fa-calendar"></i> Book Now</a>
+                    </td>
+                    <?php
+                      }
+                    }
+                  ?>
+                </tbody>
+              </table>
+            </div>
+          </div><!-- /.panel-body -->
+        </div><!-- /.panel -->
+      </div><!-- /.row -->
     </div>
   </section>
 
@@ -139,7 +153,18 @@
 
   <script src="js/jquery-1.11.3.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
-  <script src="js/main.js"></script>
+  <!-- Datatable -->
+  <script src="js/jquery.dataTables.min.js"></script>
+  <script src="js/dataTables.bootstrap.min.js"></script>
+  <script src="js/dataTables.responsive.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      // Set the datatable to be shown responsively
+      $('#facility_table').DataTable({
+        responsive:true
+      });
+    });
+  </script>
 </body>
 </html>
 <?php } else if ($_SESSION['valid_user_identity'] == "admin") {
