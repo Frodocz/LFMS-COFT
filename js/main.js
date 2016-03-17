@@ -104,7 +104,27 @@ $(document).ready(function(){
         agreeTerms: "You must confirm that you have read and agree to the Terms & Conditions."
       }
     });
-
+    
+    $('#add_fa_form').validate({
+      rules: {
+        facilityImageFile: {
+          required: true,
+          accept: "image/jpg, image/jpeg, image/pjpeg, image/png"
+        },
+        facility_name: {
+          maxlength: 50
+        }
+      },
+      messages: {
+        facilityImageFile: {
+          required: "You forget to select an image for this facility.",
+          accept: "Only image types of JPG, JPEG, PNG and PJPEG are accepted."
+        },
+        facility_name: {
+          maxlength: "The maximum name length is 50."
+        }
+      }
+    });
 });
 
 

@@ -69,25 +69,31 @@
       <div class="row">
           <div class="row">
             <div class="col-lg-6 col-lg-offset-3">
-              <form method="post" action="processAdminAddFacility.php" enctype="multipart/form-data">
-                <div class="form-group col-lg-12">
+              <div class="error row" id="notice"></div>
+              <form method="post" enctype="multipart/form-data" id="add_fa_form">
+                <div class="form-group row has-feedback">
                   <label for="facilityImageFile">Choose image of the new facility</label>
-                  <input type="file" id="facilityImageFile" name="facilityImageFile">
+                  <input type="file" class="form-control" id="facilityImageFile" name="facilityImageFile">
+                  <span class="glyphicon form-control-feedback" id="facilityImageFile1"></span>
                 </div>
-                <div class="form-group col-lg-12">
-                  <input type="text" class="form-control" name="facility_name" placeholder="Enter the facility name here">
+                <div class="form-group row has-feedback">
+                  <input type="text" class="form-control required" id="facility_name" name="facility_name" placeholder="Enter the facility name here">
+                  <span class="glyphicon form-control-feedback" id="facility_name1"></span>
                 </div>
-                <div class="form-group col-lg-12">
-                  <textarea rows="5" class="form-control" name="facility_description" placeholder="Enter the facility description here"></textarea>
+                <div class="form-group row has-feedback">
+                  <textarea rows="5" class="form-control required" id="facility_description" name="facility_description" placeholder="Enter the facility description here"></textarea>
+                  <span class="glyphicon form-control-feedback" id="facility_description1"></span>
                 </div>
-                <div class="form-group col-lg-6">
-                  <input type="number" step="0.05" min="0" class="form-control" name="facility_internal_price" placeholder="Price for Internal User (S$/Hour)">
+                <div class="form-group row has-feedback">
+                  <input type="number" step="0.05" min="0" class="form-control required" id= "facility_internal_price" name="facility_internal_price" placeholder="Price for Internal User (S$/Hour)">
+                  <span class="glyphicon form-control-feedback" id="facility_internal_price1"></span>
                 </div>
-                <div class="form-group col-lg-6">
-                  <input type="number" step="0.05" min="0" class="form-control" name="facility_external_price" placeholder="Price for External User (S$/Hour)">
+                <div class="form-group row has-feedback">
+                  <input type="number" step="0.05" min="0" class="form-control required" name="facility_external_price" id="facility_external_price" placeholder="Price for External User (S$/Hour)">
+                  <span class="glyphicon form-control-feedback" id="facility_external_price1"></span>
                 </div>
                 <div class="form-group text-center">
-                  <button type="submit" class="btn btn-success" name="submit">Add New Facility Now</button>&nbsp;&nbsp;
+                  <button type="submit" class="btn btn-success" id="add_fa_btn" name="submit">Add New Facility Now</button>&nbsp;&nbsp;
                   <a role="button" class="btn btn-danger" href="adminManageFacility.php">Cancel</a>
                 </div>
               </form>
@@ -115,7 +121,49 @@
 
   <script src="js/jquery-1.11.3.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
+  <script src="js/jquery.validate.min.js"></script>
+  <!-- additional methods that helps to check different input types like file -->
+  <script src="js/additional-methods.min.js"></script>
   <script src="js/main.js"></script>
+  <script>  
+    $(document).ready(function(){ 
+      $(document).on('click','#add_fa_btn',function(){
+        var url = "processAdminAddFacility.php";       
+        if($('#add_fa_form').valid()){
+          $('#notice').html(' Please wait...');
+          $('#notice').addClass("alert alert-info");   
+          $.ajax({
+            type: "POST",
+            url: url,
+            // serializes the form's elements.
+            data: $("#add_fa_form").serialize(), success: function(data) {
+              if(data=="oversize") {
+                $('#notice').html('<i class="fa fa-exclamation-triangle"></i> The image size should not exceed 2MB.');
+                $('#notice').removeClass("alert-info").addClass("alert-danger"); 
+              } 
+              else if (data==0) {
+                $('#notice').html('<i class="fa fa-exclamation-triangle"></i> Failed to add this facility. Please try again later.');
+                $('#notice').removeClass("alert-info").addClass("alert-danger"); 
+              } 
+              else if (data==1) {
+                $('#notice').html('<i class="fa fa-exclamation-triangle"></i> The facility has been successfully added.');
+                $('#notice').removeClass("alert-info").addClass("alert-success"); 
+              } 
+              else if (data="test"){
+                alert("Here");
+              }
+              else if (data=="conn_err") { 
+                $('#notice').html('<i class="fa fa-exclamation-triangle"></i> Cannot connect to the database. Please try again later.');
+                $('#notice').removeClass("alert-info").addClass("alert-danger"); 
+              } 
+            }
+          });
+        }
+        return false;
+      });
+    });
+  </script>
+
   
 </body>
 </html>

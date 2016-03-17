@@ -158,17 +158,24 @@
           type: "POST",
           url: url,
           data: $("#login_form").serialize(), // serializes the form's elements.
-          success: function(data)
-          {
-            if(data=="admin") {
-              window.location.href = "adminHomepage.php";
-            } else if (data=="normal") {
-              window.location.href = "userHomepage.php";
-            } else if (data=="non_approved") {
-              window.location.href = "postUserSignup.php";
-            } else { 
-              $('#logerror').html('<i class="fa fa-exclamation-triangle"></i> You may have entered an invalid email or password.');
-              $('#logerror').addClass("alert alert-danger"); }
+            success: function(data) {
+              if(data=="admin") {
+                window.location.href = "adminHomepage.php";
+              } 
+              else if (data=="normal") {
+                window.location.href = "userHomepage.php";
+              } 
+              else if (data=="non_approved") {
+                window.location.href = "postUserSignup.php";
+              } 
+              else if (data=="conn_err") {
+                $('#logerror').html('<i class="fa fa-exclamation-triangle"></i> Cannot connect to the database. Please try again later.');
+                $('#logerror').addClass("alert alert-danger"); 
+              }
+              else {
+                $('#logerror').html('<i class="fa fa-exclamation-triangle"></i> You may have entered an invalid email or password.');
+                $('#logerror').addClass("alert alert-danger"); 
+              }
             }
           });
         }

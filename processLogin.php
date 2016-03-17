@@ -8,7 +8,7 @@ $password = $_POST['loginPassword'];
   $db_conn = new mysqli('localhost', 'root', '19921226', 'fyp');
 
     if (mysqli_connect_errno()) {
-     echo 'conn_error';
+     echo 'conn_err';
      exit();
   }
 

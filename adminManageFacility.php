@@ -17,7 +17,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link href="css/bootstrap.min.css" rel="stylesheet">
-  <link href="css/animate.css" rel="stylesheet">
+  <!-- DataTables CSS -->
+  <link href="css/dataTables.bootstrap.min.css" rel="stylesheet">
+
+  <!-- DataTables Responsive CSS -->
+  <link href="css/responsive.dataTables.min.css" rel="stylesheet">
 
   <!-- Custom CSS -->
   <link href="css/main.css" rel="stylesheet">
@@ -74,55 +78,63 @@
         </h4>
       </div>		
       <div class="row">
-        <div class="table-responsive">
-          <table class="table table-bordered text-left">
-          	<thead>
-          		<th>Facility Image</th>
-          		<th>Facility Name &amp; Description</th>
-          		<th>Booking Fee &amp; Status</th>
-          		<th>Action</th>
-          	</thead>
-            <tbody>
-            <?php
-              include_once('connect.php');
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+              DataTables Advanced Tables
+          </div>
+          <div class="panel-body">
+            <div class="dataTable-wrapper">
+              <table class="table table-bordered text-left" id="facility_table">
+              	<thead>
+              		<th>Facility Image</th>
+              		<th>Facility Name &amp; Description</th>
+              		<th>Booking Fee &amp; Status</th>
+              		<th>Action</th>
+              	</thead>
+                <tbody>
+                <?php
+                  include_once('connect.php');
 
-              $query = "SELECT * FROM facility_list";
-              $result = mysql_query($query);
-              $num_results = mysql_num_rows($result);
+                  $query = "SELECT * FROM facility_list";
+                  $result = mysql_query($query);
+                  $num_results = mysql_num_rows($result);
 
-              for ($i = 0; $i < $num_results; $i++) {
-                $row = mysql_fetch_array($result); 
-            ?>
-              <tr>
-                <td class="col-md-3"><img height="250" width="300" src="<?php echo $row['facility_imagepath'] ?>"></td>
-                <td class="col-md-5">
-                  <h4 class="text-center"><?php echo $row['facility_name'] ?></h4><hr>
-                  <p><?php echo $row['facility_description'] ?></p>
-                </td>
-                <td class="col-md-3">
-                  <h4>Booking Fee</h4>
-                  For internal user: S$ <?php echo $row['facility_internal_price'] ?>/Hour<br>
-                  For external user: S$ <?php echo $row['facility_external_price'] ?>/Hour<hr>
-                  <?php 
-                    if ($row['status'] == 1) { 
-                  ?>
-                  <h4>Status: <div style="display: inline; color:#006400">Available</div></h4><hr>
-                  <h4>Description: <div style="display: inline; color:#006400"> <?php echo $row['description'] ?></h4>
-                  <?php } else {  ?>
-                  <h4>Status: <div style="display: inline; color:#8B0000">Unavaliable</div></h4><hr>
-                  <h4>Description: <div style="display: inline; color:#8B0000"><?php echo $row['description'] ?></h4>
-                  <?php } ?>
-                </td>
-                <td class="col-md-1">
-                  <a data-placement="bottom" data-toggle="tooltip" title="Click to edit facility information." href="adminEditFacility.php?facility_id=<?php echo $row['facility_id'] ?>"><i class="fa fa-pencil-square-o"></i> Edit</a>
-                  <br><br>
-                  <a class="confirmationDelete" data-placement="bottom" data-toggle="tooltip" title="Click to delete the facility." href="processAdminManageFacility.php?action=delete&facility_id=<?php echo $row['facility_id'] ?>"><i class="fa fa-minus-square-o"></i> Delete</a>
-                </td>
-              </tr>
-             <?php } ?>
-            </tbody>
-          </table>
-        </div>
+                  for ($i = 0; $i < $num_results; $i++) {
+                    $row = mysql_fetch_array($result); 
+                ?>
+                  <tr>
+                    <td class="col-md-3"><img height="250" width="300" src="<?php echo $row['facility_imagepath'] ?>"></td>
+                    <td class="col-md-5">
+                      <h4 class="text-center"><?php echo $row['facility_name'] ?></h4><hr>
+                      <p><?php echo $row['facility_description'] ?></p>
+                    </td>
+                    <td class="col-md-3">
+                      <h4>Booking Fee</h4>
+                      For internal user: S$ <?php echo $row['facility_internal_price'] ?>/Hour<br>
+                      For external user: S$ <?php echo $row['facility_external_price'] ?>/Hour<hr>
+                      <?php 
+                        if ($row['status'] == 1) { 
+                      ?>
+                      <h4>Status: <div style="display: inline; color:#006400">Available</div></h4><hr>
+                      <h4>Description: <div style="display: inline; color:#006400"> <?php echo $row['description'] ?></h4>
+                      <?php } else {  ?>
+                      <h4>Status: <div style="display: inline; color:#8B0000">Unavaliable</div></h4><hr>
+                      <h4>Description: <div style="display: inline; color:#8B0000"><?php echo $row['description'] ?></h4>
+                      <?php } ?>
+                    </td>
+                    <td class="col-md-1">
+                      <a data-placement="bottom" data-toggle="tooltip" title="Click to edit facility information." href="adminEditFacility.php?facility_id=<?php echo $row['facility_id'] ?>"><i class="fa fa-pencil-square-o"></i> Edit</a>
+                      <br><br>
+                      <a class="confirmationDelete" data-placement="bottom" data-toggle="tooltip" title="Click to delete the facility." href="processAdminManageFacility.php?action=delete&facility_id=<?php echo $row['facility_id'] ?>"><i class="fa fa-minus-square-o"></i> Delete</a>
+                    </td>
+                  </tr>
+                 <?php } ?>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div><!-- Panel -->
+      </div><!-- Panel -->
     </div>
   </section>
 
@@ -143,8 +155,22 @@
   </footer><!--/#footer-->
 
   <script src="js/jquery-1.11.3.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/main.js"></script>
+  <!-- Datatable -->
+  <script src="js/jquery.dataTables.min.js"></script>
+  <script src="js/dataTables.bootstrap.min.js"></script>
+  <script src="js/dataTables.responsive.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      // Set the datatable to be shown responsively
+      $('#facility_table').DataTable({
+        responsive:true
+      });
+      $('.confirmationDelete').on('click', function () {
+        return confirm('Are you sure you want to delete this?');
+      });
+    });
+  </script>
+
 </body>
 </html>
 <?php } else if ($_SESSION['valid_user_identity'] == "normal") {

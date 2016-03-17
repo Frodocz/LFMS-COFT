@@ -16,12 +16,15 @@
   <!-- Mobile Specific Metas -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link href="css/bootstrap.min.css" rel="stylesheet">
-  <link href="css/animate.css" rel="stylesheet">
+  <!-- DataTables CSS -->
+  <link href="css/dataTables.bootstrap.min.css" rel="stylesheet">
 
+  <!-- DataTables Responsive CSS -->
+  <link href="css/responsive.dataTables.min.css" rel="stylesheet">
+
+  <link href="css/bootstrap.min.css" rel="stylesheet">
   <!-- Custom CSS -->
   <link href="css/main.css" rel="stylesheet">
-
   <!-- Custom Fonts -->
   <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
   <script type="text/javascript" src="js/echarts.min.js"></script>
@@ -87,8 +90,8 @@
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">
-              <div class="table-responsive">
-                <table class="table table-striped table-bordered table-hover">
+              <div class="dataTable_wrapper">
+                <table class="table table-striped table-bordered table-hover" id="non_app_table">
                   <thead>
                     <tr>
                       <th>#</th>
@@ -157,7 +160,7 @@
                   </tbody>
                 </table>
               </div>
-              <!-- /.table-responsive -->
+              <!-- /.dataTable_wrapper -->
             </div>
             <!-- /.panel-body -->
           </div>
@@ -171,8 +174,8 @@
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">
-              <div class="table-responsive">
-                <table class="table table-striped table-bordered table-hover">
+              <div class="dataTable_wrapper">
+                <table width="100%" class="table table-striped table-bordered table-hover" id="app_table">
                   <thead>
                     <tr>
                       <th>#</th>
@@ -239,16 +242,16 @@
                       </div>
                     </div><!-- Modal -->  
                   <?php } ?>
-                </tbody>
-              </table>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
-        </div>
-        <!-- /. Panel -->
-      </div>        
-      <!-- /.col-lg-8 -->
+          <!-- /. Panel -->
+        </div>        
+        <!-- /.col-lg-8 -->
 
-      <div id="useful_link" class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+        <div id="useful_link" class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
           <div class="panel panel-primary">
             <div class="panel-heading">
               <i class="fa fa-link fa-fw"></i> Commonly Used Links
@@ -310,10 +313,30 @@
       </div>
     </div>
   </footer><!--/#footer-->
-
-  <script src="js/jquery-1.11.3.min.js"></script>
+  <script src='js/jquery-1.11.3.min.js'></script>
   <script src="js/bootstrap.min.js"></script>
-  <script src="js/main.js"></script>
+  <!-- Datatable -->
+  <script src="js/jquery.dataTables.min.js"></script>
+  <script src="js/dataTables.bootstrap.min.js"></script>
+  <script src="js/dataTables.responsive.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      // Set the datatable to be shown responsively
+      $('#non_app_table').DataTable({
+        responsive:true
+      });
+      $('#app_table').DataTable({
+        responsive:true
+      });
+
+      //popup a confirmation clock to ask user whether or not delete an item
+      $('.confirmationDelete').on('click', function () {
+          return confirm('Are you sure you want to delete this?');
+      });
+
+    });
+  </script>
+
   <script type="text/javascript">
     var myChart = echarts.init(document.getElementById('userchart'));
     // Set the styles and empty axis of the charts
