@@ -96,10 +96,10 @@
     </div>
     <div class="container">
       <ul class="nav nav-tabs">
-        <li role="presentation" class="active"><a data-toggle="tab" href="#booking">New Booking Requests</a></li>
-        <li role="presentation"><a data-toggle="tab" href="#visiting">New Visiting Requests</a></li>
-        <li role="presentation"><a data-toggle="tab" href="#app_booking">Upcomming Booking Records</a></li>
-        <li role="presentation"><a data-toggle="tab" href="#app_visiting">Upcomming Visiting Records</a></li>
+        <li role="presentation" class="active"><a data-toggle="tab" href="#booking">New Booking Requests <span class="badge"><?php echo $num_results; ?></span></a></li>
+        <li role="presentation"><a data-toggle="tab" href="#visiting">New Visiting Requests <span class="badge"><?php echo $num_results2; ?></span></a></li>
+        <li role="presentation"><a data-toggle="tab" href="#app_booking">Upcomming Booking Records <span class="badge"><?php echo $num_results3; ?></span></a></li>
+        <li role="presentation"><a data-toggle="tab" href="#app_visiting">Upcomming Visiting Records <span class="badge"><?php echo $num_results4; ?></span></a></li>
       </ul>
       <br>
       <div class="tab-content">

@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-@ $db = new mysqli('localhost','root','19921226','fyp');
+include('connect.php');
 
 if ($db->connect_errno) {
   echo 'conn_err';

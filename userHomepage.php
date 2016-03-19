@@ -169,16 +169,16 @@
                   ?> 
                   <tr>
                     <td>
-                      <img height="250" width="300" src="<?php echo $row['facility_imagepath']; ?>">
+                      <img height="280" width="300" src="<?php echo $row['facility_imagepath']; ?>">
                     </td>
                     <td>
                       <h4 class="text-center"><?php echo $row['facility_name']; ?></h4><hr>
-                      <p class="hidden-sm hidden-xs"><?php echo $row['facility_description'] ?></p>
+                      <p><?php echo $row['facility_description'] ?></p>
                     </td>
                     <td>
                       <h4>Booking Fee</h4>
-                        For internal user: S$ <?php echo $row['facility_internal_price'] ?>/Hour<br>
-                        For external user: S$ <?php echo $row['facility_external_price'] ?>/Hour<hr>
+                        Internal user: S$ <?php echo $row['facility_internal_price'] ?>/Hour<br>
+                        External user: S$ <?php echo $row['facility_external_price'] ?>/Hour<hr>
                         <?php if ($row['status'] == 1) { ?>
                       <h4>Status: <div style="display: inline; color:darkgreen">Available</div></h4><hr>
                       <h4>Description: <div style="display: inline; color:#006400"> <?php echo $row['description'] ?></h4>

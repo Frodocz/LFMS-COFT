@@ -128,7 +128,6 @@
         eventDrop: function(event, delta, revertFunc) {
           if (confirm("Are you sure about this change?")) {
             $.post("processUserManageBooking.php?action=drag",
-            // $.post("test.php?action=drag",
             { 
               id: event.id,
               startDate: moment(event.start).format('YYYY-MM-DD'),

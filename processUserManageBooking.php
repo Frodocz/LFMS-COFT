@@ -90,7 +90,7 @@ elseif ($action=="drag") {
 
   $starttime = strtotime($startDate.' '.$startHour.':'.$startMinu.':00');
   $endtime = strtotime($endDate.' '.$endHour.':'.$endMinu.':00');
-  $result = mysql_query("UPDATE `booking_list` SET `starttime`='$starttime',`endtime`='$endtime', color='#980000',approved=0 WHERE `booking_id`='$booking_id'");
+  $result = $db->query("UPDATE `booking_list` SET `starttime`='$starttime',`endtime`='$endtime', color='#980000',approved=0 WHERE `booking_id`='$booking_id'");
   if ($result) {
     //echo 'The booking record is updated successfully';
     echo '1';
