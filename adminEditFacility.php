@@ -59,19 +59,19 @@
       </div><!--/.container-->
     </nav><!--/nav-->
   </header><!--/header-->
+  <?php
+    include('connect.php');
+
+    $facility_id = $_GET['facility_id'];
+    $query = 'SELECT * FROM facility_list WHERE facility_id="'.$facility_id.'"';
+    $result = $db->query($query);
+    $row = $result->fetch_assoc();
+  ?>
 
   <section id="normal">
     <div class="section-header">
       <h2 class="section-title text-center fadeInDown">Edit This Facility</h2>
     </div>
-    <?php
-      include_once('connect.php');
-
-      $facility_id = $_GET['facility_id'];
-      $query = 'SELECT * FROM facility_list WHERE facility_id="'.$facility_id.'"';
-      $result = mysql_query($query);
-      $row = mysql_fetch_array($result);
-    ?>
     <div class="container">
       <div class="row">
         <form method="post" action="processAdminEditFacility.php" enctype="multipart/form-data">

@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-@ $db_conn = new mysqli('localhost','root','19921226','fyp');
+@ $db = new mysqli('localhost','root','19921226','fyp');
 
-if (mysqli_connect_errno()) {
+if ($db->connect_errno) {
   echo 'conn_err';
 } 
 
@@ -32,7 +32,7 @@ switch ($action) {
           if (move_uploaded_file($file_tmp, $file_destination)) {
 
             $qry = "INSERT INTO facility_list (facility_id, facility_imagename, facility_imagepath, facility_name, facility_description, facility_internal_price, facility_external_price, status, description) VALUES (NULL, '$file_name', '$file_destination', '$facility_name', '$facility_description', '$facility_internal_price', '$facility_external_price', '$status', 'Working Well')";
-            $result = $db_conn->query($qry);
+            $result = $db->query($qry);
             if ($result) {
               echo 1;
             } else {
@@ -62,18 +62,18 @@ switch ($action) {
 
     //Remove the image from server
     $qry_imgpath = "SELECT * FROM facility_list WHERE facility_id='$facility_id'";
-    $result_imgpath = $db_conn->query($qry_imgpath);
-    $row = mysqli_fetch_array($result_imgpath);
+    $result_imgpath = $db->query($qry_imgpath);
+    $row = $result_imgpath->fetch_assoc();
     unlink($row['facility_imagepath']);
     
     // Delete facility from database
-    $result = $db_conn->query($query);
+    $result = $db->query($query);
     if ($result) {
       header("Location: adminManageFacility.php");
     } else {
-      echo '<script>window.location="adminManageFacility.php?Delete-Failed=1";</script>';
+      header("Location: adminManageFacility.php?Delete-Failed=1");
     }
-    $db_conn->close();
+    $db->close();
     break;
 }
 ?>

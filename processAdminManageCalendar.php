@@ -11,19 +11,19 @@ switch ($type) {
     case 'book':
         if ($action == "approve") {
             $query = "UPDATE booking_list SET approved=1,color='#378006' WHERE booking_id=$booking_id";
-            $result = mysql_query($query);
+            $result = $db->query($query);
         } else if ($action=="reject") {
             $query = "DELETE FROM booking_list WHERE booking_id=$booking_id";
-            $result = mysql_query($query);
+            $result = $db->query($query);
         }
         break;
     case 'visit':
         if ($action == "approve") {
             $query = "UPDATE booking_list SET approved=1,color='#115599' WHERE booking_id=$booking_id";
-            $result = mysql_query($query);
+            $result = $db->query($query);
         } else if ($action=="reject") {
             $query = "DELETE FROM booking_list WHERE booking_id=$booking_id";
-            $result = mysql_query($query);
+            $result = $db->query($query);
         }
         break;
 }

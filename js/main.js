@@ -125,6 +125,31 @@ $(document).ready(function(){
         }
       }
     });
+
+    $('#profile_form').validate({
+      rules: {
+        newPassword: {
+          minlength: 6,
+          maxlength: 16
+        },
+        confirmNewPass: {
+          minlength: 6,
+          maxlength: 16,
+          equalTo: "#newPassword"
+        }
+      },
+      messages: {
+        newPassword: {
+          minlength: "The minimum password length is 6.",
+          maxlength: "The maximum password length is 16."
+        },
+        confirmNewPass: {
+          minlength: "The minimum password length is 6.",
+          maxlength: "The maximum password length is 16.",
+          equalTo: "The confirm password you entered doesn't match the password above."
+        }
+      }
+    });
 });
 
 

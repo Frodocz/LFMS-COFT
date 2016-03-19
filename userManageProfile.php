@@ -43,7 +43,7 @@
         <div class="collapse navbar-collapse navbar-right">
           <ul class="nav navbar-nav">
             <li class="scroll"><a href="userHomepage.php">Facility Booking</a></li>
-            <li class="scroll"><a href="userManageBooking.php">Booking Management</a></li>
+            <li class="scroll"><a href="userManageCalendar.php">Booking Management</a></li>
             <li class="scroll"><a href="userManageProfile.php">Profile Management</a></li>
             <li class="scroll"><a href="#">Hi, <b><?php echo $_SESSION['valid_user_name'] ?></b></a></li>
             <li class="scroll"><a href="logout.php"><span><strong>Log Out<Strong><span></a></li>                 
@@ -53,16 +53,28 @@
       </div><!--/.container-->
     </nav><!--/nav-->
   </header><!--/header-->
+  <?php
+    include('connect.php');
+
+    $query = 'SELECT * FROM normal_user WHERE username="'.$_SESSION['valid_user'].'"';
+    $result = $db->query($query);
+    $userInfo = $result->fetch_assoc();
+  ?>
 
   <section id="normal">
     <div class="container">
       <div class="section-header">
         <h2 class="section-title text-center fadeInDown">Edit Your Profile Now</h2>
       </div>
+      <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
+          <div id="logerror"></div>
+        </div>
+      </div>
 
         <div class="row">
             <div class="col-lg-10 col-lg-offset-1">
-              <form action="processUserEditProfile.php" method="post">
+              <form id="profile_form" method="post">
             <!-- Form Part 1 -->
             <div class="col-sm-6">
               <div class="row">
@@ -70,13 +82,7 @@
                   <h4>Account General Information</h3>
                 </div>
               </div>                  
-              <?php
-                include_once('connect.php');
-
-                $query = 'SELECT * FROM normal_user WHERE username="'.$_SESSION['valid_user'].'"';
-                $result = mysql_query($query);
-                $userInfo = mysql_fetch_array($result);
-              ?>
+              
               <div class="row">
                 <div class="form-group col-xs-12 controls">
                   <label>Email Address</label>
@@ -126,7 +132,7 @@
               <div class="row">
                 <div class="form-group col-lg-3">
                   <label>Title</label>
-                  <select class="form-control" name="title" id="title">
+                  <select class="form-control required" name="title" id="title">
                     <option selected value="<?php echo $userInfo['title']; ?>"><?php echo $userInfo['title']; ?></option>
                     <option>Mr.</option>
                     <option>Ms.</option>
@@ -139,27 +145,27 @@
                 </div>
                 <div class="form-group col-lg-9">
                   <label>Name</label>
-                  <input type="text" class="form-control" placeholder="Enter Your Name" id="name" name="name" value="<?php echo $userInfo['name'] ?>">
+                  <input type="text" class="form-control required" placeholder="Enter Your Name" id="name" name="name" value="<?php echo $userInfo['name'] ?>">
                 </div>
               </div>
 
               <div class="row">
                 <div class="form-group col-xs-12">
                 <label>Faculty</label>
-                  <input type="text" class="form-control" placeholder="Enter Your Faculty (eg. EEE / Apple Inc.)" id="faculty" name="faculty" value="<?php echo $userInfo['faculty'] ?>">
+                  <input type="text" class="form-control required" placeholder="Enter Your Faculty (eg. EEE / Apple Inc.)" id="faculty" name="faculty" value="<?php echo $userInfo['faculty'] ?>">
                 </div>
               </div> 
 
               <div class="row">
                 <div class="form-group col-xs-12">
                   <label>Phone Number</label>
-                  <input type="text" class="form-control" placeholder="Enter Your Phone No." id="phoneNumber" name="phoneNumber" value="<?php echo $userInfo['phone']?>">
+                  <input type="text" class="form-control required" placeholder="Enter Your Phone No." id="phoneNumber" name="phoneNumber" value="<?php echo $userInfo['phone']?>">
                 </div>
               </div>
               <div class="row">
                 <div class="form-group col-xs-12">
                   <label>Address Line 1</label>
-                  <input type="text" class="form-control" placeholder="Enter Your Address Line 1" id="addressLine1" name="addressLine1" value="<?php echo $userInfo['addressline1'] ?>">
+                  <input type="text" class="form-control required" placeholder="Enter Your Address Line 1" id="addressLine1" name="addressLine1" value="<?php echo $userInfo['addressline1'] ?>">
                 </div>
               </div>
               <div class="row">
@@ -171,13 +177,13 @@
               <div class="row">
                 <div class="form-group col-xs-12">
                   <label>Postal Code</label>
-                  <input type="text" class="form-control" placeholder="Enter Your Postal Code" id="postal" name="postal" value="<?php echo $userInfo['postal'] ?>">
+                  <input type="text" class="form-control required" placeholder="Enter Your Postal Code" id="postal" name="postal" value="<?php echo $userInfo['postal'] ?>">
                 </div>
               </div>
             </div>
             <div class="row">
               <div class="form-group col-xs-4 col-xs-offset-4">
-                <button type="submit" class="btn btn-success btn-block" id="signinbtn">Update Now</button>
+                <button type="submit" class="btn btn-success btn-block" id="profile_btn">Update Now</button>
               </div>
             </div>
           </form>
@@ -204,7 +210,47 @@
 
   <script src="js/jquery-1.11.3.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
+  <script src="js/jquery.validate.min.js"></script>
   <script src="js/main.js"></script>
+
+  <script>  
+    $(document).ready(function(){ 
+      $(document).on('click','#profile_btn',function(){
+        var url = "processUserEditProfile.php";       
+        if($('#profile_form').valid()){  
+          $.ajax({
+            type: "POST",
+            url: url,
+            data: $("#profile_form").serialize(), // serializes the form's elements.
+            success: function(data) {
+              if(data==1) {
+                $('#logerror').html('<i class="fa fa-exclamation-triangle"></i> You profile has been successfully updated.');
+                $('#logerror').removeClass("alert-danger").addClass("alert alert-success");
+                window.setTimeout(function() {
+                  window.location.href = 'userManageProfile.php';
+                }, 3000); 
+              } 
+              else if (data==0) {
+                $('#logerror').html('<i class="fa fa-exclamation-triangle"></i> Failed to update your profile. Please try again later.');
+                $('#logerror').addClass("alert alert-danger"); 
+              } 
+              else if (data=="pwd_miss") {
+                $('#logerror').html('<i class="fa fa-exclamation-triangle"></i> You forget to enter one of the passwords.');
+                $('#logerror').addClass("alert alert-danger"); 
+              } 
+              else if (data=="pwd_wrong") {
+                $('#logerror').html('<i class="fa fa-exclamation-triangle"></i> The current password you entered was wrong.');
+                $('#logerror').addClass("alert alert-danger"); 
+              }
+            }
+          });
+        }
+        return false;
+      });
+    });
+  </script>
+
+
 </body>
 </html>
 <?php } else if ($_SESSION['valid_user_identity'] == "admin") {

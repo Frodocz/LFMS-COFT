@@ -155,9 +155,9 @@
           $('#logerror').html(' Please wait...');
           $('#logerror').addClass("alert alert-info");   
           $.ajax({
-          type: "POST",
-          url: url,
-          data: $("#login_form").serialize(), // serializes the form's elements.
+            type: "POST",
+            url: url,
+            data: $("#login_form").serialize(), // serializes the form's elements.
             success: function(data) {
               if(data=="admin") {
                 window.location.href = "adminHomepage.php";

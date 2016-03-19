@@ -1,5 +1,6 @@
 <?php
 include_once('connect.php');
+
 $action = $_GET['action'];
 switch ($action) {
     case 'user':
@@ -16,10 +17,10 @@ switch ($action) {
 function userStatus() {
     $sql_userA = "SELECT * FROM normal_user WHERE approved=1";
     $sql_userN = "SELECT * FROM normal_user WHERE approved=0";
-    $query_userA = mysql_query($sql_userA);
-    $query_userN = mysql_query($sql_userN);
-    $num_userA = mysql_num_rows($query_userA);
-    $num_userN = mysql_num_rows($query_userN);
+    $query_userA = mysqli_query($db,$sql_userA);
+    $query_userN = mysqli_query($db,$sql_userN);
+    $num_userA = mysqli_num_rows($query_userA);
+    $num_userN = mysqli_num_rows($query_userN);
     $data[] = array(
         'value' => $num_userN,
         'name' => "Non-approved"
@@ -37,9 +38,9 @@ function numberBooked() {
                 LEFT JOIN facility_list
                 ON booking_list.facility_id=facility_list.facility_id
                 GROUP BY facility_name";
-    $query_booking = mysql_query($sql_booking);
+    $query_booking = mysqli_query($db, $sql_booking);
 
-    while($booking = mysql_fetch_array($query_booking)){
+    while($booking = mysqli_fetch_assoc($query_booking)){
         $categories[] = $booking['facility_name'];
         $number[] = intval($booking['NumberOfOrders']);
     }

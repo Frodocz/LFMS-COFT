@@ -65,6 +65,13 @@
       </div><!--/.container-->
     </nav><!--/nav-->
   </header><!--/header-->
+  <?php
+    include_once('connect.php');
+
+    $query = "SELECT * FROM facility_list";
+    $result = $db->query($query);
+    $num_results = $result->num_rows;
+  ?>
 
   <!-- Display Facility -->
   <section id="normal">
@@ -93,14 +100,8 @@
               	</thead>
                 <tbody>
                 <?php
-                  include_once('connect.php');
-
-                  $query = "SELECT * FROM facility_list";
-                  $result = mysql_query($query);
-                  $num_results = mysql_num_rows($result);
-
                   for ($i = 0; $i < $num_results; $i++) {
-                    $row = mysql_fetch_array($result); 
+                    $row = $result->fetch_assoc(); 
                 ?>
                   <tr>
                     <td class="col-md-3"><img height="250" width="300" src="<?php echo $row['facility_imagepath'] ?>"></td>

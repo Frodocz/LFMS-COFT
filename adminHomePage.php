@@ -15,9 +15,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <!-- Mobile Specific Metas -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
   <link href="css/bootstrap.min.css" rel="stylesheet">
-
   <!-- Custom CSS -->
   <link href="css/main.css" rel="stylesheet">
 
@@ -27,6 +25,7 @@
   <script type="text/javascript" src="js/bootstrap.min.js"></script>
   <script type="text/javascript" src="js/main.js"></script>
   <script type="text/javascript" src="js/echarts.min.js"></script>
+
 </head>
 <body>
   <header id="header">
@@ -65,23 +64,27 @@
   </header><!--/header-->
 
   <?php 
-    $db_conn = mysqli_connect('localhost', 'root', '19921226', 'fyp');
+    include('connect.php');
     //Get unapproved user number
     $query_user = "SELECT * FROM normal_user WHERE approved=0";
-    $result_user = mysqli_query($db_conn, $query_user);
-    $num_result_user = mysqli_num_rows($result_user);
+    $result_user = $db->query($query_user);
+    $num_result_user = $result_user->num_rows;
     //Get unapproved facility booking records
     $query_booking = "SELECT * FROM booking_list WHERE approved=0 AND type='book'";
-    $result_booking = mysqli_query($db_conn, $query_booking);
-    $num_result_booking = mysqli_num_rows($result_booking);
+    $result_booking = $db->query($query_booking);
+    $num_result_booking = $result_booking->num_rows;
 
     $query_visiting = "SELECT * FROM booking_list WHERE approved=0 AND type='visit'";
-    $result_visiting = mysqli_query($db_conn, $query_visiting);
-    $num_result_visiting = mysqli_num_rows($result_visiting);
+    $result_visiting = $db->query($query_visiting);
+    $num_result_visiting = $result_visiting->num_rows;
 
     $query_facility = "SELECT * FROM facility_list WHERE status=0";
-    $result_facility = mysqli_query($db_conn, $query_facility);
-    $num_result_facility = mysqli_num_rows($result_facility);
+    $result_facility = $db->query($query_facility);
+    $num_result_facility = $result_facility->num_rows;
+
+    $query_noti = "SELECT * FROM announcement";
+    $result_noti = $db->query($query_noti);
+    $noti_row = $result_noti->fetch_assoc();
 
 //     $query_chart = "SELECT facility_list.facility_name,COUNT(booking_list.booking_id) AS NumberOfBookings FROM booking_list
 // LEFT JOIN facility_list
@@ -90,9 +93,6 @@
   ?>
   <section id="system_basic">
     <div id="adminhome">
-  <!--     <div class="section-header">
-        <h2 class="section-title text-center fadeInDown">Admin Dashboard</h2>
-      </div> -->
       <div class="container">
         <div class="row">
           <div class="col-lg-3 col-md-6 col-sm-6">
@@ -192,6 +192,38 @@
     <div class="container">
       <div class="row">
         <div id="facility_status" class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+          <div id="logerror"></div>
+          <!-- System Notification -->
+          <div class="alert alert-danger">
+            <div id="noti_info"><h4><?php echo $noti_row['announcement']; ?></h4></div>
+            </br>
+            <button class="btn btn-danger" data-toggle="modal" data-target="#noti_modal">Edit Announcement</button>
+          </div>
+          <!-- Modal -->
+          <div class="modal fade" id="noti_modal" role="dialog">
+            <div class="modal-dialog">
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">Update The Announcement</h4>
+                </div>
+              <form id="noti_form" method="post">
+                <div class="modal-body">
+                  <div class="form-group">
+                    <label for="noti_info">Update the announcement here:</label>
+                    <textarea class="form-control" rows="5" name="noti_info" id="noti_info"><?php echo $noti_row['announcement']; ?></textarea>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="submit" id="edit_submit" class="btn btn-success">Update</button>
+                  <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                </div>
+              </form>
+              </div>
+            </div>
+          </div>
+          <!-- / End of System Notification -->
           <div class="panel panel-default">
             <div class="panel-heading">
               <i class="fa fa-area-chart fa-fw"></i> Facility Usage This Month
@@ -251,6 +283,38 @@
       </div>
     </div>
   </footer><!--footer-->
+  <script>
+      $(document).on('click','#edit_submit',function(){
+        $.ajax({
+          type: "POST",
+          url: "processAdminUpdateAnnouncement.php",
+          data: $("#noti_form").serialize(), // serializes the form's elements.
+          success: function(data)
+          {
+            if(data==1) {
+              $('#logerror').html('<i class="fa fa-exclamation-triangle"></i> The announcement is successfully updated.');
+              $('#logerror').addClass("alert alert-success");
+              $('#noti_modal').modal('hide');
+              window.setTimeout(function() {
+                window.location.href = 'adminHomepage.php';
+              }, 1000);
+            } 
+            else if (data==0) {
+              $('#logerror').html('<i class="fa fa-exclamation-triangle"></i> Failed to update the announcement. Please try again later.');
+              $('#logerror').addClass("alert alert-danger"); 
+              $('#noti_modal').modal('hide'); 
+            } 
+            else if (data=="conn_err") {
+              $('#logerror').html('<i class="fa fa-exclamation-triangle"></i> Cannot connect to the database. Please try again later.');
+              $('#logerror').addClass("alert alert-danger"); 
+              $('#noti_modal').modal('hide'); 
+            }
+          }
+        });
+        return false;
+      });
+  </script>
+
   <script type="text/javascript">
     var myChart = echarts.init(document.getElementById('testgraph'));
     // Set the styles and empty axis of the charts

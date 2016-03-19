@@ -5,9 +5,9 @@ $username = $_POST['username'];
 $password = $_POST['loginPassword'];
 // The result will return for ajax form processing
 
-  $db_conn = new mysqli('localhost', 'root', '19921226', 'fyp');
+  $db = new mysqli('localhost', 'root', '19921226', 'fyp');
 
-    if (mysqli_connect_errno()) {
+    if ($db->connect_errno) {
      echo 'conn_err';
      exit();
   }
@@ -15,8 +15,8 @@ $password = $_POST['loginPassword'];
   $query = "select * from normal_user where username='".$username."'and password='".md5($password)."'";
   $query2 = "select * from admin_user where username='".$username."'and password='".$password."'";
   
-  $result_normal= $db_conn->query($query);
-  $result_admin = $db_conn->query($query2);
+  $result_normal= $db->query($query);
+  $result_admin = $db->query($query2);
 
   if ($result_normal->num_rows >0 )
   {
@@ -42,5 +42,5 @@ $password = $_POST['loginPassword'];
     echo "admin";
     exit(); 
   } 
-  $db_conn->close();
+  $db->close();
 ?>

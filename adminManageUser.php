@@ -65,20 +65,21 @@
       </div><!--/.container-->
     </nav><!--/nav-->
   </header><!--/header-->
+
+  <?php 
+    include_once('connect.php');
+    $query = "SELECT * FROM normal_user WHERE approved=0 ORDER BY registerdate ASC";
+    $query2 = "SELECT * FROM normal_user WHERE approved=1 ORDER BY username ASC";
+    $result = $db->query($query);
+    $result2 = $db->query($query2);
+    $num_results = $result->num_rows;
+    $num_results2 = $result2->num_rows;
+  ?>
         
   <section id="normal">
     <div class="section-header">
       <h2 class="section-title text-center fadeInDown">User Management</h2>
     </div>
-    <?php 
-      include_once('connect.php');
-      $query = "SELECT * FROM normal_user WHERE approved=0 ORDER BY registerdate ASC";
-      $query2 = "SELECT * FROM normal_user WHERE approved=1 ORDER BY username ASC";
-      $result = mysql_query($query);
-      $result2 = mysql_query($query2);
-      $num_results = mysql_num_rows($result);
-      $num_results2 = mysql_num_rows($result2);
-    ?>
     <div class="container">
       <div class="row">
         <div class="col-lg-8">         
@@ -103,7 +104,7 @@
                   <tbody>
                     <?php 
                       for ($i = 1; $i < $num_results+1; $i++) {
-                        $row = mysql_fetch_array($result); 
+                        $row = $result->fetch_assoc(); 
                     ?>
                     <tr>
                       <td><?php echo $i; ?></td>
@@ -136,8 +137,8 @@
                             <?php
                               //Display Detailed Info
                               $query_displayInfo = "SELECT * FROM normal_user WHERE user_id = '".$row['user_id']."'";
-                              $result_displayInfo = mysql_query($query_displayInfo);
-                              $row_displayInfo = mysql_fetch_array($result_displayInfo); 
+                              $result_displayInfo = $db->query($query_displayInfo);
+                              $row_displayInfo = $result_displayInfo->fetch_assoc(); 
                               echo '<div class="row"><div class="col-lg-10 col-lg-offset-1">
                                     <p>Email: '.$row_displayInfo['username'].'</p>';
                               echo '<p>Name: '.$row_displayInfo['title'].' '.$row_displayInfo['name'].'</p>'; 
@@ -187,7 +188,7 @@
                   <tbody>
                   <?php 
                     for ($i = 1; $i < $num_results2+1; $i++) {
-                      $row2 = mysql_fetch_array($result2);
+                      $row2 = $result2->fetch_assoc();
                   ?>
                     <tr>
                       <td><?php echo $i; ?></td>
@@ -220,8 +221,8 @@
                             <?php
                             //Display Detailed Info
                               $query_displayInfo = "SELECT * FROM normal_user WHERE user_id = '".$row2['user_id']."'";
-                              $result_displayInfo = mysql_query($query_displayInfo);
-                              $row_displayInfo = mysql_fetch_array($result_displayInfo);
+                              $result_displayInfo = $db->query($query_displayInfo);
+                              $row_displayInfo = $result_displayInfo->fetch_assoc();
                             ?>
                             <div class="row">
                               <div class="col-lg-10 col-lg-offset-1">

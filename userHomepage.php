@@ -47,7 +47,7 @@
         <div class="collapse navbar-collapse navbar-right">
           <ul class="nav navbar-nav">
             <li class="scroll"><a href="userHomepage.php">Facility Booking</a></li>
-            <li class="scroll"><a href="userManageBooking.php">Booking Management</a></li>
+            <li class="scroll"><a href="userManageCalendar.php">Booking Management</a></li>
             <li class="scroll"><a href="userManageProfile.php">Profile Management</a></li>
             <li class="scroll"><a href="#">Hi, <b><?php echo $_SESSION['valid_user_name'] ?></b></a></li>
             <li class="scroll"><a href="logout.php"><span><strong>Log Out<Strong><span></a></li>                 
@@ -58,16 +58,23 @@
   </header><!--/header-->
 
   <?php
-    @ $db_conn = new mysqli('localhost','root','19921226','fyp');
-
-    if (mysqli_connect_errno()) {
-       echo '<script type="text/javascript">alert("Error: Could not connect to database. Please try again later.");</script>';
-       exit;
-    }
-
+    include('connect.php');
+    
     $query = "SELECT * FROM facility_list";
-    $result = $db_conn->query($query);
+    $result = $db->query($query);
     $num_results = $result->num_rows;
+
+    $query_noti = "SELECT * FROM announcement";
+    $result_noti = $db->query($query_noti);
+    $noti_row = $result_noti->fetch_assoc();
+
+    $query_coming = "SELECT * FROM booking_list WHERE approved=1 AND starttime >= ".intval(strtotime('now'))." ORDER BY booking_id ASC";
+    $result_coming = $db->query($query_coming);
+    $num_result_coming = $result_coming->num_rows;
+
+    $query_history = "SELECT * FROM booking_list WHERE approved=1 AND starttime < ".intval(strtotime('now'))." ORDER BY booking_id ASC";
+    $result_history = $db->query($query_history);
+    $num_result_history = $result_history->num_rows;
   ?>
 
   <!-- Home Content -->
@@ -75,8 +82,72 @@
   <section id="normal">
     <div class="container">
       <div class="section-header">
-        <h2 class="section-title text-center fadeInDown">Facility List</h2>
-      </div>    
+        <div class="row">
+          <div class="col-lg-6 col-md-12 col-sm-6">
+            <div class="panel panel-info">
+              <div class="panel-heading">
+                <div class="row">
+                  <div class="col-xs-3">
+                    <i class="fa fa-bell fa-3x"></i>
+                  </div>
+                  <div class="col-xs-9 text-right">
+                    <div class="huge">1</div>
+                    <div>System Notification</div>
+                  </div>
+                </div>
+              </div>
+              <div class="panel-footer">
+                <?php echo $noti_row['announcement'] ?>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <div class="row">
+                  <div class="col-xs-3">
+                    <i class="fa fa-calendar fa-3x"></i>
+                  </div>
+                  <div class="col-xs-9 text-right">
+                    <div class="huge"><?php echo $num_result_coming ?></div>
+                    <div>My Coming Bookings</div>
+                  </div>
+                </div>
+              </div>
+              <a href="userManageCalendar.php">
+                <div class="panel-footer">
+                    <span class="pull-left">Manage My Coming Bookings</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+              </a>
+            </div>
+          </div><!-- End of Panel -->
+          <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="panel panel-danger">
+              <div class="panel-heading">
+                <div class="row">
+                  <div class="col-xs-3">
+                    <i class="fa fa-calendar-check-o fa-3x"></i>
+                  </div>
+                  <div class="col-xs-9 text-right">
+                    <div class="huge"><?php echo $num_result_history ?></div>
+                    <div>My Booking History</div>
+                  </div>
+                </div>
+              </div>
+              <a href="userManageCalendar.php">
+                <div class="panel-footer">
+                    <span class="pull-left">View All My Bookings</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+              </a>
+            </div>
+          </div><!-- End of Panel -->
+        </div>
+      </div>
+  
       <div class="row">
         <div class="panel panel-primary">
           <div class="panel-heading">
@@ -94,17 +165,17 @@
                 <tbody>
                   <?php 
                     for ($i = 0; $i < $num_results; $i++) {
-                      $row = mysqli_fetch_array($result);
+                      $row = $result->fetch_assoc();
                   ?> 
                   <tr>
-                    <td class="col-md-3 hidden-xs">
+                    <td>
                       <img height="250" width="300" src="<?php echo $row['facility_imagepath']; ?>">
                     </td>
-                    <td class="col-md-5">
+                    <td>
                       <h4 class="text-center"><?php echo $row['facility_name']; ?></h4><hr>
                       <p class="hidden-sm hidden-xs"><?php echo $row['facility_description'] ?></p>
                     </td>
-                    <td class="col-md-3">
+                    <td>
                       <h4>Booking Fee</h4>
                         For internal user: S$ <?php echo $row['facility_internal_price'] ?>/Hour<br>
                         For external user: S$ <?php echo $row['facility_external_price'] ?>/Hour<hr>
@@ -112,14 +183,14 @@
                       <h4>Status: <div style="display: inline; color:darkgreen">Available</div></h4><hr>
                       <h4>Description: <div style="display: inline; color:#006400"> <?php echo $row['description'] ?></h4>
                     </td>
-                    <td class="col-md-1">
+                    <td>
                       <a class="btn btn-default btn-block" href="userBookFacility.php?facility_id=<?php echo $row['facility_id'] ?>"><i class="fa fa-calendar"></i> Book Now</a>
                     </td>
                     <?php } else { ?>
                       <h4>Status: <div style="display: inline; color:darkred">Unavaliable</div></h4><hr>
                       <h4>Description: <div style="display: inline; color:#8B0000"><?php echo $row['description'] ?></h4>
                     </td>
-                    <td class="col-md-1">
+                    <td>
                       <a class="btn btn-default btn-block disabled" href="userBookFacility.php?facility_id=<?php echo $row['facility_id'] ?>"><i class="fa fa-calendar"></i> Book Now</a>
                     </td>
                     <?php

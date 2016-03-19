@@ -9,12 +9,12 @@
   $user_id = $_POST['user_id'];
 
   $sql_facility = "SELECT * FROM facility_list WHERE facility_id='".$facility_id."'";
-  $query_getFacility = mysql_query($sql_facility);
-  $facility = mysql_fetch_array($query_getFacility);
+  $query_getFacility = $db->query($sql_facility);
+  $facility = $query_getFacility->fetch_assoc();
 
   $sql_user = "SELECT * FROM normal_user WHERE user_id=".$_SESSION['valid_user_id']."";
-  $query_getUser = mysql_query($sql_user);
-  $user = mysql_fetch_array($query_getUser);
+  $query_getUser = $db->query($sql_user);
+  $user = $query_getUser->fetch_assoc();
   $price = $facility['facility_internal_price'];
 
   switch($action){
@@ -41,12 +41,12 @@ function selectform(){
   $user_id = $_POST['user_id'];
 
   $sql_facility = "SELECT * FROM facility_list WHERE facility_id='".$facility_id."'";
-  $query_getFacility = mysql_query($sql_facility);
-  $facility = mysql_fetch_array($query_getFacility);
+  $query_getFacility = $db->query($sql_facility);
+  $facility = $query_getFacility->fetch_array();
 
   $sql_user = "SELECT * FROM normal_user WHERE user_id=".$_SESSION['valid_user_id']."";
-  $query_getUser = mysql_query($sql_user);
-  $user = mysql_fetch_array($query_getUser);
+  $query_getUser = $db->query($sql_user);
+  $user = $query_getUser->fetch_assoc();
 
   $price = $facility['facility_internal_price'];
     // $fee = round($price*$hourdiff,2);
@@ -180,8 +180,8 @@ function selectform(){
 <?php }
 
 function editform($id) {
-  $query = mysql_query("SELECT * FROM booking_list WHERE booking_id='$id'");
-  $row = mysql_fetch_array($query);
+  $query = $db->query("SELECT * FROM booking_list WHERE booking_id='$id'");
+  $row = $query->fetch_assoc();
   if($row) {
     $id = $row['booking_id'];
     $user_id = $row['user_id'];
@@ -191,12 +191,12 @@ function editform($id) {
     $type = $row['type'];
 
     $sql_facility = "SELECT * FROM facility_list WHERE facility_id='".$facility_id."'";
-    $query_getFacility = mysql_query($sql_facility);
-    $facility = mysql_fetch_array($query_getFacility);
+    $query_getFacility = $db->query($sql_facility);
+    $facility = $query_getFacility->fetch_assoc();
 
     $sql_user = "SELECT * FROM normal_user WHERE user_id=".$_SESSION['valid_user_id']."";
-    $query_getUser = mysql_query($sql_user);
-    $user = mysql_fetch_array($query_getUser);
+    $query_getUser = $db->query($sql_user);
+    $user = $query_getUser->fetch_assoc();
 
     $starttime = $row['starttime'];
     $start_d = date("Y-m-d",$starttime);

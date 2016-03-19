@@ -1,14 +1,11 @@
 <?php
-$host="localhost";
-$db_user="root";
-$db_pass="19921226";
-$db_name="fyp";
-$timezone="Asia/Singpaore";
-
-$link=mysql_connect($host,$db_user,$db_pass);
-mysql_select_db($db_name,$link);
-mysql_query("SET names UTF8");
-
-header("Content-Type: text/html; charset=utf-8");
-date_default_timezone_set($timezone); 
+    $host="localhost";
+    $db_user="root";
+    $db_pass="19921226";
+    $db_name="fyp";
+    @ $db = new mysqli($host, $db_user, $db_pass, $db_name);
+    if ($db->connect_errno) {
+      echo '<script type="text/javascript">alert("Error: Could not connect to database. Please try again later.");</script>';
+      exit();
+    }
 ?>

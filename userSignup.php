@@ -85,10 +85,10 @@
                   <?php
                     include_once('connect.php');
                     $query = "SELECT * FROM facility_list";
-                    $result = mysql_query($query);
-                    $num_results = mysql_num_rows($result);
+                    $result = $db->query($query);
+                    $num_results = $result->num_rows;
                     for ($i = 0; $i < $num_results; $i++) {
-                      $row = mysql_fetch_array($result);
+                      $row = $result->fetch_assoc();
                   ?>
                   <div class="checkbox">
                     <label>
