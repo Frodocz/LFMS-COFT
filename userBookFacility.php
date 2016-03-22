@@ -48,10 +48,10 @@
         <div class="collapse navbar-collapse navbar-right">
           <ul class="nav navbar-nav">
             <li class="scroll"><a href="userHomepage.php">Facility Booking</a></li>
-            <li class="scroll"><a href="userManageBooking.php">Booking Management</a></li>
+            <li class="scroll"><a href="userViewBooking.php">Booking Management</a></li>
             <li class="scroll"><a href="userManageProfile.php">Profile Management</a></li>
             <li class="scroll"><a href="#">Hi, <b><?php echo $_SESSION['valid_user_name'] ?></b></a></li>
-            <li class="scroll"><a href="logout.php"><span><strong>Log Out<Strong><span></a></li>                 
+            <li class="scroll"><a href="logout.php"><span><strong>Log Out</strong></span></a></li>                 
           </ul>
         </div>
       </div><!--/.container-->
@@ -62,9 +62,8 @@
 
     $user_id = $_SESSION['valid_user_id'];
     $facility_id = $_GET['facility_id'];
-    $query = 'SELECT * FROM facility_list WHERE facility_id="'.$facility_id.'"';
+    $query = 'SELECT * FROM facility_list WHERE facility_id="'.$facility_id.'" AND status=1';
     $result = $db->query($query);
-
     $facilityInfo = $result->fetch_assoc();
   ?>
 
@@ -90,6 +89,27 @@
         <div class="col-lg-10 col-lg-offset-1">
           <div class="bookingtime">
             <h2 class="text-center">Schedule of This Facility</h2>
+            <div class="row">
+              <div class="col-lg-3">
+                <div id="notice" class="text-left">
+                  <h4><span class="label label-danger">Non-approved Booking/Visiting</span></h4>
+                  <h4><span class="label label-primary">Approved Visiting</span></h4>
+                  <h4><span class="label label-success">Approved Booking</span></h4>
+                </div>
+              </div>
+              <div class="col-lg-9">
+                <div class="well">
+                  <ol>
+                    <li>ADD: Left click, hold and drag from your expected start time to end time to create a booking;</li>
+                    <li>EDIT: Left click YOUR existing booking to edit;</li>
+                    <li>DRAG: Left click, hold and drag to move YOUR existing booking;</li>
+                    <li>RESIZE: Left click, hold and drag from the bottom of edge to resize YOUR existing booking;</li>
+                    <li>Avaliable Time: Only requests within the current month will be accepted.</li>
+                  </ol>
+
+                </div>
+              </div>
+            </div>
             <div id='calendar'></div>
           </div>
         </div>

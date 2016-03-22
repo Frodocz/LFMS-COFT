@@ -76,18 +76,21 @@
 
   <?php 
   include_once('connect.php');
-  $query = "SELECT * FROM booking_list WHERE approved=0 AND type='book' ORDER BY booking_id ASC";
-  $query2 = "SELECT * FROM booking_list WHERE approved=0 AND type='visit' ORDER BY booking_id ASC";
-  $query3 = "SELECT * FROM booking_list WHERE approved=1 AND type='book' AND starttime > ".intval(strtotime('now'))." ORDER BY booking_id ASC";
-  $query4 = "SELECT * FROM booking_list WHERE approved=1 AND type='visit' AND starttime > ".intval(strtotime('now'))."ORDER BY booking_id ASC";
+  $query = "SELECT * FROM booking_list WHERE approved=0 AND type='book' ORDER BY facility_id";
+  $query2 = "SELECT * FROM booking_list WHERE approved=0 AND type='visit' ORDER BY facility_id";
+  $query3 = "SELECT * FROM booking_list WHERE approved=1 AND type='book' AND starttime > ".intval(strtotime('now'))." ORDER BY starttime";
+  $query4 = "SELECT * FROM booking_list WHERE approved=1 AND type='visit' AND starttime > ".intval(strtotime('now'))." ORDER BY starttime";
+  $query5 = "SELECT * FROM booking_list WHERE approved=1 AND type='book' AND endtime <= ".intval(strtotime('now'))." AND billed=0 ORDER BY endtime";
   $result = $db->query($query);
   $result2 = $db->query($query2);
   $result3 = $db->query($query3);
   $result4 = $db->query($query4);
+  $result5 = $db->query($query5);
   $num_results = $result->num_rows;
   $num_results2 =$result2->num_rows;
   $num_results3 =$result3->num_rows;
   $num_results4 =$result4->num_rows;
+  $num_results5 =$result5->num_rows;
 ?>
 
   <section id="normal">
@@ -95,11 +98,12 @@
       <h2 class="section-title text-center fadeInDown">Booking Management</h2>
     </div>
     <div class="container">
-      <ul class="nav nav-tabs">
+      <ul class="nav nav-tabs" id="myTabs">
         <li role="presentation" class="active"><a data-toggle="tab" href="#booking">New Booking Requests <span class="badge"><?php echo $num_results; ?></span></a></li>
         <li role="presentation"><a data-toggle="tab" href="#visiting">New Visiting Requests <span class="badge"><?php echo $num_results2; ?></span></a></li>
         <li role="presentation"><a data-toggle="tab" href="#app_booking">Upcomming Booking Records <span class="badge"><?php echo $num_results3; ?></span></a></li>
         <li role="presentation"><a data-toggle="tab" href="#app_visiting">Upcomming Visiting Records <span class="badge"><?php echo $num_results4; ?></span></a></li>
+        <li role="presentation"><a data-toggle="tab" href="#bill_booking">Bookings To Be Billed <span class="badge"><?php echo $num_results5; ?></span></a></li>
       </ul>
       <br>
       <div class="tab-content">
@@ -120,6 +124,7 @@
                             <th>#</th>
                             <th>Facility Name</th>
                             <th>User Name</th>
+                            <th>Trained/Have Access</th>
                             <th>Start Time</th>
                             <th>End Time</th>
                             <th>Action</th>
@@ -139,11 +144,22 @@
                               $search_u_name = "SELECT * FROM normal_user WHERE user_id = ".$u_id;
                               $u_result = $db->query($search_u_name);
                               $u_row = $u_result->fetch_assoc();
+
+                              //Check if the user has access to use this facility
+                              $access_array = explode(",",$u_row['facility_access']);
+                              $number_access = sizeof($access_array);
+
+                              if (!in_array($f_row['facility_name'], $access_array)){
+                                $trained = "No";
+                              } else {
+                                $trained = "Yes";
+                              }
                           ?>
                           <tr>
                             <td><?php echo $i; ?></td>
                             <td><?php echo $f_row['facility_name']; ?></td>
                             <td><?php echo $u_row['name']; ?></td>
+                            <td><?php echo $trained; ?></td>
                             <td><?php echo date("Y M d, H:i",$row['starttime']); ?></td>
                             <td><?php echo date("Y M d, H:i",$row['endtime']); ?></td>
                             <td>
@@ -283,11 +299,11 @@
                             <td><?php echo date("Y M d, H:i",$row3['starttime']); ?></td>
                             <td><?php echo date("Y M d, H:i",$row3['endtime']); ?></td>
                             <td>
-                              <a href="processAdminManageCalendar.php?type=book&action=approve&id=<?php echo $row3['booking_id']; ?>">
-                                <i class="fa fa-calendar-check-o"></i> Approve
+                              <a href="processAdminManageCalendar.php?type=book&action=edit&id=<?php echo $row3['booking_id']; ?>">
+                                <i class="fa fa-calendar-check-o"></i> Edit
                               </a>&nbsp;
                               <a class="pull-right confirmationDelete" href="processAdminManageCalendar.php?type=book&action=reject&id=<?php echo $row3['booking_id'] ?>">
-                                <i class="fa fa-calendar-times-o"></i> Reject
+                                <i class="fa fa-calendar-times-o"></i> Remove
                               </a>
                             </td>
                           </tr>
@@ -331,7 +347,7 @@
                         </thead>
                         <tbody>
                           <?php 
-                            for ($l = 1; $l < $num_results4+1; $l++) {
+                            for ($x = 1; $x < $num_results4+1; $x++) {
                               $row4 = $result4->fetch_assoc(); 
                               //Get facility's details
                               $f_id4 = $row4['facility_id'];
@@ -345,17 +361,81 @@
                               $u_row4 = $u_result4->fetch_assoc();
                           ?>
                           <tr>
-                            <td><?php echo $l; ?></td>
+                            <td><?php echo $x; ?></td>
                             <td><?php echo $f_row4['facility_name']; ?></td>
                             <td><?php echo $u_row4['name']; ?></td>
                             <td><?php echo date("Y M d, H:i",$row4['starttime']); ?></td>
                             <td><?php echo date("Y M d, H:i",$row4['endtime']); ?></td>
                             <td>
-                              <a href="processAdminManageCalendar.php?type=visit&action=approve&id=<?php echo $row4['booking_id']; ?>">
-                                <i class="fa fa-calendar-check-o"></i> Approve
+                              <a href="processAdminManageCalendar.php?type=book&action=edit&id=<?php echo $row4['booking_id']; ?>">
+                                <i class="fa fa-calendar-check-o"></i> Edit
                               </a>&nbsp;
-                              <a class="pull-right confirmationDelete" href="processAdminManageCalendar.php?type=visit&action=reject&id=<?php echo $row4['booking_id'] ?>">
-                                <i class="fa fa-calendar-times-o"></i> Reject
+                              <a class="pull-right confirmationDelete" href="processAdminManageCalendar.php?type=book&action=reject&id=<?php echo $row4['booking_id'] ?>">
+                                <i class="fa fa-calendar-times-o"></i> Remove
+                              </a>
+                            </td>
+                          </tr>
+                           <?php } ?>
+                        </tbody>
+                      </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                  </div>
+                  <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+              </div>
+              <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /#app_visiting -->
+        <div id="bill_booking" class="tab-pane fade in">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="panel panel-primary">
+                  <div class="panel-heading">
+                    <strong><i class="fa fa-bell-o"></i> Bookings To Be Billed
+                    <div class="pull-right">Total: <?php echo $num_results5; ?></div></strong>
+                  </div>
+                    <!-- /.panel-heading -->
+                  <div class="panel-body">
+                    <div class="dataTable_wrapper">
+                      <table width="100%" class="table table-striped table-bordered table-hover" id="bill_booking_table">
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>Facility Name</th>
+                            <th>User Name</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <?php 
+                            for ($y = 1; $y < $num_results5+1; $y++) {
+                              $row5 = $result5->fetch_assoc(); 
+                              //Get facility's details
+                              $f_id5 = $row5['facility_id'];
+                              $search_f_name5 = "SELECT * FROM facility_list WHERE facility_id = ".$f_id5;
+                              $f_result5 = $db->query($search_f_name5);
+                              $f_row5 = $f_result5->fetch_assoc();
+                              //Get user's details
+                              $u_id5 = $row5['user_id'];
+                              $search_u_name5 = "SELECT * FROM normal_user WHERE user_id = ".$u_id5;
+                              $u_result5 = $db->query($search_u_name5);
+                              $u_row5 = $u_result5->fetch_assoc();
+                          ?>
+                          <tr>
+                            <td><?php echo $y; ?></td>
+                            <td><?php echo $f_row5['facility_name']; ?></td>
+                            <td><?php echo $u_row5['name']; ?></td>
+                            <td><?php echo date("Y M d, H:i",$row5['starttime']); ?></td>
+                            <td><?php echo date("Y M d, H:i",$row5['endtime']); ?></td>
+                            <td>
+                              <a href="processAdminManageCalendar.php?type=book&action=bill&id=<?php echo $row5['booking_id'] ?>">
+                                <i class="fa fa-usd"></i> Send Bill
                               </a>
                             </td>
                           </tr>
@@ -401,21 +481,18 @@
   <script>
     $(document).ready(function() {
       // Set the datatable to be shown responsively
-      $('#booking_table').DataTable({
+      $('.table').DataTable({
         responsive:true
       });
-      $('#visiting_table').DataTable({
-        responsive:true
+      if(location.hash) {
+        $('a[href=' + location.hash + ']').tab('show');
+      }
+      $(document.body).on("click", "a[data-toggle]", function(event) {
+        location.hash = this.getAttribute("href");
       });
-      $('#app_booking_table').DataTable({
-        responsive:true
-      });
-      $('#app_visiting_table').DataTable({
-        responsive:true
-      });
-      //popup a confirmation clock to ask user whether or not delete an item
-      $('.confirmationDelete').on('click', function () {
-          return confirm('Are you sure you want to remove this record?');
+      $(window).on('popstate', function() {
+          var anchor = location.hash || $("a[data-toggle=tab]").first().attr("href");
+          $('a[href=' + anchor + ']').tab('show');
       });
     });
   </script>

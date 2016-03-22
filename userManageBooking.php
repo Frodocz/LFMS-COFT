@@ -1,7 +1,6 @@
 <?php 
   session_start();
-  $link = mysql_connect('localhost','root','19921226');
-  mysql_select_db('fyp');
+  include('connect.php');
 
   $action = $_GET['action'];
   $id = (int)$_GET['id'];
@@ -9,25 +8,16 @@
   $facility_id = $_POST['facility_id'];
   $user_id = $_POST['user_id'];
 
-  $sql_facility = "SELECT * FROM facility_list WHERE facility_id='".$facility_id."'";
-  $query_getFacility = mysql_query($sql_facility);
-  $facility = mysql_fetch_array($query_getFacility);
-
-  $sql_user = "SELECT * FROM normal_user WHERE user_id=".$_SESSION['valid_user_id']."";
-  $query_getUser = mysql_query($sql_user);
-  $user = mysql_fetch_array($query_getUser);
-  $price = $facility['facility_internal_price'];
-
   switch($action){
     case 'select':
-      selectform();
+      selectform($db,$facility_id,$user_id);
       break;
     case 'edit':
-      editform($id);
+      editform($db,$id);
       break;
   }
 
-function selectform(){
+function selectform($db,$facility_id,$user_id){
   $start_d = $_POST['startDate'];
   $start_h = $_POST['startHour'];
   $start_m = $_POST['startMinu'];
@@ -38,16 +28,13 @@ function selectform(){
 
   $hourdiff = $_POST['hourdiff'];
 
-  $facility_id = $_POST['facility_id'];
-  $user_id = $_POST['user_id'];
-
   $sql_facility = "SELECT * FROM facility_list WHERE facility_id='".$facility_id."'";
-  $query_getFacility = mysql_query($sql_facility);
-  $facility = mysql_fetch_array($query_getFacility);
+  $query_getFacility = mysqli_query($db,$sql_facility);
+  $facility = mysqli_fetch_assoc($query_getFacility);
 
   $sql_user = "SELECT * FROM normal_user WHERE user_id=".$_SESSION['valid_user_id']."";
-  $query_getUser = mysql_query($sql_user);
-  $user = mysql_fetch_array($query_getUser);
+  $query_getUser = mysqli_query($db,$sql_user);
+  $user = mysqli_fetch_assoc($query_getUser);
 
   $price = $facility['facility_internal_price'];
     // $fee = round($price*$hourdiff,2);
@@ -180,9 +167,9 @@ function selectform(){
 
 <?php }
 
-function editform($id) {
-  $query = mysql_query("SELECT * FROM booking_list WHERE booking_id='$id'");
-  $row = mysql_fetch_array($query);
+function editform($db,$id) {
+  $query = mysqli_query($db,"SELECT * FROM booking_list WHERE booking_id='$id'");
+  $row = mysqli_fetch_assoc($query);
   if($row) {
     $id = $row['booking_id'];
     $user_id = $row['user_id'];
@@ -192,12 +179,12 @@ function editform($id) {
     $type = $row['type'];
 
     $sql_facility = "SELECT * FROM facility_list WHERE facility_id='".$facility_id."'";
-    $query_getFacility = mysql_query($sql_facility);
-    $facility = mysql_fetch_array($query_getFacility);
+    $query_getFacility = mysqli_query($db,$sql_facility);
+    $facility = mysqli_fetch_assoc($query_getFacility);
 
     $sql_user = "SELECT * FROM normal_user WHERE user_id=".$_SESSION['valid_user_id']."";
-    $query_getUser = mysql_query($sql_user);
-    $user = mysql_fetch_array($query_getUser);
+    $query_getUser = mysqli_query($db,$sql_user);
+    $user = mysqli_fetch_assoc($query_getUser);
 
     $starttime = $row['starttime'];
     $start_d = date("Y-m-d",$starttime);
@@ -224,6 +211,8 @@ function editform($id) {
         <div class="modal-body">
           <?php
             echo '<input type="hidden" class="form-control" id="booking_id" name="id" value="'.$id.'">';
+            echo '<input type="hidden" class="form-control" id="facility_id" name="facility_id" value="'.$facility_id.'">';
+            echo '<input type="hidden" class="form-control" id="user_id" name="user_id" value="'.$user_id.'">'; 
           ?>
           <div class="row control-group">
             <div class="form-group col-xs-12 floating-label-form-group controls">
@@ -239,7 +228,7 @@ function editform($id) {
             <div class="form-group col-xs-6 floating-label-form-group controls">
               <label>Type of Booking</label>
               <select class="form-control" name="book_type" id="book_type">
-                <option value="<?php echo $type; ?>" selected><?php echo $type; ?></option> 
+                <option value="<?php echo $type; ?>" selected><?php if ($type=="book") echo "Booking"; else echo "Visiting"; ?></option> 
                 <option value="book">Booking</option>
                 <option value="visit">Visiting</option>
               </select>
@@ -339,7 +328,6 @@ function editform($id) {
 <?php } ?>
 <script type="text/javascript">
 $(function() {
-
   //Action select will happen 
   $("#select_form").submit(function(e){
     $.ajax({
@@ -399,11 +387,14 @@ $(function() {
         e_minute = $("#e_minute option:selected" ).text(),
         starttime = s_date+'T'+s_hour+':'+s_minute+':00',
         endtime = e_date+'T'+e_hour+':'+e_minute+':00',
-        price = "<?php echo $price; ?>";
-
+        price = $("#price").val();
     var duration = moment(endtime).diff(moment(starttime), 'hours', true);
-    var fee = (price * Number(duration)).toFixed(2);
-
+    if ( $("#book_type option:selected").val() == "book" ) {
+      var fee = (Number(price) * Number(duration)).toFixed(2);
+    }
+    if ( $("#book_type option:selected").val() == "visit" ) {
+      var fee = (0).toFixed(2);
+    }
     if (duration >= 24 || s_date != e_date){
       alert("You are not allowed to booking the facility for more than a day.");
     } else if (duration <= 0) {
@@ -413,5 +404,18 @@ $(function() {
       $('input[name=fee]').val(fee);
     }
   });
+
+  $("#book_type").change(function() {
+    if ( $("#book_type option:selected" ).val() == "visit" ){
+      $('input[name=fee]').val((0).toFixed(2));
+    }
+    if ( $("#book_type option:selected" ).val() == "book" ) {
+      var b_price = $("#price").val(),
+          b_duration = $("#hourdiff").val(),
+          b_fee = (Number(b_price) * Number(b_duration)).toFixed(2);
+      $('input[name=fee]').val(b_fee);
+    }
+  });
+
 });
 </script>

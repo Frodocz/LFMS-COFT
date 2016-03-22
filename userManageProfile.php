@@ -46,7 +46,7 @@
             <li class="scroll"><a href="userManageCalendar.php">Booking Management</a></li>
             <li class="scroll"><a href="userManageProfile.php">Profile Management</a></li>
             <li class="scroll"><a href="#">Hi, <b><?php echo $_SESSION['valid_user_name'] ?></b></a></li>
-            <li class="scroll"><a href="logout.php"><span><strong>Log Out<Strong><span></a></li>                 
+            <li class="scroll"><a href="logout.php"><span><strong>Log Out</strong></span></a></li>                 
           </ul>
         </div>
         </div>

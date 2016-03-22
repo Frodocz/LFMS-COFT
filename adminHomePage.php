@@ -56,7 +56,7 @@
             </li>
             <li class="scroll"><a href="adminViewReport.php"><i class="fa fa-bar-chart"></i> Monthly Report</a></li>
             <li class="scroll"><a href="#">Hi, <b><?php echo $_SESSION['valid_user_name'] ?></b></a></li>
-            <li class="scroll"><a href="logout.php"><span><strong>Log Out<Strong><span></a></li>                 
+            <li class="scroll"><a href="logout.php"><span><strong>Log Out</strong></span></a></li>                 
           </ul>
         </div>
       </div><!--/.container-->
@@ -86,10 +86,6 @@
     $result_noti = $db->query($query_noti);
     $noti_row = $result_noti->fetch_assoc();
 
-//     $query_chart = "SELECT facility_list.facility_name,COUNT(booking_list.booking_id) AS NumberOfBookings FROM booking_list
-// LEFT JOIN facility_list
-// ON booking_list.facility_id=facility_list.facility_id
-// GROUP BY facility_name";
   ?>
   <section id="system_basic">
     <div id="adminhome">
@@ -317,10 +313,14 @@
 
   <script type="text/javascript">
     var myChart = echarts.init(document.getElementById('testgraph'));
+    var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    var date = new Date();
+    var currentYear = date.getFullYear();
+    var currentMonth = months[date.getMonth()];
     // Set the styles and empty axis of the charts
     myChart.setOption({
         title: {
-          text: 'Facility Usage Statistics of March 2016',
+          text: 'Facility Usage Statistics of '+currentMonth+', '+currentYear,
           x: 'center'
         },
         tooltip: {

@@ -35,4 +35,4 @@ if(!$mail->send()) {
     echo 'Message has been sent';
 }
 
-
+?>

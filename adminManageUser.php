@@ -58,8 +58,8 @@
               </ul>
             </li>
             <li class="scroll"><a href="adminViewReport.php"><i class="fa fa-bar-chart"></i> Monthly Report</a></li>
-            <li class="scroll"><a href="#">Hi, <b><?php echo $_SESSION['valid_user_name'] ?></b></a></li>
-            <li class="scroll"><a href="logout.php"><span><strong>Log Out<Strong><span></a></li>                 
+            <li class="scroll"><a href="#">Hi, <b><?php echo $_SESSION['valid_user_name']; ?></b></a></li>
+            <li class="scroll"><a href="logout.php"><span><strong>Log Out</strong></span></a></li>                 
           </ul>
         </div>
       </div><!--/.container-->
@@ -111,17 +111,17 @@
                       <td><?php echo $row['username'] ?></td>
                       <td>
                         <span data-placement="bottom" data-toggle="tooltip" title="Click to show more detailed information of the user.">
-                          <a role="button" data-toggle="modal" data-target="#<?php echo $row['user_id'] ?>">
+                          <a role="button" data-toggle="modal" data-target="#<?php echo $row['user_id']; ?>">
                             <?php echo $row['name'] ?>
                           </a>
                         </span>
                       </td>
                       <td>
-                        <a href="processAdminManageUser.php?action=approve&id=<?php echo $row['user_id'] ?>">
+                        <a href="processAdminManageUser.php?action=approve&id=<?php echo $row['user_id']; ?>">
                           <i class="fa fa-user-plus"></i> Approve
                         </a>
                         <br><br>
-                        <a class="confirmationDelete" href="processAdminManageUser.php?action=reject&id=<?php echo $row['user_id'] ?>">
+                        <a class="confirmationDelete" href="processAdminManageUser.php?action=reject&id=<?php echo $row['user_id']; ?>">
                           <i class="fa fa-user-times"></i> Reject
                         </a>
                       </td>
@@ -192,56 +192,22 @@
                   ?>
                     <tr>
                       <td><?php echo $i; ?></td>
-                      <td><?php echo $row2['username'] ?></td>
+                      <td><?php echo $row2['username']; ?></td>
                       <td>
                         <span data-placement="bottom" data-toggle="tooltip" title="Click to show more detailed information of the user.">
-                          <a role="button" data-toggle="modal" data-target="#<?php echo $row2['user_id']?>"> 
-                            <?php echo $row2['name'] ?>
-                          </a>
+                          <a data-toggle="modal" data-show="true" href="adminManageUserAccess.php?id=<?php echo $row2['user_id']; ?>" data-target="#modalContainer"><?php echo $row2['name']; ?></a>
                         </span>
                       </td>
                       <td>
-                        <a href="processAdminManageUser.php?action=disapprove&id=<?php echo $row2['user_id'] ?>">
+                        <a href="processAdminManageUser.php?action=disapprove&id=<?php echo $row2['user_id']; ?>">
                           <i class="fa fa-user-times"></i> Disapprove
                         </a>
                         <br><br>
-                        <a class="confirmationDelete" href="processAdminManageUser.php?action=reject&id=<?php echo $row2['user_id'] ?>">
+                        <a class="confirmationDelete" href="processAdminManageUser.php?action=reject&id=<?php echo $row2['user_id']; ?>">
                           <i class="fa fa-user-secret"></i> Remove
                         </a>
                       </td>
                     </tr>
-                    <div class="modal fade" id="<?php echo $row2['user_id'] ?>" tabindex="-1" role="dialog">
-                      <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="myModalLabel">Applicant Information</h4>
-                          </div>
-                          <div class="modal-body text-left">
-                            <?php
-                            //Display Detailed Info
-                              $query_displayInfo = "SELECT * FROM normal_user WHERE user_id = '".$row2['user_id']."'";
-                              $result_displayInfo = $db->query($query_displayInfo);
-                              $row_displayInfo = $result_displayInfo->fetch_assoc();
-                            ?>
-                            <div class="row">
-                              <div class="col-lg-10 col-lg-offset-1">
-                                <p>Email: <?php echo $row_displayInfo['username'] ?></p>
-                                <p>Name: <?php echo $row_displayInfo['title']; ?> <?php echo $row_displayInfo['name']; ?></p>
-                                <p>Faculty: <?php echo $row_displayInfo['faculty'] ?></p> 
-                                <p>Phone No.: <?php echo $row_displayInfo['phone'] ?></p> 
-                                <p>Address: <?php echo $row_displayInfo['addressline1'] ?>, <?php echo $row_displayInfo['addressline2'] ?>, <?php echo $row_displayInfo['postal'] ?></p> 
-                                <p>Target Facility: <?php echo $row_displayInfo['facility_access'] ?></p>
-                                <p>Register Date: <?php echo $row_displayInfo['registerdate'] ?></p>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div><!-- Modal -->  
                   <?php } ?>
                   </tbody>
                 </table>
@@ -251,6 +217,16 @@
           <!-- /. Panel -->
         </div>        
         <!-- /.col-lg-8 -->
+        <!-- Modal -->
+        <div class="modal fade" id="modalContainer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">     
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
 
         <div id="useful_link" class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
           <div class="panel panel-primary">
@@ -329,11 +305,14 @@
       $('#app_table').DataTable({
         responsive:true
       });
-
+      $('#modalContainer').on('hidden.bs.modal', function () {
+       location.reload();
+      });
       //popup a confirmation clock to ask user whether or not delete an item
       $('.confirmationDelete').on('click', function () {
           return confirm('Are you sure you want to delete this?');
       });
+      $('[data-toggle="tooltip"]').tooltip();
 
     });
   </script>

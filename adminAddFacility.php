@@ -54,7 +54,7 @@
             </li>
             <li class="scroll"><a href="adminViewReport.php"><i class="fa fa-bar-chart"></i> Monthly Report</a></li>
             <li class="scroll"><a href="#">Hi, <b><?php echo $_SESSION['valid_user_name'] ?></b></a></li>
-            <li class="scroll"><a href="logout.php"><span><strong>Log Out<Strong><span></a></li>                 
+            <li class="scroll"><a href="logout.php"><span><strong>Log Out</strong></span></a></li>                 
           </ul>
         </div>
       </div><!--/.container-->

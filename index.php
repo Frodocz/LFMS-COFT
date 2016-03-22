@@ -178,26 +178,35 @@
       <div class="section-header">
         <h2 class="section-title text-center fadeInDown">Our Facilities</h2>
       </div>
-
+      <div class="facility-items">
       <?php
         include_once('connect.php');
 
         $query = "SELECT * FROM facility_list";
-        $result = mysql_query($query);
-        $num_results = mysql_num_rows($result);
-
-        for ($i = 0; $i < $num_results; $i++) {
-          $row = mysql_fetch_array($result); 
+        $result = $db->query($query);
+        $num_results = $result->num_rows;
+        if ($num_results <= 8 ){
+          $size = $num_results;
+        } else {
+          $size = 8;
+        }
+        for ($i = 0; $i < $size; $i++) {
+          $row = $result->fetch_assoc(); 
       ?>
-      <div class="facility-items">
         <div class="facility-item col-lg-4 col-md-6 col-sm-6 col-xs-10">
           <img class="image-responsive img-rounded" height="250" width="350" src="<?php echo $row['facility_imagepath'] ?>" alt="<?php echo $row['facility_name'] ?>">
           <div class="facility-info">
             <h4><?php echo $row['facility_name'] ?></h4>
           </div>
         </div>
-      </div>
       <?php } ?>
+        <div class="facility-item col-lg-4 col-md-6 col-sm-6 col-xs-10">
+          <img class="image-responsive img-rounded" height="250" width="350" src="images/feature.jpg" alt="Click here to view more">
+          <div class="facility-info">
+            <h4>Click here to view more.</h4>
+          </div>
+        </div>
+      </div>
     </div><!--/.container-->
   </section><!--/#facility-->  
   <section id="team">

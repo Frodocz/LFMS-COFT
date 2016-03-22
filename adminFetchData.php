@@ -4,17 +4,17 @@ include_once('connect.php');
 $action = $_GET['action'];
 switch ($action) {
     case 'user':
-        userStatus();
+        userStatus($db);
         break;
     case 'money':
         break;
     case 'book':
-        numberBooked();
+        numberBooked($db);
         break;
     default:
         break;
 }
-function userStatus() {
+function userStatus($db) {
     $sql_userA = "SELECT * FROM normal_user WHERE approved=1";
     $sql_userN = "SELECT * FROM normal_user WHERE approved=0";
     $query_userA = mysqli_query($db,$sql_userA);
@@ -32,7 +32,8 @@ function userStatus() {
     echo json_encode($data);
 }
 
-function numberBooked() {
+function numberBooked($db) {
+    $now = intval(strtotime('now'));
     $sql_booking = "SELECT facility_list.facility_name,COUNT(booking_list.booking_id) AS NumberOfOrders 
                 FROM booking_list
                 LEFT JOIN facility_list
@@ -50,9 +51,4 @@ function numberBooked() {
     );
     echo json_encode($data);
 }
-
-
-
-
-
 ?>

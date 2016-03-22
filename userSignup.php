@@ -79,9 +79,10 @@
               <input type="text" class="form-control required" placeholder="Enter Your Faculty (eg. EEE / Apple Inc.)" id="faculty" name="faculty">
               <span class="glyphicon form-control-feedback" id="faculty1"></span>
             </div>            
-            <div class="panel panel-default form-group has-feedback">
-              <div class="panel-body">
-                <label>Select facilities to register for: </label>
+            <div class="form-group has-feedback">
+                <label>Select facilities to register for <br>
+                (Hold <kbd>ctrl</kbd> or <code>drag</code> when selecting more than one choices): </label>
+                <select multiple size="7" class="form-control" name="facility_access[]" value="<?php echo $row['facility_name']?>">
                   <?php
                     include_once('connect.php');
                     $query = "SELECT * FROM facility_list";
@@ -90,13 +91,10 @@
                     for ($i = 0; $i < $num_results; $i++) {
                       $row = $result->fetch_assoc();
                   ?>
-                  <div class="checkbox">
-                    <label>
-                      <input type="checkbox" id="facility_access[]" name="facility_access[]" value="<?php echo $row['facility_name']?>"><?php echo $row['facility_name'] ?>
-                    </label>                
-                  </div>
+                    <option value="<?php echo $row['facility_name'] ?>"><?php echo $row['facility_name'] ?></option>
                   <?php } ?>
-              </div><!-- <span class="glyphicon form-control-feedback" id="facility_access"></span> -->
+                </select>
+                <span class="glyphicon form-control-feedback" id="facility_access"></span>
             </div>
             <div class="form-group">                
               <input type="checkbox" id="agreeTerms" name="agreeTerms" required>

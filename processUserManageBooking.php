@@ -1,9 +1,8 @@
 <?php
 session_start();
+$action = $_GET['action'];
 
 include_once('connect.php');
-
-$action = $_GET['action'];
 
 //Add action
 if ($action == "add") {
@@ -20,12 +19,26 @@ if ($action == "add") {
   $starttime = strtotime($startdate.' '.$s_time);
   $endtime = strtotime($enddate.' '.$e_time);
 
+  // This section checks whether the selected date and time are conflicts with existing one.
+  $check_time = "SELECT * FROM booking_list WHERE facility_id='".$facility_id."'";
+  $check_time_result = $db->query($check_time);
+  $row_time_result = $check_time_result->num_rows;
+  for ($i=0;$i<$row_time_result;$i++) {
+    $row_time = $check_time_result->fetch_assoc();
+    $row_start = $row_time['starttime'];
+    $row_end = $row_time['endtime'];
+
+    if ( ($endtime > $row_start && $starttime <= $row_start) || ($endtime >= $row_end && $starttime < $row_end) 
+      || ($starttime >= $row_start && $endtime <= $row_end) || ($starttime <= $row_start && $endtime >= $row_end) ) {
+      echo "The time slot are conflicted with existing booking/visiiting.";
+      exit;
+    } 
+  }
+
   $hourdiff = $_POST['hourdiff'];
   $fee = $_POST['fee'];
-
   $color = "#980000";//Dark red for ono-approved booking
-
-  $result = $db->query("INSERT INTO `booking_list` VALUES (NULL, $facility_id, $user_id, '$type', '$starttime', '$endtime', '$color', '$hourdiff', '$fee',0)");
+  $result = $db->query("INSERT INTO `booking_list` VALUES (NULL, $facility_id, $user_id, '$type', '$starttime', '$endtime', '$color', '$hourdiff', '$fee',0,0)");
   if($result){
     echo "You booking is successfully added.";
   }else{
@@ -53,10 +66,27 @@ elseif ($action == "edit") {
   $starttime = strtotime($startdate.' '.$s_time);
   $endtime = strtotime($enddate.' '.$e_time);
 
+  // This section checks whether the selected date and time are conflicts with existing one.
+  $check_time = "SELECT * FROM booking_list WHERE facility_id='$facility_id' AND booking_id<>'$booking_id'";
+  $check_time_result = $db->query($check_time);
+  $row_time_result = $check_time_result->num_rows;
+
+  for ($i=0;$i<$row_time_result;$i++) {
+    $row_time = $check_time_result->fetch_assoc();
+    $row_start = $row_time['starttime'];
+    $row_end = $row_time['endtime'];
+
+    if ( ($endtime > $row_start && $starttime <= $row_start) || ($endtime >= $row_end && $starttime < $row_end) 
+      || ($starttime >= $row_start && $endtime <= $row_end) || ($starttime <= $row_start && $endtime >= $row_end) ) {
+      echo "The time slot are conflicted with existing booking/visiiting.";
+      exit;
+    } 
+  }
+
   $hourdiff = $_POST['hourdiff'];
   $fee = $_POST['fee'];
 
-  $result = $db->query("UPDATE `booking_list` SET `type`='$type',`starttime`='$starttime',`endtime`='$endtime', color='#980000', `hourdiff`='$hourdiff', `fee`='$fee', `approved`=0 WHERE `booking_id`='$booking_id'");
+  $result = $db->query("UPDATE `booking_list` SET `type`='$type',`starttime`='$starttime',`endtime`='$endtime', color='#980000', `hourdiff`='$hourdiff', `fee`='$fee', `approved`=0, `billed`=0 WHERE `booking_id`='$booking_id'");
   if($result){
     echo 'The booking record is successfully updated.';
   }else{
@@ -90,7 +120,24 @@ elseif ($action=="drag") {
 
   $starttime = strtotime($startDate.' '.$startHour.':'.$startMinu.':00');
   $endtime = strtotime($endDate.' '.$endHour.':'.$endMinu.':00');
-  $result = $db->query("UPDATE `booking_list` SET `starttime`='$starttime',`endtime`='$endtime', color='#980000',approved=0 WHERE `booking_id`='$booking_id'");
+
+  // This section checks whether the selected date and time are conflicts with existing one.
+  $check_time = "SELECT * FROM booking_list WHERE facility_id='$facility_id'";
+  $check_time_result = $db->query($check_time);
+  $row_time_result = $check_time_result->num_rows;
+  for ($i=0;$i<$row_time_result;$i++) {
+    $row_time = $check_time_result->fetch_assoc();
+    $row_start = $row_time['starttime'];
+    $row_end = $row_time['endtime'];
+
+    if ( ($endtime > $row_start && $starttime <= $row_start) || ($endtime >= $row_end && $starttime < $row_end) 
+      || ($starttime >= $row_start && $endtime <= $row_end) || ($starttime <= $row_start && $endtime >= $row_end) ) {
+      echo "The time slot are conflicted with existing booking.";
+      exit;
+    } 
+  }
+
+  $result = $db->query("UPDATE `booking_list` SET `starttime`='$starttime',`endtime`='$endtime', color='#980000',approved=0,billed=0 WHERE `booking_id`='$booking_id'");
   if ($result) {
     //echo 'The booking record is updated successfully';
     echo '1';
@@ -131,7 +178,7 @@ elseif ($action=="resize") {
     $fee = number_format($price*$hourdiff, 2, '.', '');
   }
   
-  $sql = "UPDATE booking_list SET endtime='$endtime', color='#980000', hourdiff='$hourdiff', fee='$fee', approved=0 WHERE booking_id='$booking_id'"; 
+  $sql = "UPDATE booking_list SET endtime='$endtime', color='#980000', hourdiff='$hourdiff', fee='$fee', approved=0, billed=0 WHERE booking_id='$booking_id'"; 
   $result = $db->query($sql);
   if ($result) {
     echo '1';
