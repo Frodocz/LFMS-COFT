@@ -21,13 +21,6 @@
   $num_facility = $result_facility->num_rows;
 ?>
 
-<!DOCTYPE html>
-<html>
-<head>
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <title>Remote file for Bootstrap Modal of Approved User Information</title>  
-</head>
-<body>
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
      <h4 class="modal-title">Approved User Information</h4>
@@ -111,7 +104,7 @@
   </div>      <!-- /modal-body -->
   <div class="modal-footer">
     <button type="submit" id="update_access_btn" class="btn btn-success">Update</button> 
-    <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
   </div>      
   <!-- /modal-footer -->
   <script type="text/javascript">
@@ -162,8 +155,6 @@
       return false;
     });
   </script>
-</body>
-</html>
 <?php } else if ($_SESSION['valid_user_identity'] == "normal") {
       header("Location: 404NotFound.html");
     } 

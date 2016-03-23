@@ -74,7 +74,8 @@
     </div>
     <div class="container">
       <div class="row">
-        <form method="post" action="processAdminEditFacility.php" enctype="multipart/form-data">
+          <div class="error row" id="notice"></div>
+          <form enctype="multipart/form-data" id="edit_fa_form">
           <div class="table-responsive">
             <table class="table table-bordered">
             	<thead>
@@ -87,8 +88,12 @@
                 <input type="hidden" name="id" value="<?php echo $facility_id ?>">
                 <td><img height="250" width="300" src="<?php echo $row['facility_imagepath'] ?>"></td>
                 <td>
-                  <label for="facilityImageFile">Choose image of the new facility</label>
-                  <input type="file" id="facilityImageFile" name="facilityImageFile"><hr>
+                  <div class="form-group has-feedback">
+                    <label for="facilityImageFile2">Choose new image of this facility (Optional)</label>
+                    <input type="file" class="form-control" id="facilityImageFile" name="facilityImageFile">
+                    <span class="glyphicon form-control-feedback" id="facilityImageFile1"></span>
+                  </div>
+                  <hr>
                   <div class="form-group">  
                     <label for="facilityStatus">Set status of this facility</label>
 
@@ -128,7 +133,8 @@
                 </td>
                 <td>
                   <label for="facility_name">Edit the name of this facility</label>
-                  <input class="form-control" type="text" name="facility_name" value="<?php echo $row['facility_name'] ?>">
+                  <input class="form-control required" type="text" id="facility_name" name="facility_name" value="<?php echo $row['facility_name'] ?>">
+                  <span class="glyphicon form-control-feedback" id="facility_name1"></span>
                   <hr>
                   <label for="facility_description">Edit the description of this facility</label>
                   <textarea class="form-control" rows="5" name="facility_description"><?php echo $row['facility_description'] ?>
@@ -136,15 +142,16 @@
                 </td>
                 <td>
                   <label for="facility_internal_price">Update price for internal user</label>
-                  <input type="text" class="form-control" name="facility_internal_price" value="<?php echo $row['facility_internal_price'] ?>"><hr>
+                  <input type="text" class="form-control required" id="facility_internal_price" name="facility_internal_price" value="<?php echo $row['facility_internal_price'] ?>">
+                  <span class="glyphicon form-control-feedback" id="facility_internal_price1"></span><hr>
                   <label for="facility_external_price">Update price for external user</label>
-                  <input type="text" class="form-control" name="facility_external_price" value="<?php echo $row['facility_external_price'] ?>"></td>
-                
+                  <input type="text" class="form-control required" name="facility_external_price" value="<?php echo $row['facility_external_price'] ?>">
+                  <span class="glyphicon form-control-feedback" id="facility_external_price1"></span></td>                
               </tbody>
             </table>
           </div>
           <div class="text-center">
-            <button type="submit" class="btn btn-success" name="update">Update Now</button>&nbsp;&nbsp;
+            <button type="submit" class="btn btn-success">Update Now</button>&nbsp;&nbsp;
             <a role="button" class="btn btn-danger" href="adminManageFacility.php">Cancel</a>
           </div>
         </form>
@@ -170,7 +177,60 @@
 
   <script src="js/jquery-1.11.3.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
+  <script src="js/jquery.validate.min.js"></script>
+  <!-- additional methods that helps to check different input types like file -->
+  <script src="js/additional-methods.min.js"></script>
   <script src="js/main.js"></script>
+  <script>  
+    $(document).ready(function(){ 
+      $("#edit_fa_form").submit(function(e){
+        // Need to format the image as it is not the same as text data
+        var formData = new FormData($(this)[0]);
+        var url = "processAdminmanageFacility.php?action=edit";
+
+        if($('#edit_fa_form').valid()){
+          $('#notice').html(' Please wait...');
+          $('#notice').addClass("alert alert-info");   
+          $.ajax({
+            type: "POST",
+            url: url,
+            data: formData,
+            async: false,
+            success: function(data) {
+              if(data=="oversize") {
+                $('#notice').html('<i class="fa fa-exclamation-triangle"></i> The image size should not exceed 2MB.');
+                $('#notice').removeClass("alert-info").addClass("alert-danger"); 
+              } 
+              else if (data==0) {
+                $('#notice').html('<i class="fa fa-exclamation-triangle"></i> Failed to update this facility information. Please try again later.');
+                $('#notice').removeClass("alert-info").addClass("alert-danger"); 
+              } 
+              else if (data==1) {
+                $('#notice').html('<i class="fa fa-exclamation-triangle"></i> The facility information is successfully updated. You will be redirected to the previous page in 3 seconds.');
+                $('#notice').removeClass("alert-info").removeClass("alert-danger").addClass("alert-success"); 
+                window.setTimeout(function() {
+                  window.location.href = 'adminManageFacility.php';
+                }, 3000);
+              } 
+              else if (data=="conn_err") { 
+                $('#notice').html('<i class="fa fa-exclamation-triangle"></i> Cannot connect to the database. Please try again later.');
+                $('#notice').removeClass("alert-info").addClass("alert-danger"); 
+              } 
+              else if (data=="upload_err") { 
+                $('#notice').html('<i class="fa fa-exclamation-triangle"></i> Some errors happened when uploading the image. Please try again later.');
+                $('#notice').removeClass("alert-info").addClass("alert-danger"); 
+              } 
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+          });
+          e.preventDefault();
+        }
+        return false;
+      });
+    });
+  </script>
 </body>
 </html>
 <?php } else if ($_SESSION['valid_user_identity'] == "normal") {

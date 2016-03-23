@@ -126,6 +126,27 @@ $(document).ready(function(){
       }
     });
 
+    $('#edit_fa_form').validate({
+      rules: {
+        facilityImageFile: {
+          required: false,
+          accept: "image/jpg, image/jpeg, image/pjpeg, image/png"
+        },
+        facility_name: {
+          required: true,
+          maxlength: 50
+        }
+      },
+      messages: {
+        facilityImageFile: {
+          accept: "Only image types of JPG, JPEG, PNG and PJPEG are accepted."
+        },
+        facility_name: {
+          maxlength: "The maximum name length is 50."
+        }
+      }
+    });
+
     $('#profile_form').validate({
       rules: {
         newPassword: {
