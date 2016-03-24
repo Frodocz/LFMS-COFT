@@ -264,7 +264,7 @@
                 <i class="fa fa-pie-chart fa-fw"></i> Facility Usage This Month
               </div>
               <div class="panel-body">
-                <div id="userchart" style="height: 300px"></div>
+                <div id="user_status" style="height: 300px"></div>
               </div>
             </div>
           </div>
@@ -299,10 +299,7 @@
   <script>
     $(document).ready(function() {
       // Set the datatable to be shown responsively
-      $('#non_app_table').DataTable({
-        responsive:true
-      });
-      $('#app_table').DataTable({
+      $('.table').DataTable({
         responsive:true
       });
       $('#modalContainer').on('hidden.bs.modal', function () {
@@ -318,7 +315,7 @@
   </script>
 
   <script type="text/javascript">
-    var myChart = echarts.init(document.getElementById('userchart'));
+    var myChart = echarts.init(document.getElementById('user_status'));
     // Set the styles and empty axis of the charts
     myChart.setOption({
       title: {

@@ -225,7 +225,7 @@
               <i class="fa fa-area-chart fa-fw"></i> Facility Usage This Month
             </div>
             <div class="panel-body">
-              <div id="testgraph" style="height: 400px"></div>
+              <div id="mothly_booking" style="height: 400px"></div>
             </div>
           </div>
         </div>
@@ -312,7 +312,7 @@
   </script>
 
   <script type="text/javascript">
-    var myChart = echarts.init(document.getElementById('testgraph'));
+    var myChart = echarts.init(document.getElementById('mothly_booking'));
     var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     var date = new Date();
     var currentYear = date.getFullYear();
@@ -320,24 +320,65 @@
     // Set the styles and empty axis of the charts
     myChart.setOption({
         title: {
-          text: 'Facility Usage Statistics of '+currentMonth+', '+currentYear,
+          text: 'Facility Usage Statistics of '+currentMonth+', '+currentYear+'\r',
           x: 'center'
         },
         tooltip: {
         },
+        toolbox: {
+          show : true,
+          feature : {
+              mark : {show: true},
+              dataView : {show: true, readOnly: false},
+              magicType: {show: true, type: ['line', 'bar']},
+              restore : {show: true},
+              saveAsImage : {show: true}
+          }
+        },
         legend: {
-            data:[''],
-            x: 'right'
+            data:['Booking', 'Visiting'],
+            x: 'left'
         },
         xAxis: {
-            data: ['']
+          data: [''],
+          axisLabel: {
+          formatter:function(c){
+            for(i in c){ 
+              return c.substring(0,8); 
+            } 
+          } 
         },
-        yAxis: {},
+
+        },
+        yAxis: {
+          name: 'Count'
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+        },  
         series: [{
-            name: 'Facilities',
-            type: 'bar',
-            // barWidth : 30,
-            data: []
+          name: 'Booking',
+          type: 'bar',
+          stack: 'Total',
+          data: [],
+          itemStyle: {
+            emphasis: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: 'rgba(0, 0, 0, 0.5)'
+            }
+          }
+        }, {
+          name: 'Visiting',
+          type: 'bar',
+          stack: 'Total',
+          data: [],
+          itemStyle: {
+            emphasis: {}
+          }
         }]
     });
     // Loading data using ajax
@@ -350,8 +391,11 @@
             },
             series: [{
                 // Set the value of each member in x-axis
-                name: 'Facilities',
-                data: object.data
+                name: 'Facility Booking',
+                data: object.book
+            },{
+              name: 'Facility Visiting',
+              data: object.visit
             }]
         });
     });
