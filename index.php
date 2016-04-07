@@ -40,7 +40,7 @@
             <li class="scroll"><a href="#facility">Facilities</a></li>
             <li class="scroll"><a href="#team">Team</a></li>
             <li class="scroll"><a href="#footer">Contact</a></li>
-            <li class="scroll"><a href="login.php"><span><strong>Login/Register<Strong><span></a></li>                 
+            <li class="scroll"><a href="login.php"><span><strong>Login/Register</strong></span></a></li>                 
           </ul>
         </div>
     	</div><!--/.container-->

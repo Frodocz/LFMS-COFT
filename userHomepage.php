@@ -68,11 +68,11 @@
     $result_noti = $db->query($query_noti);
     $noti_row = $result_noti->fetch_assoc();
 
-    $query_coming = "SELECT * FROM booking_list WHERE approved=1 AND starttime >= ".intval(strtotime('now'))." ORDER BY booking_id ASC";
+    $query_coming = "SELECT * FROM booking_list WHERE user_id=".$_SESSION['valid_user_id']." AND approved=1 AND starttime >= ".intval(strtotime('now'))." ORDER BY booking_id ASC";
     $result_coming = $db->query($query_coming);
     $num_result_coming = $result_coming->num_rows;
 
-    $query_history = "SELECT * FROM booking_list WHERE approved=1 AND starttime < ".intval(strtotime('now'))." ORDER BY booking_id ASC";
+    $query_history = "SELECT * FROM booking_list WHERE user_id=".$_SESSION['valid_user_id']." AND approved=1 AND starttime < ".intval(strtotime('now'))." ORDER BY booking_id ASC";
     $result_history = $db->query($query_history);
     $num_result_history = $result_history->num_rows;
   ?>

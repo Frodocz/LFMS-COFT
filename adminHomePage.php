@@ -312,13 +312,13 @@
   </script>
 
   <script type="text/javascript">
-    var myChart = echarts.init(document.getElementById('mothly_booking'));
+    var userBook = echarts.init(document.getElementById('mothly_booking'));
     var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     var date = new Date();
     var currentYear = date.getFullYear();
     var currentMonth = months[date.getMonth()];
     // Set the styles and empty axis of the charts
-    myChart.setOption({
+    userBook.setOption({
         title: {
           text: 'Facility Usage Statistics of '+currentMonth+', '+currentYear+'\r',
           x: 'center'
@@ -385,7 +385,7 @@
     $.get('adminFetchData.php?action=book').done(function (data) {
         // Push the values
         var object = JSON.parse(data);
-        myChart.setOption({
+        userBook.setOption({
             xAxis: {
                 data: object.categories
             },

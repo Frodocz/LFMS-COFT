@@ -116,21 +116,9 @@
     });
     $('#btnRemove').click(function(){
       $('#sel2 option:selected').each( function() {
-        $('sel1').append("<option value='"+$(this).val()+"'>"+$(this).text()+"</option>");
+        $('#sel1').append("<option value='"+$(this).val()+"'>"+$(this).text()+"</option>");
         $(this).remove();
       });
-    });
-    $('#update_access').click(function() {
-      $.post("processAdminManageUser.php?action=access&id=",
-        { 
-          id: booking_id
-        },
-        function(data){
-          alert(data);
-          $("#editModal").modal('hide');
-          $('#calendar').fullCalendar('refetchEvents'); 
-        });
-      e.preventDefault();
     });
     $('#update_access_btn').click(function(){
       $('#sel2 option').prop('selected', true);

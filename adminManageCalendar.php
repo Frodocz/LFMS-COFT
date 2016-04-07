@@ -436,7 +436,7 @@
                             <td><?php echo $u_row5['name']; ?></td>
                             <td><?php echo date("Y M d, H:i",$row5['starttime']); ?></td>
                             <td><?php echo date("Y M d, H:i",$row5['endtime']); ?></td>
-                            <td><?php echo $row['fee']; ?></td>
+                            <td><?php echo $row5['fee']; ?></td>
                             <td>
                               <a href="processAdminManageCalendar.php?type=book&action=bill&id=<?php echo $row5['booking_id'] ?>">
                                 <i class="fa fa-usd"></i> Send Bill
