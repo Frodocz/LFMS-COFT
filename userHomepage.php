@@ -68,11 +68,11 @@
     $result_noti = $db->query($query_noti);
     $noti_row = $result_noti->fetch_assoc();
 
-    $query_coming = "SELECT * FROM booking_list WHERE user_id=".$_SESSION['valid_user_id']." AND approved=1 AND starttime >= ".intval(strtotime('now'))." ORDER BY booking_id ASC";
+    $query_coming = "SELECT * FROM booking_list WHERE user_id=".$_SESSION['valid_user_id']." AND approved=1 AND starttime >= ".intval(strtotime('now'));
     $result_coming = $db->query($query_coming);
     $num_result_coming = $result_coming->num_rows;
 
-    $query_history = "SELECT * FROM booking_list WHERE user_id=".$_SESSION['valid_user_id']." AND approved=1 AND starttime < ".intval(strtotime('now'))." ORDER BY booking_id ASC";
+    $query_history = "SELECT * FROM booking_list WHERE user_id=".$_SESSION['valid_user_id']." AND approved=1 AND endtime < ".intval(strtotime('now'));
     $result_history = $db->query($query_history);
     $num_result_history = $result_history->num_rows;
   ?>
@@ -114,7 +114,7 @@
                   </div>
                 </div>
               </div>
-              <a href="userManageCalendar.php">
+              <a href="userViewBooking.php">
                 <div class="panel-footer">
                     <span class="pull-left">Manage My Coming Bookings</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -136,7 +136,7 @@
                   </div>
                 </div>
               </div>
-              <a href="userManageCalendar.php">
+              <a href="userViewBooking.php#history">
                 <div class="panel-footer">
                     <span class="pull-left">View All My Bookings</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -166,29 +166,54 @@
                   <?php 
                     for ($i = 0; $i < $num_results; $i++) {
                       $row = $result->fetch_assoc();
+                        //Get user's details
+                        $u_id = $_SESSION['valid_user_id'];
+                        $search_u_name = "SELECT * FROM normal_user WHERE user_id = ".$u_id;
+                        $u_result = $db->query($search_u_name);
+                        $u_row = $u_result->fetch_assoc();
+
+                      //Check if the user has access to use this facility
+                        $access_array = explode(",",$u_row['facility_access']);
+                        $number_access = sizeof($access_array);
+
+                      if (!in_array($row['facility_name'], $access_array)){
+                          $trained = "No";
+                        } else {
+                          $trained = "Yes";
+                        }
                   ?> 
                   <tr>
-                    <td>
+                    <td class="col-md-3">
                       <img height="280" width="300" src="<?php echo $row['facility_imagepath']; ?>">
                     </td>
-                    <td>
+                    <td class="col-md-5">
                       <h4 class="text-center"><?php echo $row['facility_name']; ?></h4><hr>
                       <p><?php echo $row['facility_description'] ?></p>
                     </td>
-                    <td>
+                    <td class="col-md-3">
                       <h4>Booking Fee</h4>
                         Internal user: S$ <?php echo $row['facility_internal_price'] ?>/Hour<br>
                         External user: S$ <?php echo $row['facility_external_price'] ?>/Hour<hr>
                         <?php if ($row['status'] == 1) { ?>
-                      <h4>Status: <div style="display: inline; color:darkgreen">Available</div></h4><hr>
-                      <h4>Description: <div style="display: inline; color:#006400"> <?php echo $row['description'] ?></h4>
+                      <h4>Status: <div style="display: inline; color:#006400">Available</div></h4><hr>
+                      <h4>Description: <div style="display: inline; color:#006400"> <?php echo $row['description'] ?></div></h4><hr>
+                      <?php if ($trained == "Yes") {?>
+                        <h4>Have Access: <div style="display: inline; color:#006400"> <?php echo $trained; ?></div></h4>
+                      <?php } else { ?>
+                        <h4>Have Access: <div style="display: inline; color:#8B0000"> <?php echo $trained; ?></div></h4>
+                      <?php } ?>
                     </td>
-                    <td>
+                    <td class="col-md-1">
                       <a class="btn btn-default btn-block" href="userBookFacility.php?facility_id=<?php echo $row['facility_id'] ?>"><i class="fa fa-calendar"></i> Book Now</a>
                     </td>
                     <?php } else { ?>
-                      <h4>Status: <div style="display: inline; color:darkred">Unavaliable</div></h4><hr>
-                      <h4>Description: <div style="display: inline; color:#8B0000"><?php echo $row['description'] ?></h4>
+                      <h4>Status: <div style="display: inline; color:#8B0000">Unavaliable</div></h4><hr>
+                      <h4>Description: <div style="display: inline; color:#8B0000"><?php echo $row['description'] ?></h4><hr>
+                    <?php if ($trained == "Yes") {?>
+                      <h4>Have Access: <div style="display: inline; color:#006400"> <?php echo $trained; ?></div></h4>
+                    <?php } else { ?>
+                      <h4>Have Access: <div style="display: inline; color:#8B0000"> <?php echo $trained; ?></div></h4>
+                    <?php } ?>
                     </td>
                     <td>
                       <a class="btn btn-default btn-block disabled" href="userBookFacility.php?facility_id=<?php echo $row['facility_id'] ?>"><i class="fa fa-calendar"></i> Book Now</a>

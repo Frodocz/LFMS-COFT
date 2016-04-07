@@ -65,12 +65,8 @@
 
       <div class="row">
         <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
-        <?php
-          if(isset($_SESSION['valid_user'])){
-        ?>
           <h4>The system administrator will approve your request as soon as possible.</p>
           <h4>However, you can only use your account once you receive an account approval email from the administrator.</p>
-        <?php } ?>
         </div>
       </div>
           

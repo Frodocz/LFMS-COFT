@@ -186,9 +186,9 @@
 </body>
 </html>
 <?php
-} elseif ($_SESSION['valid_user_identity'] == "admin"){
-    header('Location: adminHomepage.php');
-} else {
-    header('Location: userHomepage.php');
-}
+  } elseif ($_SESSION['valid_user_identity'] == "admin"){
+      header('Location: adminHomepage.php');
+  } else {
+      header('Location: userHomepage.php');
+  }
 ?>

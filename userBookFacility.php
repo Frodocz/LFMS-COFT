@@ -100,6 +100,7 @@
               <div class="col-lg-9">
                 <div class="well">
                   <ol>
+                    <li>If you don't have access to this facility, choose "Visiting" as booking type;</li>
                     <li>ADD: Left click, hold and drag from your expected start time to end time to create a booking;</li>
                     <li>EDIT: Left click YOUR existing booking to edit;</li>
                     <li>DRAG: Left click, hold and drag to move YOUR existing booking;</li>

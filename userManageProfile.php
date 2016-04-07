@@ -43,7 +43,7 @@
         <div class="collapse navbar-collapse navbar-right">
           <ul class="nav navbar-nav">
             <li class="scroll"><a href="userHomepage.php">Facility Booking</a></li>
-            <li class="scroll"><a href="userManageCalendar.php">Booking Management</a></li>
+            <li class="scroll"><a href="userViewBooking.php">Booking Management</a></li>
             <li class="scroll"><a href="userManageProfile.php">Profile Management</a></li>
             <li class="scroll"><a href="#">Hi, <b><?php echo $_SESSION['valid_user_name'] ?></b></a></li>
             <li class="scroll"><a href="logout.php"><span><strong>Log Out</strong></span></a></li>                 
@@ -130,7 +130,7 @@
                 </div>
               </div>
               <div class="row">
-                <div class="form-group col-lg-3">
+                <div class="form-group col-md-3">
                   <label>Title</label>
                   <select class="form-control required" name="title" id="title">
                     <option selected value="<?php echo $userInfo['title']; ?>"><?php echo $userInfo['title']; ?></option>
@@ -143,18 +143,19 @@
                     <option>Dr.</option>
                   </select>
                 </div>
-                <div class="form-group col-lg-9">
+                <div class="form-group col-md-5">
                   <label>Name</label>
                   <input type="text" class="form-control required" placeholder="Enter Your Name" id="name" name="name" value="<?php echo $userInfo['name'] ?>">
                 </div>
-              </div>
-
-              <div class="row">
-                <div class="form-group col-xs-12">
-                <label>Faculty</label>
-                  <input type="text" class="form-control required" placeholder="Enter Your Faculty (eg. EEE / Apple Inc.)" id="faculty" name="faculty" value="<?php echo $userInfo['faculty'] ?>">
+                <div class="form-group col-md-4">
+                  <label>Faculty</label>
+                  <select class="form-control required" name="faculty" id="faculty">
+                    <option selected value="<?php echo $userInfo['faculty']; ?>"><?php echo $userInfo['faculty']; ?></option>
+                    <option>Internal User</option>
+                    <option>External User</option>
+                  </select>
                 </div>
-              </div> 
+              </div>
 
               <div class="row">
                 <div class="form-group col-xs-12">
@@ -249,7 +250,6 @@
       });
     });
   </script>
-
 
 </body>
 </html>

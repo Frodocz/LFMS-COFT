@@ -16,17 +16,18 @@
   <!-- Mobile Specific Metas -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link href="css/bootstrap.min.css" rel="stylesheet">
-  <link href="css/animate.css" rel="stylesheet">
+  <!-- DataTables CSS -->
+  <link href="css/dataTables.bootstrap.min.css" rel="stylesheet">
 
+  <!-- DataTables Responsive CSS -->
+  <link href="css/responsive.dataTables.min.css" rel="stylesheet">
+
+  <link href="css/bootstrap.min.css" rel="stylesheet">
   <!-- Custom CSS -->
   <link href="css/main.css" rel="stylesheet">
-  <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
-  <script type="text/javascript" src="js/bootstrap.min.js"></script>
-  <script type="text/javascript" src="js/main.js"></script>
-  <script type="text/javascript" src="js/echarts.min.js"></script>
   <!-- Custom Fonts -->
   <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <script type="text/javascript" src="js/echarts.min.js"></script>
 </head>
 
 <body>
@@ -66,16 +67,28 @@
   </header><!--/header-->
   <?php 
     include('connect.php'); 
-    $sql = "SELECT fl.facility_name FROM facility_list fl";
-    $result=mysqli_query($db,$sql);
-    while($data = mysqli_fetch_assoc($result)){
-        $facility[] = $data['facility_name'];
-    }
-    $num_facility = sizeof($facility);
+
+    // $result_user = $db->query("SELECT COUNT(*) FROM normal_user");
+    // $row_user = $result_user->fetch_assoc();
+    // $num_user = $row_user['COUNT(*)'];
+
+    // $result_facility = $db->query("SELECT COUNT(*) FROM facility_list");
+    // $row_facility = $result_facility->fetch_assoc();
+    // $num_facility = $row_facility['COUNT(*)'];
+
+    // $sql_total = "SELECT SUM(fee) FROM booking_list WHERE type='book' AND approved=1 AND starttime > ".strtotime(date('Y-m-01 00:00:00'))." AND endtime <=".strtotime(date('Y-m-t 23:59:59'));
+    // $result_total = $db->query($sql_total);
+    // $row_total = $result_total->fetch_assoc();
+    // $sum_income = $row_total['SUM(fee)'];
+    $sql_history = "SELECT bl.starttime, bl.endtime, bl.type, bl.fee, fl.facility_name,ul.name FROM booking_list bl INNER JOIN facility_list fl ON fl.facility_id = bl.facility_id INNER JOIN normal_user ul ON ul.user_id = bl.user_id
+      ORDER BY starttime DESC";
+    $result_history = $db->query($sql_history);
+    $num_history = $result_history->num_rows;  
+
     $sql_money = "SELECT fl.facility_name, COUNT(bl.facility_id) AS book_count, SUM(bl.fee) AS fee_sum
                   FROM booking_list bl
                   INNER JOIN facility_list fl ON fl.facility_id = bl.facility_id
-                  WHERE bl.type = 'book' AND bl.starttime > ".strtotime(date('Y-m-01 00:00:00'))." AND bl.endtime <=".strtotime(date('Y-m-t 23:59:59'))."
+                  WHERE bl.type = 'book' AND bl.approved=1 AND bl.starttime > ".strtotime(date('Y-m-01 00:00:00'))." AND bl.endtime <=".strtotime(date('Y-m-t 23:59:59'))."
                   GROUP BY fl.facility_id";
     $query_money = mysqli_query($db,$sql_money);
     $num_money = mysqli_num_rows($query_money);
@@ -86,59 +99,126 @@
     </div>
     <div class="container">
       <div class="row">
-        <div class="col-lg-12">
+        <div class="col-md-12">
           <div id="facility_income">
             <!-- Daily Facility Income Part -->
-            <div class="row">
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <i class="fa fa-area-chart fa-fw"></i> Daily Facility Income This Month
-                </div>
-                <div class="panel-body">
-                  <div class="col-lg-12">
-                    <div id="daily_income" style="height: 450px"></div>
+            <div class="row">                
+              <div class="col-md-6">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <i class="fa fa-area-chart fa-fw"></i> Daily Facility Income This Month
+                  </div>
+                  <div class="panel-body">
+                    <div class="col-md-12">
+                      <div id="daily_income" style="height: 400px"></div>
+                    </div>
                   </div>
                 </div>
               </div>
+              <div class="col-md-6">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <i class="fa fa-area-chart fa-fw"></i> Facility Usage Statistics This Month
+                  </div>
+                  <div class="panel-body">
+                    <div class="col-md-12">
+                      <div id="mothly_booking" style="height: 400px"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+<!--               <div class="col-md-3">
+                Current Registered User:     <?php //echo $num_user; ?><br>
+                Current Registered Facility: <?php //echo $num_facility; ?><br>
+                Total Income This Month: <?php //echo $sum_income; ?>
+              </div> -->
             </div>
             <!-- End of Daily Facility Income Part -->
             <!-- Facility Income Part -->
             <div class="row">
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <i class="fa fa-area-chart fa-fw"></i> Individual Facility Income This Month
-                </div>
-                <div class="panel-body">
-                  <div class="col-lg-6">
-                    <h4 class="text-center">Facility Income Statistics of <?php echo date('M, Y'); ?></h4><br>
-                    <div class="dataTable_wrapper">
-                      <table class="table table-striped table-hover">
-                        <thead>
-                          <tr>
-                            <th>Facility Name</th>
-                            <th># Being Booked</th>
-                            <th>Income</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <?php     
-                              for ($j=0; $j<$num_money; $j++) {
-                                $money = mysqli_fetch_assoc($query_money);      
-                                  echo '<tr><td>'.$money['facility_name'].'</td><td>'.$money['book_count'].'</td><td>'.$money['fee_sum'].'</td></tr>';
-                            }
-                          ?>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div> 
-                  <div class="col-lg-6 well">
-                    <div id="facility_income_pie" style="height: 450px"></div>
-                  </div>        
+              <div class="col-md-12">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <i class="fa fa-area-chart fa-fw"></i> Individual Facility Income This Month
+                  </div>
+                  <div class="panel-body">
+                    <div class="col-md-6">
+                      <h4 class="text-center">Facility Income Statistics of <?php echo date('M, Y'); ?></h4><br>
+                      <div class="dataTable_wrapper">
+                        <table class="table table-striped table-hover">
+                          <thead>
+                            <tr>
+                              <th>Facility Name</th>
+                              <th># Being Booked</th>
+                              <th>Income</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <?php     
+                                for ($j=0; $j<$num_money; $j++) {
+                                  $money = mysqli_fetch_assoc($query_money);      
+                                    echo '<tr><td>'.$money['facility_name'].'</td><td>'.$money['book_count'].'</td><td>'.$money['fee_sum'].'</td></tr>';
+                              }
+                            ?>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div> 
+                    <div class="col-md-6 well">
+                      <div id="facility_income_pie" style="height: 450px"></div>
+                    </div>        
+                  </div>
                 </div>
               </div>
             </div>
-            <!-- End of Facility Income Part -->
+            <!-- End of Facility Income Part Row-->
           </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="panel panel-success">
+            <div class="panel-heading">
+              <i class="fa fa-user fa-fw"></i>
+              Booking History
+              <div class="pull-right">Total: <?php echo $num_history; ?></div>
+            </div>
+            <!-- /.panel-heading -->
+            <div class="panel-body">
+              <div class="dataTable_wrapper">
+                <table class="table table-striped table-hover">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>User Name</th>
+                      <th>Facility Name</th>
+                      <th>Start Time</th>
+                      <th>End Time</th>
+                      <th>Type</th>
+                      <th>Fee</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                <?php                                
+                    for ($x=1; $x<$num_history+1; $x++) {
+                      $row_history = $result_history->fetch_assoc();    
+                      echo '<tr>
+                              <td>'.$x.'</td>
+                              <td>'.$row_history['name'].'</td>
+                              <td>'.$row_history['facility_name'].'</td>
+                              <td>'.date("Y M d, H:i", $row_history['starttime']).'</td>
+                              <td>'.date("Y M d, H:i", $row_history['endtime']).'</td>
+                              <td>'.$row_history['type'].'</td>
+                              <td>'.$row_history['fee'].'</td>
+                            </tr>';
+                      }
+                    ?>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <!-- /. Panel -->
         </div>
       </div>
     </div>
@@ -159,6 +239,8 @@
       </div>
     </div>
   </footer><!--/#footer-->
+  <script src='js/jquery-1.11.3.min.js'></script>
+  <script src="js/bootstrap.min.js"></script>
   <!-- Datatable -->
   <script src="js/jquery.dataTables.min.js"></script>
   <script src="js/dataTables.bootstrap.min.js"></script>
@@ -169,7 +251,7 @@
     $('.table').DataTable({
       responsive:true
     });
-    var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     var date = new Date();
     var currentYear = date.getFullYear();
     var currentMonth = months[date.getMonth()];
@@ -182,19 +264,11 @@
         text: 'Monthly Facility Income of '+currentMonth+', '+currentYear,
         x: 'center'
       },
-      toolbox: {
-        show : true,
-        feature : {
-            mark : {show: true},
-            magicType: {show: true, type: ['line', 'bar']},
-            restore : {show: true},
-            saveAsImage : {show: true}
-        }
-      },
       tooltip: {
         trigger: 'axis',
         formatter: '{a} <br/>'+currentYear+'-'+currentMonth+'-{b} : {c}'
       },
+
       legend: {
         data: ['Income'],
         x: 'left'
@@ -236,7 +310,82 @@
             series: [{
               // Set the value of each member in x-axis
               type: 'line',
-              data: object.income
+              data: object.income,
+            }]
+        });
+    });
+
+    // Booking & Visiting Statistics 
+    var bookBar = echarts.init(document.getElementById('mothly_booking'));
+    // Set the styles and empty axis of the charts
+    bookBar.setOption({
+        title: {
+          text: 'Facility Usage Statistics of '+currentMonth+', '+currentYear+'\r',
+          x: 'right'
+        },
+        tooltip: {
+        },
+        legend: {
+            data:['Booking', 'Visiting'],
+            x: 'left'
+        },
+        xAxis: {
+          data: [''],
+          axisLabel: {
+          formatter:function(c){
+            for(i in c){ 
+              return c.substring(0,8); 
+            } 
+          } 
+        },
+
+        },
+        yAxis: {
+          name: 'Count'
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+        },  
+        series: [{
+          name: 'Booking',
+          type: 'bar',
+          stack: 'Total',
+          data: [],
+          itemStyle: {
+            emphasis: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: 'rgba(0, 0, 0, 0.5)'
+            }
+          }
+        }, {
+          name: 'Visiting',
+          type: 'bar',
+          stack: 'Total',
+          data: [],
+          itemStyle: {
+            emphasis: {}
+          }
+        }]
+    });
+    // Loading data using ajax
+    $.get('adminFetchData.php?action=book').done(function (data) {
+        // Push the values
+        var object = JSON.parse(data);
+        bookBar.setOption({
+            xAxis: {
+                data: object.categories
+            },
+            series: [{
+                // Set the value of each member in x-axis
+                name: 'Facility Booking',
+                data: object.book
+            },{
+              name: 'Facility Visiting',
+              data: object.visit
             }]
         });
     });
@@ -272,14 +421,23 @@
     // Loading data using ajax
     $.get('adminFetchData.php?action=f_money').done(function (data) {
         // Push the values
-        var object2 = JSON.parse(data);
+        var object3 = JSON.parse(data);
         facilityPie.setOption({
             legend: {
-              data: object2.categories
+              data: object3.categories
             },
             series: [{
                 // Set the value of each member in x-axis
-                data: object2.data
+                data: object3.data,
+                              itemStyle:{ 
+                normal:{ 
+                  label:{ 
+                    show: true, 
+                    formatter: '{b} ({d}%)' 
+                  }, 
+                  labelLine :{show:true} 
+                } 
+              }
             }]
         });
     });

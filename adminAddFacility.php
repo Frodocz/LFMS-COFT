@@ -173,7 +173,6 @@
     });
   </script>
 
-  
 </body>
 </html>
 <?php } else if ($_SESSION['valid_user_identity'] == "normal") {

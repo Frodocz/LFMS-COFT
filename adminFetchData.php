@@ -1,4 +1,6 @@
-<?php
+<?php 
+  session_start(); 
+
 include_once('connect.php');
 
 $action = $_GET['action'];

@@ -77,7 +77,7 @@
         <br>
         <button type="button" class="btn btn-primary btn-group btn-block" id="btnAdd">Add</button>
         <br><br>
-        <button type="button" class="btn btn-primary" id="btnRemove">Remove</button>
+        <button type="button" class="btn btn-danger" id="btnRemove">Remove</button>
       </div>
       <div class="col-lg-5">
         <form id="update_access_form">

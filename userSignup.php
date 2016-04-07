@@ -1,4 +1,7 @@
-<?php session_start(); ?>
+<?php 
+  session_start();
+  if(!isset($_SESSION['valid_user'])) {
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -76,8 +79,10 @@
             <h4>Your Faculty &amp; Facility</h4>                  
             <div class="form-group has-feedback">
               <label class="control-label" for="faculty">Faculty</label>
-              <input type="text" class="form-control required" placeholder="Enter Your Faculty (eg. EEE / Apple Inc.)" id="faculty" name="faculty">
-              <span class="glyphicon form-control-feedback" id="faculty1"></span>
+              <select class="form-control required" name="faculty" id="faculty">
+                <option>Internal User</option>
+                <option>External User</option>
+              </select>
             </div>            
             <div class="form-group has-feedback">
                 <label>Select facilities to register for <br>
@@ -111,7 +116,7 @@
             <div class="form-group col-md-5">
               <label class="control-label" for="title">Title</label>
               <select class="form-control required" name="title" id="title">
-              <option>Mr.</option>
+                <option>Mr.</option>
                 <option>Ms.</option>
                 <option>Mrs.</option>
                 <option>Dr.</option>
@@ -212,3 +217,10 @@
   <script src="js/main.js"></script>
 </body>
 </html>
+<?php
+} elseif ($_SESSION['valid_user_identity'] == "admin"){
+    header('Location: adminHomepage.php');
+} else {
+    header('Location: userHomepage.php');
+}
+?>

@@ -23,11 +23,11 @@ $password = $_POST['loginPassword'];
     // if they are in the database register the user id
     $row = $result_normal ->fetch_assoc();
     $username = $row['username'];
-    $_SESSION['valid_user'] = $username;  
-    $_SESSION['valid_user_name'] = $row['name'];
-    $_SESSION['valid_user_id'] = $row['user_id'];
-    $_SESSION['valid_user_identity'] = "normal";
     if($row['approved'] == 1) {
+      $_SESSION['valid_user'] = $username;  
+      $_SESSION['valid_user_name'] = $row['name'];
+      $_SESSION['valid_user_id'] = $row['user_id'];
+      $_SESSION['valid_user_identity'] = "normal";
       echo "normal";
     } else {
       echo "non_approved";

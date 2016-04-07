@@ -17,7 +17,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link href="css/bootstrap.min.css" rel="stylesheet">
-  <link href="css/bootstrap-select.min.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="css/fullcalendar.min.css">
 
   <!-- DataTables CSS -->
@@ -76,8 +75,8 @@
 
   <?php 
   include_once('connect.php');
-  $query = "SELECT * FROM booking_list WHERE approved=0 AND type='book' ORDER BY facility_id";
-  $query2 = "SELECT * FROM booking_list WHERE approved=0 AND type='visit' ORDER BY facility_id";
+  $query = "SELECT * FROM booking_list WHERE approved=0 AND type='book' AND starttime > ".intval(strtotime('now'))." ORDER BY facility_id";
+  $query2 = "SELECT * FROM booking_list WHERE approved=0 AND type='visit' AND starttime > ".intval(strtotime('now'))." ORDER BY facility_id";
   $query3 = "SELECT * FROM booking_list WHERE approved=1 AND type='book' AND starttime > ".intval(strtotime('now'))." ORDER BY starttime";
   $query4 = "SELECT * FROM booking_list WHERE approved=1 AND type='visit' AND starttime > ".intval(strtotime('now'))." ORDER BY starttime";
   $query5 = "SELECT * FROM booking_list WHERE approved=1 AND type='book' AND endtime <= ".intval(strtotime('now'))." AND billed=0 ORDER BY endtime";
@@ -101,8 +100,8 @@
       <ul class="nav nav-tabs" id="myTabs">
         <li role="presentation" class="active"><a data-toggle="tab" href="#booking">New Booking Requests <span class="badge"><?php echo $num_results; ?></span></a></li>
         <li role="presentation"><a data-toggle="tab" href="#visiting">New Visiting Requests <span class="badge"><?php echo $num_results2; ?></span></a></li>
-        <li role="presentation"><a data-toggle="tab" href="#app_booking">Upcomming Booking Records <span class="badge"><?php echo $num_results3; ?></span></a></li>
-        <li role="presentation"><a data-toggle="tab" href="#app_visiting">Upcomming Visiting Records <span class="badge"><?php echo $num_results4; ?></span></a></li>
+        <li role="presentation"><a data-toggle="tab" href="#app_booking">Upcoming Booking Records <span class="badge"><?php echo $num_results3; ?></span></a></li>
+        <li role="presentation"><a data-toggle="tab" href="#app_visiting">Upcoming Visiting Records <span class="badge"><?php echo $num_results4; ?></span></a></li>
         <li role="presentation"><a data-toggle="tab" href="#bill_booking">Bookings To Be Billed <span class="badge"><?php echo $num_results5; ?></span></a></li>
       </ul>
       <br>
@@ -206,6 +205,7 @@
                             <th>#</th>
                             <th>Facility Name</th>
                             <th>User Name</th>
+                            <th>Need Training</th>
                             <th>Start Time</th>
                             <th>End Time</th>
                             <th>Action</th>
@@ -225,11 +225,21 @@
                               $search_u_name2 = "SELECT * FROM normal_user WHERE user_id = ".$u_id2;
                               $u_result2 = $db->query($search_u_name2);
                               $u_row2 = $u_result2->fetch_assoc();
+
+                              $access_array2 = explode(",",$u_row2['facility_access']);
+                              $number_access2 = sizeof($access_array2);
+
+                              if (!in_array($f_row2['facility_name'], $access_array2)){
+                                $needTrain = "Yes";
+                              } else {
+                                $needTrain = "No";
+                              }
                           ?>
                           <tr>
                             <td><?php echo $j; ?></td>
                             <td><?php echo $f_row2['facility_name']; ?></td>
                             <td><?php echo $u_row2['name']; ?></td>
+                            <td><?php echo $needTrain; ?></td>
                             <td><?php echo date("Y M d, H:i",$row2['starttime']); ?></td>
                             <td><?php echo date("Y M d, H:i",$row2['endtime']); ?></td>
                             <td>
@@ -262,7 +272,7 @@
               <div class="col-lg-12">
                 <div class="panel panel-primary">
                   <div class="panel-heading">
-                    <strong><i class="fa fa-bell-o"></i> Upcomming Booking Requests
+                    <strong><i class="fa fa-bell-o"></i> Upcoming Booking Requests
                     <div class="pull-right">Total: <?php echo $num_results3; ?></div></strong>
                   </div>
                     <!-- /.panel-heading -->
@@ -301,11 +311,8 @@
                             <td><?php echo date("Y M d, H:i",$row3['starttime']); ?></td>
                             <td><?php echo date("Y M d, H:i",$row3['endtime']); ?></td>
                             <td>
-                              <a href="processAdminManageCalendar.php?type=book&action=edit&id=<?php echo $row3['booking_id']; ?>">
-                                <i class="fa fa-calendar-check-o"></i> Edit
-                              </a>&nbsp;
-                              <a class="pull-right confirmationDelete" href="processAdminManageCalendar.php?type=book&action=reject&id=<?php echo $row3['booking_id'] ?>">
-                                <i class="fa fa-calendar-times-o"></i> Remove
+                              <a class="confirmationDelete" href="processAdminManageCalendar.php?type=book&action=cancel&id=<?php echo $row3['booking_id'] ?>">
+                                <i class="fa fa-calendar-times-o"></i> Cancel
                               </a>
                             </td>
                           </tr>
@@ -330,7 +337,7 @@
               <div class="col-lg-12">
                 <div class="panel panel-primary">
                   <div class="panel-heading">
-                    <strong><i class="fa fa-bell-o"></i> Upcomming Visiting Requests
+                    <strong><i class="fa fa-bell-o"></i> Upcoming Visiting Requests
                     <div class="pull-right">Total: <?php echo $num_results4; ?></div></strong>
                   </div>
                     <!-- /.panel-heading -->
@@ -369,11 +376,8 @@
                             <td><?php echo date("Y M d, H:i",$row4['starttime']); ?></td>
                             <td><?php echo date("Y M d, H:i",$row4['endtime']); ?></td>
                             <td>
-                              <a href="processAdminManageCalendar.php?type=book&action=edit&id=<?php echo $row4['booking_id']; ?>">
-                                <i class="fa fa-calendar-check-o"></i> Edit
-                              </a>&nbsp;
-                              <a class="pull-right confirmationDelete" href="processAdminManageCalendar.php?type=book&action=reject&id=<?php echo $row4['booking_id'] ?>">
-                                <i class="fa fa-calendar-times-o"></i> Remove
+                              <a class="confirmationDelete" href="processAdminManageCalendar.php?type=visit&action=cancel&id=<?php echo $row4['booking_id'] ?>">
+                                <i class="fa fa-calendar-times-o"></i> Cancel
                               </a>
                             </td>
                           </tr>
@@ -438,7 +442,7 @@
                             <td><?php echo date("Y M d, H:i",$row5['endtime']); ?></td>
                             <td><?php echo $row5['fee']; ?></td>
                             <td>
-                              <a href="processAdminManageCalendar.php?type=book&action=bill&id=<?php echo $row5['booking_id'] ?>">
+                              <a href="processAdminManageCalendar.php?type=bill&id=<?php echo $row5['booking_id'] ?>">
                                 <i class="fa fa-usd"></i> Send Bill
                               </a>
                             </td>
@@ -468,7 +472,7 @@
     <div class="container">
       <div class="row">
         <div class="col-sm-12 text-center">
-          <h3 style="color: white">Copyright &copy; 2015</h3>
+          <h3 style="color: white">Copyright &copy; 2016</h3>
           <strong>Centre for Optical Fibre Technology (COFT)</strong>, 
           S1-B6b-02, School of EEE, 
           Nanyang Link (Car Park P), 

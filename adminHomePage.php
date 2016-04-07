@@ -126,7 +126,7 @@
                   </div>
                 </div>
               </div>
-              <a href="adminManageCalendar.php">
+              <a href="adminManageCalendar.php#booking">
                 <div class="panel-footer">
                     <span class="pull-left">View Booking Details</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -148,7 +148,7 @@
                   </div>
                 </div>
               </div>
-              <a href="adminManageCalendar.php">
+              <a href="adminManageCalendar.php#visiting">
                 <div class="panel-footer">
                     <span class="pull-left">View Visiting Details</span>
                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
