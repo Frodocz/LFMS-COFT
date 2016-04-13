@@ -20,7 +20,8 @@ while($booking = $query_booking->fetch_assoc()){
         'title' => $user['name'].' - '.$facility['facility_name'],
         'start' => date('Y-m-d H:i',$booking['starttime']),
         'end' => date('Y-m-d H:i',$booking['endtime']),
-        'color' => $booking['color']
+        'color' => $booking['color'],
+        'className' => $booking['user_id']
     );
 }
 echo json_encode($data);

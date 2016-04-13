@@ -45,7 +45,7 @@
           <td><?php echo $row_Info['phone'] ?></td>
         </tr>
         <tr>
-          <td>Faculty</td>
+          <td>Identity</td>
           <td><?php echo $row_Info['faculty'] ?></td>
         </tr>
         <tr>
@@ -77,7 +77,7 @@
         <br>
         <button type="button" class="btn btn-primary btn-group btn-block" id="btnAdd">Add</button>
         <br><br>
-        <button type="button" class="btn btn-danger" id="btnRemove">Remove</button>
+        <button type="button" class="btn btn-danger btn-group btn-block" id="btnRemove">Remove</button>
       </div>
       <div class="col-lg-5">
         <form id="update_access_form">

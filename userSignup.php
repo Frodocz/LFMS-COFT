@@ -76,9 +76,9 @@
           <!-- End of Form Part 1 -->
           <!-- Form Part 2 -->
           <div class="col-md-4">
-            <h4>Your Faculty &amp; Facility</h4>                  
+            <h4>Your Identity &amp; Facility</h4>                  
             <div class="form-group has-feedback">
-              <label class="control-label" for="faculty">Faculty</label>
+              <label class="control-label" for="faculty">Identity</label>
               <select class="form-control required" name="faculty" id="faculty">
                 <option>Internal User</option>
                 <option>External User</option>

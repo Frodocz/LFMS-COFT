@@ -53,7 +53,7 @@
             </li>
             <li class="scroll"><a href="adminViewReport.php"><i class="fa fa-bar-chart"></i> Monthly Report</a></li>
             <li class="scroll"><a href="#">Hi, <b><?php echo $_SESSION['valid_user_name'] ?></b></a></li>
-            <li class="scroll"><a href="logout.php"><span><strong>Log Out<Strong><span></a></li>                 
+            <li class="scroll"><a href="logout.php"><span><strong>Log Out</strong></span></a></li>
           </ul>
         </div>
       </div><!--/.container-->
@@ -61,11 +61,11 @@
   </header><!--/header-->
   <?php
     include('connect.php');
-
     $facility_id = $_GET['facility_id'];
     $query = 'SELECT * FROM facility_list WHERE facility_id="'.$facility_id.'"';
     $result = $db->query($query);
-    $row = $result->fetch_assoc();
+    if ($result->num_rows == 1) {
+      $row = $result->fetch_assoc();
   ?>
 
   <section id="normal">
@@ -233,7 +233,10 @@
   </script>
 </body>
 </html>
-<?php } else if ($_SESSION['valid_user_identity'] == "normal") {
+<?php } else {
+        header("Location: 404NotFound.html");
+      }
+    } else if ($_SESSION['valid_user_identity'] == "normal") {
       header("Location: 404NotFound.html");
     } 
 } else {

@@ -68,18 +68,6 @@
   <?php 
     include('connect.php'); 
 
-    // $result_user = $db->query("SELECT COUNT(*) FROM normal_user");
-    // $row_user = $result_user->fetch_assoc();
-    // $num_user = $row_user['COUNT(*)'];
-
-    // $result_facility = $db->query("SELECT COUNT(*) FROM facility_list");
-    // $row_facility = $result_facility->fetch_assoc();
-    // $num_facility = $row_facility['COUNT(*)'];
-
-    // $sql_total = "SELECT SUM(fee) FROM booking_list WHERE type='book' AND approved=1 AND starttime > ".strtotime(date('Y-m-01 00:00:00'))." AND endtime <=".strtotime(date('Y-m-t 23:59:59'));
-    // $result_total = $db->query($sql_total);
-    // $row_total = $result_total->fetch_assoc();
-    // $sum_income = $row_total['SUM(fee)'];
     $sql_history = "SELECT bl.starttime, bl.endtime, bl.type, bl.fee, fl.facility_name,ul.name FROM booking_list bl INNER JOIN facility_list fl ON fl.facility_id = bl.facility_id INNER JOIN normal_user ul ON ul.user_id = bl.user_id
       ORDER BY starttime DESC";
     $result_history = $db->query($sql_history);
@@ -92,6 +80,10 @@
                   GROUP BY fl.facility_id";
     $query_money = mysqli_query($db,$sql_money);
     $num_money = mysqli_num_rows($query_money);
+
+    $query_user = "SELECT * FROM normal_user WHERE approved=1 ORDER BY registerdate ASC";
+    $result_user = $db->query($query_user);
+    $num_results_user = $result_user->num_rows;
   ?>
   <section id="normal">
     <div class="section-header">
@@ -127,13 +119,67 @@
                   </div>
                 </div>
               </div>
-<!--               <div class="col-md-3">
-                Current Registered User:     <?php //echo $num_user; ?><br>
-                Current Registered Facility: <?php //echo $num_facility; ?><br>
-                Total Income This Month: <?php //echo $sum_income; ?>
-              </div> -->
             </div>
             <!-- End of Daily Facility Income Part -->
+
+            <!-- User Composition Part -->
+            <div class="row">
+              <div class="col-md-12">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <i class="fa fa-area-chart fa-fw"></i> Currently Registered User Statistics 
+                  </div>
+                  <div class="panel-body">
+                    <div class="col-md-6 well">
+                      <div id="user_comp" style="height: 450px"></div>
+                    </div>  
+                    <div class="col-md-6">
+                      <h4 class="text-center">Currently Registered Users Till <?php echo date('Y-M-d'); ?></h4><br>
+                      <div class="dataTable_wrapper">
+                        <table width="100%" class="table table-striped table-hover" id="app_table">
+                          <thead>
+                            <tr>
+                              <th>#</th>
+                              <th>User Account</th>
+                              <th>User Name</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                          <?php 
+                            for ($i = 1; $i < $num_results_user+1; $i++) {
+                              $row_user = $result_user->fetch_assoc();
+                          ?>
+                            <tr>
+                              <td><?php echo $i; ?></td>
+                              <td><?php echo $row_user['username']; ?></td>
+                              <td>
+                                <span data-placement="bottom" data-toggle="tooltip" title="Click to show more detailed information of the user.">
+                                  <a data-toggle="modal" data-show="true" href="adminManageUserAccess.php?id=<?php echo $row_user['user_id']; ?>" data-target="#modalContainer"><?php echo $row_user['name']; ?></a>
+                                </span>
+                              </td>
+                            </tr>
+                          <?php } ?>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    <!-- Modal -->
+                    <!-- This will be the container to reload the external page -->
+                    <div class="modal fade" id="modalContainer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">     
+                        </div>
+                        <!-- /.modal-content -->
+                      </div>
+                      <!-- /.modal-dialog -->
+                    </div>
+                    <!-- /.modal -->       
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- End of Facility Income Part Row-->
+                                  
             <!-- Facility Income Part -->
             <div class="row">
               <div class="col-md-12">
@@ -251,6 +297,14 @@
     $('.table').DataTable({
       responsive:true
     });
+    $('#modalContainer').on('hidden.bs.modal', function () {
+      location.reload();
+    });
+    //popup a confirmation clock to ask user whether or not delete an item
+    $('.confirmationDelete').on('click', function () {
+        return confirm('Are you sure you want to delete this?');
+    });
+    $('[data-toggle="tooltip"]').tooltip();
     var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     var date = new Date();
     var currentYear = date.getFullYear();
@@ -429,15 +483,66 @@
             series: [{
                 // Set the value of each member in x-axis
                 data: object3.data,
-                              itemStyle:{ 
-                normal:{ 
-                  label:{ 
-                    show: true, 
-                    formatter: '{b} ({d}%)' 
-                  }, 
-                  labelLine :{show:true} 
-                } 
-              }
+                itemStyle:{ 
+                  normal:{ 
+                    label:{ 
+                      show: true, 
+                      formatter: '{b} ({d}%)' 
+                    }, 
+                    labelLine :{show:true} 
+                  } 
+                }
+            }]
+        });
+    });
+    var user_compPie = echarts.init(document.getElementById('user_comp'));
+    // Set the styles and empty axis of the charts
+    user_compPie.setOption({
+      title: {
+        text: 'User Composition',
+        x: 'right'
+      },
+      tooltip: {
+        trigger: 'item',
+        formatter: "{b} {a} : {c} ({d}%)"
+      },
+      legend: {
+        orient: 'vertical',
+        left: 'left',
+        data: ['Internal User','External User'],
+      },
+      series: [{
+        name: 'User',
+        type: 'pie',
+        radius : '55%',
+        center: ['50%', '60%'],
+        data: [],
+        itemStyle: {
+          emphasis: {
+            shadowBlur: 10,
+            shadowOffsetX: 0,
+            shadowColor: 'rgba(0, 0, 0, 0.5)'
+          }
+        }
+      }]
+    });
+    // Loading data using ajax
+    $.get('adminFetchData.php?action=user2').done(function (data) {
+        // Push the values
+        var object4 = JSON.parse(data);
+        user_compPie.setOption({
+            series: [{
+                // Set the value of each member in x-axis
+                data: object4,
+                itemStyle:{ 
+                  normal:{ 
+                    label:{ 
+                      show: true, 
+                      formatter: '{b} ({d}%)' 
+                    }, 
+                    labelLine :{show:true} 
+                  } 
+                }
             }]
         });
     });

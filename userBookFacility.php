@@ -65,6 +65,7 @@
     $query = 'SELECT * FROM facility_list WHERE facility_id="'.$facility_id.'" AND status=1';
     $result = $db->query($query);
     $facilityInfo = $result->fetch_assoc();
+    if ($facilityInfo['status'] == 1) {
   ?>
 
   <section id="normal">
@@ -147,51 +148,67 @@
 
         //When drag the booking record to a new time slot
         eventDrop: function(event, delta, revertFunc) {
-          if (confirm("Are you sure about this change?")) {
-            $.post("processUserManageBooking.php?action=drag",
-            { 
-              id: event.id,
-              startDate: moment(event.start).format('YYYY-MM-DD'),
-              startHour: moment(event.start).format('HH'),
-              startMinu: moment(event.start).format('mm'),
-              endDate: moment(event.end).format('YYYY-MM-DD'),
-              endHour: moment(event.end).format('HH'),
-              endMinu: moment(event.end).format('mm')
-            },
-            function(msg) {
-              if(msg!=1) {
-                alert(msg);
-                revertFunc();
-              } else {
-                alert("The booking record is updated successfully");
-              }
-            });
-          }else {
+          if (event.className != '<?php echo $user_id; ?>'){
+            alert('You are not allowed to operate on other people\'s record');
             revertFunc();
+          } else if (moment(event.start).format() < moment().format()) {
+            alert("You are not allowed to edit the facility in the past.");
+            revertFunc();
+          } else {
+            if (confirm("Are you sure about this change?")) {
+              $.post("processUserManageBooking.php?action=drag",
+              { 
+                id: event.id,
+                startDate: moment(event.start).format('YYYY-MM-DD'),
+                startHour: moment(event.start).format('HH'),
+                startMinu: moment(event.start).format('mm'),
+                endDate: moment(event.end).format('YYYY-MM-DD'),
+                endHour: moment(event.end).format('HH'),
+                endMinu: moment(event.end).format('mm')
+              },
+              function(msg) {
+                if(msg!=1) {
+                  alert(msg);
+                  revertFunc();
+                } else {
+                  alert("The booking record is updated successfully");
+                }
+              });
+            }else {
+              revertFunc();
+            }
           }
         },
         
         //when choose a new end time
         eventResize: function(event, delta, revertFunc) {
-          if (confirm("Are you sure about this change?")) {
-            $.post("processUserManageBooking.php?action=resize",
-            { 
-              id: event.id,
-              endDate: moment(event.end).format('YYYY-MM-DD'),
-              endHour: moment(event.end).format('HH'),
-              endMinu: moment(event.end).format('mm'),
-              facility_id: "<?php echo $facility_id ?>",
-              user_id: "<?php echo $user_id ?>"
-            },
-            function(msg) {
-              if(msg!=1) {
-                alert(msg);
-                revertFunc();
-              } else {
-                alert("The booking record is updated successfully");
-              }
-            });
+          if (event.className != '<?php echo $user_id; ?>'){
+            alert('You are not allowed to operate on other people\'s record');
+            revertFunc();
+          } else if (moment(event.start).format() > moment().format()){
+            if (confirm("Are you sure about this change?")) {
+              $.post("processUserManageBooking.php?action=resize",
+              { 
+                id: event.id,
+                endDate: moment(event.end).format('YYYY-MM-DD'),
+                endHour: moment(event.end).format('HH'),
+                endMinu: moment(event.end).format('mm'),
+                facility_id: "<?php echo $facility_id ?>",
+                user_id: "<?php echo $user_id ?>"
+              },
+              function(msg) {
+                if(msg!=1) {
+                  alert(msg);
+                  revertFunc();
+                } else {
+                  alert("The booking record is updated successfully");
+                }
+              });
+            } else {
+              revertFunc();
+            }
           } else {
+            alert("You are not allowed to edit the facility in the past.");
             revertFunc();
           }
         },
@@ -209,8 +226,10 @@
 
           var duration = moment.duration(end.diff(start));
           var hourdiff = duration.asHours();
-          if (hourdiff >= 24 || startDate != endDate){
-            alert("You are not allowed to booking the facility for more than a day.");
+          if (moment(start).format()<moment().format()){
+            alert("You are not allowed to book the facility in the past.");
+          } else if (hourdiff >= 24 || startDate != endDate){
+            alert("You are not allowed to book the facility for more than a day.");
           } else if (duration <= 0) {
             alert("The start time must be earlier than the end time.");
           } else {
@@ -232,18 +251,25 @@
             });
           }
         },
-
         //when click an existing event
         eventClick: function(calEvent, jsEvent, view) {
-          $.post('userManageBooking.php?action=edit&id='+calEvent.id,
-          {
-            facility_id: "<?php echo $facility_id ?>",
-            user_id: "<?php echo $user_id ?>"
-          },
-          function(content) {
-              $('#manageBooking').html(content)
-              $('#editModal').modal('show');
-          });
+          if (calEvent.className != '<?php echo $user_id; ?>'){
+            alert('You are not allowed to operate on other people\'s record');
+            revertFunc();
+          } else if (moment(calEvent.start).format() < moment().format()) {
+            alert("You are not allowed to edit the facility in the past.");
+            revertFunc();
+          } else {
+            $.post('userManageBooking.php?action=edit&id='+calEvent.id,
+            {
+              facility_id: "<?php echo $facility_id ?>",
+              user_id: "<?php echo $user_id ?>"
+            },
+            function(content) {
+                $('#manageBooking').html(content)
+                $('#editModal').modal('show');
+            });
+          }
         }
       });
     });
@@ -266,7 +292,11 @@
   </footer><!--/#footer-->
 </body>
 </html>
-<?php } else if ($_SESSION['valid_user_identity'] == "admin") {
+
+<?php } elseif ($facilityInfo['status'] == 0){
+          header("Location: 404NotFound.html");
+      }
+    } elseif ($_SESSION['valid_user_identity'] == "admin") {
       header("Location: 404NotFound.html");
     } 
 } else {

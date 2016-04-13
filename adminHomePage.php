@@ -70,18 +70,18 @@
     $result_user = $db->query($query_user);
     $num_result_user = $result_user->num_rows;
     //Get unapproved facility booking records
-    $query_booking = "SELECT * FROM booking_list WHERE approved=0 AND type='book'";
+    $query_booking = "SELECT * FROM booking_list WHERE approved=0 AND type='book' AND starttime > ".intval(strtotime('now'))." ORDER BY facility_id";
     $result_booking = $db->query($query_booking);
     $num_result_booking = $result_booking->num_rows;
-
-    $query_visiting = "SELECT * FROM booking_list WHERE approved=0 AND type='visit'";
+    //Get unapproved facility visiting records
+    $query_visiting = "SELECT * FROM booking_list WHERE approved=0 AND type='visit' AND starttime > ".intval(strtotime('now'))." ORDER BY facility_id";
     $result_visiting = $db->query($query_visiting);
     $num_result_visiting = $result_visiting->num_rows;
-
+    //Get unavailable facility number
     $query_facility = "SELECT * FROM facility_list WHERE status=0";
     $result_facility = $db->query($query_facility);
     $num_result_facility = $result_facility->num_rows;
-
+    //Get the current system notification
     $query_noti = "SELECT * FROM announcement";
     $result_noti = $db->query($query_noti);
     $noti_row = $result_noti->fetch_assoc();
@@ -211,11 +211,11 @@
                     <textarea class="form-control" rows="5" name="noti_info" id="noti_info"><?php echo $noti_row['announcement']; ?></textarea>
                   </div>
                 </div>
+              </form>
                 <div class="modal-footer">
-                  <button type="submit" id="edit_submit" class="btn btn-success">Update</button>
+                  <button type="submit" id="edit_noti_submit" class="btn btn-success">Update</button>
                   <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                 </div>
-              </form>
               </div>
             </div>
           </div>
@@ -280,7 +280,7 @@
     </div>
   </footer><!--footer-->
   <script>
-      $(document).on('click','#edit_submit',function(){
+      $(document).on('click','#edit_noti_submit',function(){
         $.ajax({
           type: "POST",
           url: "processAdminUpdateAnnouncement.php",
@@ -324,16 +324,6 @@
           x: 'center'
         },
         tooltip: {
-        },
-        toolbox: {
-          show : true,
-          feature : {
-              mark : {show: true},
-              dataView : {show: true, readOnly: false},
-              magicType: {show: true, type: ['line', 'bar']},
-              restore : {show: true},
-              saveAsImage : {show: true}
-          }
         },
         legend: {
             data:['Booking', 'Visiting'],

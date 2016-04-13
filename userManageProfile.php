@@ -148,8 +148,8 @@
                   <input type="text" class="form-control required" placeholder="Enter Your Name" id="name" name="name" value="<?php echo $userInfo['name'] ?>">
                 </div>
                 <div class="form-group col-md-4">
-                  <label>Faculty</label>
-                  <select class="form-control required" name="faculty" id="faculty">
+                  <label>Identity</label>
+                  <select class="form-control required" name="faculty" id="faculty" disabled>
                     <option selected value="<?php echo $userInfo['faculty']; ?>"><?php echo $userInfo['faculty']; ?></option>
                     <option>Internal User</option>
                     <option>External User</option>

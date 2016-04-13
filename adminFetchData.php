@@ -5,8 +5,13 @@ include_once('connect.php');
 
 $action = $_GET['action'];
 switch ($action) {
+    //User approved/unapproved
     case 'user':
         userStatus($db);
+        break;
+    //User internal/external
+    case 'user2':
+        userComp($db);
         break;
     // This month's daily income
     case 'd_money':
@@ -36,8 +41,8 @@ function getFacilityName($db)
 }
 
 function userStatus($db) {
-    $sql_userA = "SELECT * FROM normal_user WHERE approved=1";
-    $sql_userN = "SELECT * FROM normal_user WHERE approved=0";
+    $sql_userA = "SELECT user_id FROM normal_user WHERE approved=1";
+    $sql_userN = "SELECT user_id FROM normal_user WHERE approved=0";
     $query_userA = mysqli_query($db,$sql_userA);
     $query_userN = mysqli_query($db,$sql_userN);
     $num_userA = mysqli_num_rows($query_userA);
@@ -51,6 +56,13 @@ function userStatus($db) {
         'name' => "Approved"
     );
     echo json_encode($data);
+}
+
+function userComp($db) {
+    $sql = "SELECT faculty AS name, COUNT(*) AS value FROM normal_user GROUP BY faculty";
+    $query = mysqli_query($db,$sql);
+    $result = $query->fetch_all(MYSQLI_ASSOC);
+    echo json_encode($result);
 }
 
 function dailyMoney($db){

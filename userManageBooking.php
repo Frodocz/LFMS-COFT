@@ -36,7 +36,11 @@ function selectform($db,$facility_id,$user_id){
   $query_getUser = mysqli_query($db,$sql_user);
   $user = mysqli_fetch_assoc($query_getUser);
 
-  $price = $facility['facility_internal_price'];
+  if ($user['faculty'] == 'Internal User') {
+    $price = $facility['facility_internal_price'];
+  } else {
+    $price = $facility['facility_external_price'];
+  }
     // $fee = round($price*$hourdiff,2);
   $fee = number_format($price*$hourdiff, 2, '.', '');
 ?>
@@ -195,8 +199,12 @@ function editform($db,$id) {
     $end_d = date("Y-m-d",$endtime);
     $end_h = date("H",$endtime);
     $end_m = date("i",$endtime);
+    if ($user['faculty'] == 'Internal User') {
+      $price = $facility['facility_internal_price'];
+    } else {
+      $price = $facility['facility_external_price'];
+    }
 
-    $price = $facility['facility_internal_price'];
   }
 ?>
 <div class="modal fade" id="editModal">

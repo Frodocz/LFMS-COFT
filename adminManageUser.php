@@ -218,6 +218,7 @@
         </div>        
         <!-- /.col-lg-8 -->
         <!-- Modal -->
+        <!-- This will be the container to reload the external page -->
         <div class="modal fade" id="modalContainer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">     
@@ -315,9 +316,9 @@
   </script>
 
   <script type="text/javascript">
-    var myChart = echarts.init(document.getElementById('user_status'));
+    var user_appPie = echarts.init(document.getElementById('user_status'));
     // Set the styles and empty axis of the charts
-    myChart.setOption({
+    user_appPie.setOption({
       title: {
         text: 'User Composition',
         x: 'right'
@@ -350,7 +351,7 @@
     $.get('adminFetchData.php?action=user').done(function (data) {
         // Push the values
         var object = JSON.parse(data);
-        myChart.setOption({
+        user_appPie.setOption({
             series: [{
                 // Set the value of each member in x-axis
                 data: object

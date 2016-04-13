@@ -23,11 +23,7 @@
     }
     $facility_access = trim($facility_access, ", "); 
 
-    $db_conn = new mysqli('localhost', 'root', '19921226', 'fyp');
-    if (mysqli_connect_errno()) {
-       echo '<script type="text/javascript">alert("Error: Could not connect to database. Please try again later.");</script>';
-       echo '<script>window.location="userSignup.php";</script>';
-    }
+    include('connect.php');
 
     //Check if the username has been used
     $query_normal = "SELECT * FROM normal_user WHERE username='$username'";

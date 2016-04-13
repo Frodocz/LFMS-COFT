@@ -1,8 +1,6 @@
-<?php 
+<?php     
+    include('connect.php');
     $noti_info = $_POST['noti_info'];
-
-    include_once('connect.php');
-
     if ($db->connect_errno) {
         echo "conn_err";
     }
