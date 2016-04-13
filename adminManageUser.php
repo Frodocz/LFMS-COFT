@@ -142,7 +142,7 @@
                               echo '<div class="row"><div class="col-lg-10 col-lg-offset-1">
                                     <p>Email: '.$row_displayInfo['username'].'</p>';
                               echo '<p>Name: '.$row_displayInfo['title'].' '.$row_displayInfo['name'].'</p>'; 
-                              echo '<p>Faculty: '.$row_displayInfo['faculty'].'</p>'; 
+                              echo '<p>Identity: '.$row_displayInfo['faculty'].'</p>'; 
                               echo '<p>Phone No.: '.$row_displayInfo['phone'].'</p>'; 
                               echo '<p>Address: '.$row_displayInfo['addressline1'].', '.$row_displayInfo['addressline2'].', '.$row_displayInfo['postal'].'</p>'; 
                               echo '<p>Target Facility: '.$row_displayInfo['facility_access'].'</p>';
@@ -230,42 +230,23 @@
         <!-- /.modal -->
 
         <div id="useful_link" class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-          <div class="panel panel-primary">
-            <div class="panel-heading">
-              <i class="fa fa-link fa-fw"></i> Commonly Used Links
-            </div>
-            <div class="panel-body">
-              <div class="list-group">
-                <a class="list-group-item" href="adminViewReport.php">
-                  <i class="fa fa-line-chart fa-fw"></i> View COFT Monthly Report
-                  <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                </a>
-                <a class="list-group-item" href="adminManageCalendar.php">
-                  <i class="fa fa-calendar fa-fw"></i> Manage Booking &amp; Visiting
-                  <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                </a>
-                <a class="list-group-item" href="adminManageFacility.php">
-                  <i class="fa fa-pencil-square-o fa-fw"></i> Manage COFT Facilities
-                  <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                </a>
-                <a class="list-group-item" href="adminManageDatabase.php">
-                  <i class="fa fa-database fa-fw"></i> Manage COFT Database
-                  <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                </a>
-                <a class="list-group-item" href="adminManageUser.php">
-                  <i class="fa fa-users fa-fw"></i> Manage User Access
-                  <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                </a>
+          <div id="facility_status">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <i class="fa fa-pie-chart fa-fw"></i> User Composition I
+              </div>
+              <div class="panel-body">
+                <div id="user_status" style="height: 300px"></div>
               </div>
             </div>
           </div>
           <div id="facility_status">
             <div class="panel panel-default">
               <div class="panel-heading">
-                <i class="fa fa-pie-chart fa-fw"></i> Facility Usage This Month
+                <i class="fa fa-pie-chart fa-fw"></i> User Composition II
               </div>
               <div class="panel-body">
-                <div id="user_status" style="height: 300px"></div>
+                <div id="user_comp" style="height: 450px"></div>
               </div>
             </div>
           </div>
@@ -320,7 +301,7 @@
     // Set the styles and empty axis of the charts
     user_appPie.setOption({
       title: {
-        text: 'User Composition',
+        text: 'User Composition I',
         x: 'right'
       },
       tooltip: {
@@ -355,6 +336,58 @@
             series: [{
                 // Set the value of each member in x-axis
                 data: object
+            }]
+        });
+    });
+    // User's composition on external/internal identity
+    var user_compPie = echarts.init(document.getElementById('user_comp'));
+    // Set the styles and empty axis of the charts
+    user_compPie.setOption({
+      title: {
+        text: 'User Composition II',
+        x: 'right'
+      },
+      tooltip: {
+        trigger: 'item',
+        formatter: "{b} {a} : {c} ({d}%)"
+      },
+      legend: {
+        orient: 'vertical',
+        left: 'left',
+        data: ['Internal User','External User'],
+      },
+      series: [{
+        name: 'User',
+        type: 'pie',
+        radius : '55%',
+        center: ['50%', '60%'],
+        data: [],
+        itemStyle: {
+          emphasis: {
+            shadowBlur: 10,
+            shadowOffsetX: 0,
+            shadowColor: 'rgba(0, 0, 0, 0.5)'
+          }
+        }
+      }]
+    });
+    // Loading data using ajax
+    $.get('adminFetchData.php?action=user2').done(function (data) {
+        // Push the values
+        var object4 = JSON.parse(data);
+        user_compPie.setOption({
+            series: [{
+                // Set the value of each member in x-axis
+                data: object4,
+                itemStyle:{ 
+                  normal:{ 
+                    label:{ 
+                      show: true, 
+                      formatter: '{b} ({d}%)' 
+                    }, 
+                    labelLine :{show:true} 
+                  } 
+                }
             }]
         });
     });

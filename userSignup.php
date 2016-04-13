@@ -16,7 +16,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link href="css/bootstrap.min.css" rel="stylesheet">
-  <link href="css/animate.css" rel="stylesheet">
 
   <!-- Custom CSS -->
   <link href="css/main.css" rel="stylesheet">
@@ -54,7 +53,10 @@
     </div>
     <div class="container">
     	<div class="row">
-				<form id="signup_form" action="processUserSignup.php" method="post">
+        <div class="row">
+          <div class="error col-md-4 col-md-offset-4" id="logerror"></div>
+        </div>
+				<form id="signup_form">
           <!-- Form Part 1 -->
           <div class="col-md-4">
             <h4>Set Your Account &amp; Password</h4>
@@ -181,7 +183,7 @@
       </div>
       <div class="row">
         <div class="form-group text-center">
-          <button type="submit" class="btn btn-success" id="signinbtn">Get Started Now</button>
+          <button type="submit" class="btn btn-success" id="signupbtn">Get Started Now</button>
         </div>
       </div>
 
@@ -215,6 +217,42 @@
   <script src="js/bootstrap.min.js"></script>
   <script src="js/jquery.validate.min.js"></script>
   <script src="js/main.js"></script>
+  <script>  
+    $(document).ready(function(){ 
+      $(document).on('click','#signupbtn',function(){
+        var url = "processUserSignup.php";       
+        if($('#signup_form').valid()){
+          $('#logerror').html(' Please wait...');
+          $('#logerror').addClass("alert alert-info");   
+          $.ajax({
+            type: "POST",
+            url: url,
+            data: $("#signup_form").serialize(), // serializes the form's elements.
+            success: function(data) {
+              if(data==0) {
+                $('#logerror').html('<i class="fa fa-exclamation-triangle"></i> Your registration is NOT successfully submitted. Please try again later.');
+                $('#logerror').addClass("alert alert-danger"); 
+              } 
+              else if (data==1) {
+                window.location.href = "postUserSignup.php";
+              } 
+              else if (data=="repeat") {
+                $('#logerror').html('<i class="fa fa-exclamation-triangle"></i> The email address you entered has existed. Please try another one.');
+                $('#logerror').addClass("alert alert-danger"); 
+              } 
+              else if (data=="conn_err") {
+                $('#logerror').html('<i class="fa fa-exclamation-triangle"></i> Cannot connect to the database. Please try again later.');
+                $('#logerror').addClass("alert alert-danger"); 
+              }
+              else {
+              }
+            }
+          });
+        }
+        return false;
+      });
+    });
+  </script>
 </body>
 </html>
 <?php

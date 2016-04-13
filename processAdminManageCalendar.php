@@ -52,18 +52,17 @@ $mail->isHTML(true);                      // Set email format to HTML
 switch ($type) {
     case 'book':
         if ($action == "approve") {
-            $query = "UPDATE booking_list SET approved=1,color='#378006' WHERE booking_id=$booking_id";
-            $result = $db->query($query);
-            if ($result) {
-                $mail->Subject = 'Your booking has been approved!';
-                $mail->Body    = 'Dear '.$toName.', <br> 
+            $mail->Subject = 'Your booking has been approved!';
+            $mail->Body    = 'Dear '.$toName.', <br> 
                               Thank you for using the COFT Facility Booking System! I\'m glad to inform you that your booking request is approved.<br>
                               The information below shows your booking details:<br>
                               Time: '.$starttime.' - '.$endtime.'<br>
                               Facility Name: '.$facility_name.'<br>
                               Total: '.$fee.'<br><br>
                               COFT@NTU';
-                $mail->send();
+            if ($mail->send()){
+              $query = "UPDATE booking_list SET approved=1,color='#378006' WHERE booking_id=$booking_id";
+              $result = $db->query($query);
             }
             header("Location: adminManageCalendar.php#booking");
         } else if ($action=="reject") {

@@ -24,34 +24,34 @@
     $facility_access = trim($facility_access, ", "); 
 
     include('connect.php');
+    if ($db->connect_errno) {
+        echo 'conn_err';
+        exit();
+    }
 
     //Check if the username has been used
     $query_normal = "SELECT * FROM normal_user WHERE username='$username'";
      
-    $result_normal = $db_conn->query($query_normal);
+    $result_normal = $db->query($query_normal);
 
     $query_admin = "SELECT * FROM admin_user WHERE username='$username'";
      
-    $result_admin = $db_conn->query($query_admin);
+    $result_admin = $db->query($query_admin);
 
     if(($result_normal->num_rows >0) || ($result_admin->num_rows >0)){
-        echo '<script type="text/javascript">alert("The user name has already been taken. Please pick another one.");</script>';
-        unset($username);
-        session_destroy();
-        echo '<script>window.location="userSignup.php";</script>';
+        echo 'repeat';
+        exit;
     }
-
     $password = md5($password);
     $sql = "INSERT INTO normal_user VALUES (NULL, '$username', '$password', '$identity', '$title', '$name', '$phone', '$addressline1', '$addressline2', '$postal', '$faculty', '".date("Y\-m\-d")."', '$facility_access', $approved)";
-    $result = $db_conn->query($sql);
+    $result = $db->query($sql);
     if (!$result) {
-    	echo '<script type="text/javascript">alert("Your registration is NOT successfully submitted. Please try again later.");</script>';
-      $db_conn->close();
-      echo '<script>window.location="userSignup.php";</script>';
+      echo 0;
+      $db->close();
       exit();
     } else { 
-      echo '<script>window.location="postUserSignup.php";</script>';
-      $db_conn->close();
+      echo 1;
+      $db->close();
       exit();
     }
   } elseif ($_SESSION['valid_user_identity'] == "admin"){

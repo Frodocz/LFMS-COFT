@@ -4,6 +4,7 @@
     ini_set('max_execution_time', 0);  // setting 0 for no time limit
     session_start();
     define('BACKUP_DIR', './myBackups' ) ;
+    define('DB_NAME', 'fyp' ) ;
 
 
     if(isset($_GET['task'])&& $_GET['task']=='clear'){
@@ -41,7 +42,7 @@
         Define the filename for the sql file
         If you plan to upload the  file to Amazon's S3 service , use only lower-case letters 
         */
-        $fileName = 'mysqlbackup' . date('d-m-Y') . '@'.date('h.i.s').'.sql' ; 
+        $fileName = 'mysqlbackup' . date('Y-m-d') . '@'.date('h.i.s').'.sql' ; 
         // Set execution time limit
         if(function_exists('max_execution_time')) {
             if( ini_get('max_execution_time') > 0 )     

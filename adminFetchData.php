@@ -59,7 +59,7 @@ function userStatus($db) {
 }
 
 function userComp($db) {
-    $sql = "SELECT faculty AS name, COUNT(*) AS value FROM normal_user GROUP BY faculty";
+    $sql = "SELECT faculty AS name, COUNT(*) AS value FROM normal_user WHERE approved=1 GROUP BY faculty";
     $query = mysqli_query($db,$sql);
     $result = $query->fetch_all(MYSQLI_ASSOC);
     echo json_encode($result);

@@ -5,9 +5,9 @@ $username = $_POST['username'];
 $password = $_POST['loginPassword'];
 // The result will return for ajax form processing
 
-  $db = new mysqli('localhost', 'root', '19921226', 'fyp');
+  include_once('connect.php');
 
-    if ($db->connect_errno) {
+  if ($db->connect_errno) {
      echo 'conn_err';
      exit();
   }

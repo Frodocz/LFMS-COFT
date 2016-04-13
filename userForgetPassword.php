@@ -16,7 +16,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link href="css/bootstrap.min.css" rel="stylesheet">
-  <link href="css/animate.css" rel="stylesheet">
 
   <!-- Custom CSS -->
   <link href="css/main.css" rel="stylesheet">
@@ -94,7 +93,7 @@
           </div>
         </div>
         <div class="col-md-4 col-md-offset-1 col-sm-4 col-sm-offset-1 col-xs-10 col-xs-offset-1">
-          <form action="processLogin.php" method="post">
+          <form action="processUserForgetPassword.php" method="post">
                 <div class="row control-group">
                   <div class="form-group col-xs-12 floating-label-form-group controls">
                     <label>Email Address</label>

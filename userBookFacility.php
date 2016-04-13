@@ -171,7 +171,7 @@
                   alert(msg);
                   revertFunc();
                 } else {
-                  alert("The booking record is updated successfully");
+                  alert("The booking record is updated successfully. Please wait for administrator's approval.");
                 }
               });
             }else {
@@ -201,7 +201,7 @@
                   alert(msg);
                   revertFunc();
                 } else {
-                  alert("The booking record is updated successfully");
+                  alert("The booking record is updated successfully. Please wait for administrator's approval.");
                 }
               });
             } else {

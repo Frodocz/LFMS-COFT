@@ -40,7 +40,7 @@ if ($action == "add") {
   $color = "#980000";//Dark red for ono-approved booking
   $result = $db->query("INSERT INTO `booking_list` VALUES (NULL, $facility_id, $user_id, '$type', '$starttime', '$endtime', '$color', '$hourdiff', '$fee',0,0)");
   if($result){
-    echo "You booking is successfully added.";
+    echo "You booking is successfully added. Please wait for administrator's approval.";
   }else{
     echo "Failed to book this facility. Please try again later."; 
   }
@@ -88,7 +88,7 @@ elseif ($action == "edit") {
 
   $result = $db->query("UPDATE `booking_list` SET `type`='$type',`starttime`='$starttime',`endtime`='$endtime', color='#980000', `hourdiff`='$hourdiff', `fee`='$fee', `approved`=0, `billed`=0 WHERE `booking_id`='$booking_id'");
   if($result){
-    echo 'The booking record is successfully updated.';
+    echo 'The booking record is successfully updated. Please wait for administrator\'s approval.';
   }else{
     echo 'Failed to update the booking record. Please try again later.'; 
   }

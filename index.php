@@ -1,3 +1,7 @@
+<?php 
+  session_start();
+  if(!isset($_SESSION['valid_user'])) {
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -306,3 +310,10 @@
   <script src="js/main.js"></script>
 </body>
 </html>
+<?php
+  } elseif ($_SESSION['valid_user_identity'] == "admin"){
+      header('Location: adminHomepage.php');
+  } else {
+      header('Location: userHomepage.php');
+  }
+?>
