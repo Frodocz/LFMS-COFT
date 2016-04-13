@@ -81,6 +81,11 @@ function dailyMoney($db){
     $query_money = mysqli_query($db,$sql_money);
     $num_money = mysqli_num_rows($query_money);
 
+    //Important: Initialize Array of Income
+    for($x=0;$x<$num_days;$x++){
+        $income[$x]=0;
+    }
+
     for ($j=0;$j<$num_money;$j++){
         $money = mysqli_fetch_assoc($query_money);
         for ($i=0;$i<$num_days;$i++){
@@ -112,6 +117,11 @@ function facilityMoney($db) {
                   GROUP BY fl.facility_id";
     $query_money = mysqli_query($db,$sql_money);
     $num_money = mysqli_num_rows($query_money);
+
+    //Important: Initialize Array of Income
+    for($x=0;$x<$num_days;$x++){
+        $income[$x]=0;
+    }
 
     for ($i=0; $i<$num_money; $i++) {
         $money = mysqli_fetch_assoc($query_money);
@@ -150,6 +160,11 @@ function book($db) {
                     GROUP BY facility_name";
     $query_book = mysqli_query($db, $sql_book);
     $num_book = mysqli_num_rows($query_book);
+
+    //Important: Initialize Array of b_number
+    for($x=0;$x<$num_days;$x++){
+        $b_number[$x]=0;
+    }
     
     for ($i=0; $i<$num_book; $i++) {
         $book = mysqli_fetch_assoc($query_book);
@@ -171,6 +186,11 @@ function book($db) {
                     GROUP BY facility_name";
     $query_visit = mysqli_query($db, $sql_visit);
     $num_visit = mysqli_num_rows($query_visit);
+
+    //Important: Initialize Array of v_number
+    for($x=0;$x<$num_days;$x++){
+        $v_number[$x]=0;
+    }
     
     for ($i=0; $i<$num_visit; $i++) {
         $visit = mysqli_fetch_assoc($query_visit);
