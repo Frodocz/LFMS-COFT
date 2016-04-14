@@ -356,6 +356,10 @@ ul.nostyle i {
   padding-left: 0;
   padding-right: 0;
 }
+#team .img-responsive {
+	height: 300px;
+	width:270px;
+}
 #team .team-member {
   padding: 13px;
   background: #eeeeee;

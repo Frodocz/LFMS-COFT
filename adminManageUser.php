@@ -246,7 +246,7 @@
                 <i class="fa fa-pie-chart fa-fw"></i> User Composition II
               </div>
               <div class="panel-body">
-                <div id="user_comp" style="height: 450px"></div>
+                <div id="user_comp" style="height: 300px"></div>
               </div>
             </div>
           </div>
@@ -262,7 +262,7 @@
     <div class="container">
       <div class="row">
         <div class="col-sm-12 text-center">
-          <h3 style="color: white">Copyright &copy; 2015</h3>
+          <h3 style="color: white">Copyright &copy; 2016</h3>
           <strong>Centre for Optical Fibre Technology (COFT)</strong>, 
           S1-B6b-02, School of EEE, 
           Nanyang Link (Car Park P), 

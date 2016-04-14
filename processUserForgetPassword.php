@@ -32,7 +32,7 @@
         $mail->Subject = 'Reset Your COFT Account Password!';
         $mail->Body    = 'Dear '.$toName.', <br> 
                             Thank you for using the COFT Facility Booking System! It seems that you have requested to reset your password. If you confirm to do so, please follow the link below to reset now.<br>
-                            http://localhost/~Frodo/FYP/userResetPassword.php?id='.$id.'&token='.$token.'
+                            http://155.69.222.18/fyp2015zc/userResetPassword.php?id='.$id.'&token='.$token.'
                             <br><br>
                             COFT@NTU';
         if ($mail->send()){

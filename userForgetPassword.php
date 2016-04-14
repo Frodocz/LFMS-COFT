@@ -122,7 +122,7 @@
     <div class="container">
       <div class="row">
         <div class="col-sm-12 text-center">
-          <h3 style="color: white">Copyright &copy; 2015</h3>
+          <h3 style="color: white">Copyright &copy; 2016</h3>
           <strong>Centre for Optical Fibre Technology (COFT)</strong>, 
           S1-B6b-02, School of EEE, 
           Nanyang Link (Car Park P), 
