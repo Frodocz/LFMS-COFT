@@ -1,5 +1,4 @@
 ##Laboratory Facility Management System for NTU COFT
-=
 
 ```
 
